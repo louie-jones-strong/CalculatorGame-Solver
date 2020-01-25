@@ -1,1 +1,1 @@
-# CalculatorGame-Solver
+# Calculator: The Game Solver
