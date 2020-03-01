@@ -52,7 +52,7 @@ class UnitTests:
             self.GroupText += "\t\texpected: " + str(expectedValue) + " but got " + str(value) + "\n"
 
         self.TestNumber += 1
-        return
+        return value == expectedValue
 
     def TestOperations(self):
         
@@ -118,18 +118,10 @@ class UnitTests:
         return
 
     def TestSolves(self):
-        #load test data
-        testDataList = []
-
-        #Run tests
-        for testData in testDataList:
-            found, steps = GameSolver.Solve(testDataList[0], testData[1], testData[2], testData[3])
-
-            if found != testData[4]:
-                exit(code=1)
-
-            if found:
-                exit(code=1)
+        
+        self.SetGroup("Simple Solve")
+        found, steps = GameSolver.Solve(1, [Operations.Add(1)], 0, 1)
+        self.Assert(found, True, "found Add Solve")
         return
 
 if __name__ == "__main__":
