@@ -67,6 +67,26 @@ class UnitTests:
         self.Assert(translate.DoAction(121), 222, "Translate DoAction()")
         self.Assert(translate.ToString(), "1=>2", "Translate ToString()")
 
+        #Pow
+        powOp = Operations.Pow()
+        self.Assert(powOp.DoAction(4), 16, "Pow DoAction()")
+        self.Assert(powOp.ToString(), "Pow 2", "Pow ToString()")
+
+        #Flip
+        flip = Operations.Flip()
+        self.Assert(flip.DoAction(1), -1, "Flip DoAction()")
+        self.Assert(flip.ToString(), "+/- ", "Flip ToString()")
+
+        #Reverse
+        reverse = Operations.Reverse()
+        self.Assert(reverse.DoAction(1234), 4321, "Reverse DoAction()")
+        self.Assert(reverse.ToString(), "Reverse", "Reverse ToString()")
+
+        #Sum
+        sumOp = Operations.Sum()
+        self.Assert(sumOp.DoAction(1234), 10, "Sum DoAction()")
+        self.Assert(sumOp.ToString(), "Sum", "Sum ToString()")
+
 
         return
 
