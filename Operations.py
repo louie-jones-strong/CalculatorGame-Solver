@@ -8,8 +8,11 @@ class Operation:
 		return
 
 class Add(Operation):
-	def __init__(self):
-		self.AddAmount = int(input("Add Value: "))
+	def __init__(self, addAmount=None):
+		if addAmount == None:
+			addAmount = int(input("Add Value: "))
+
+		self.AddAmount = addAmount
 		return
 
 	def DoAction(self, inputValue):
