@@ -26,8 +26,12 @@ class Add(Operation):
 			return str(self.AddAmount)
 
 class Multiply(Operation):
-	def __init__(self):
-		self.MultiplyAmount = int(input("multiply Value: "))
+	def __init__(self, multiplyAmount=None):
+
+		if multiplyAmount == None:
+			multiplyAmount = int(input("multiply Value: "))
+
+		self.MultiplyAmount = multiplyAmount
 		return
 
 	def DoAction(self, inputValue):
@@ -39,8 +43,11 @@ class Multiply(Operation):
 		return "X"+str(self.MultiplyAmount)
 
 class Divide(Operation):
-	def __init__(self):
-		self.DivideAmount = int(input("Divide Value: "))
+	def __init__(self, divideAmount=None):
+		if divideAmount == None:
+			divideAmount = int(input("Divide Value: "))
+
+		self.DivideAmount = divideAmount
 		return
 
 	def DoAction(self, inputValue):
@@ -54,25 +61,29 @@ class Divide(Operation):
 		return "/"+str(self.DivideAmount)
 
 class Shift(Operation):
-	def __init__(self):
-		self.RightShift = int(input("<<[1] >>[2]: ")) == 1
+	def __init__(self, isRightShift=None):
+		if isRightShift == None:
+			isRightShift = int(input("<<[1] >>[2]: ")) == 1
+		self.IsRightShift = isRightShift
 		return
 
 	def DoAction(self, inputValue):
-		if self.RightShift:
+		if self.IsRightShift:
 			return int(inputValue / 10)
 		else:
 			return inputValue * 10
 
 	def ToString(self):
-		if self.RightShift:
+		if self.IsRightShift:
 			return "<<"
 		else:
 			return ">>"
 
 class Insert(Operation):
-	def __init__(self):
-		self.InsertNumber = int(input("Insert Number: "))
+	def __init__(self, insertNumber=None):
+		if insertNumber == None:
+			insertNumber = int(input("Insert Number: "))
+		self.InsertNumber = insertNumber
 		return
 
 	def DoAction(self, inputValue):
@@ -83,9 +94,16 @@ class Insert(Operation):
 
 class Translate(Operation):
 
-	def __init__(self):
-		self.From = int(input("From: "))
-		self.To = int(input("To: "))
+	def __init__(self, fromNum=None, toNum=None):
+
+		if fromNum == None:
+			fromNum = int(input("From: "))
+
+		if toNum == None:
+			toNum = int(input("To: "))
+
+		self.From = fromNum
+		self.To = toNum
 		return
 
 	def DoAction(self, inputValue):
