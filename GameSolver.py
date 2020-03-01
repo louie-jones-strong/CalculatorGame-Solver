@@ -1,6 +1,6 @@
 import Operations
 
-def TryMove(movesLeft, operations, currentNumber, targetNumber):
+def Solve(movesLeft, operations, currentNumber, targetNumber):
 
 	for operation in operations:
 		newCurrentNumber = operation.DoAction(currentNumber)
@@ -12,7 +12,8 @@ def TryMove(movesLeft, operations, currentNumber, targetNumber):
 			continue
 
 		elif movesLeft > 1:
-			found, operationList = TryMove(movesLeft-1, operations, newCurrentNumber, targetNumber)
+			found, operationList = Solve(
+				movesLeft-1, operations, newCurrentNumber, targetNumber)
 
 			if found:
 				return True, [operation] + operationList
@@ -73,8 +74,7 @@ def Main():
 			
 			operations += [operation]
 
-
-		found, operationList = TryMove(moves, operations, startNumber, targetNumber)
+		found, operationList = Solve(moves, operations, startNumber, targetNumber)
 
 		print("===================")
 		print("")
