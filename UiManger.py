@@ -2,7 +2,7 @@ from pygame import display, draw, Color, gfxdraw, mouse
 import pygame
 import os
 
-class UiButton:
+class UiButton:#todo make this a sprite to speed it up
 
 	def __init__(self, pos, size, normalImage, hoverImage=None, pressImage=None):
 		self.Pos = pos
@@ -12,7 +12,7 @@ class UiButton:
 		self.PressImage = pygame.transform.scale(pressImage, size)
 		return
 
-	def Update(self, screen):
+	def Update(self, screen, debugMode):
 		pos = mouse.get_pos()
 		mouseOverButton = (pos[0] > self.Pos[0] and pos[0] < self.Pos[0] + self.Size[0] and
 							pos[1] > self.Pos[1] and pos[1] < self.Pos[1] + self.Size[1])
@@ -33,11 +33,16 @@ class UiButton:
 
 		elif not mouseOverButton:
 			screen.blit(self.NormalImage, self.Pos)
+
+		if debugMode:
+			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
+			draw.rect(screen, [255, 0, 0], rect, 2)
 		return
 
 class UiManger:
 	ImageCache = {}
 	ButtonList = []
+	DebugMode = False
 
 	def LoadImage(self, imageName, scaleFactor=1):
 		if imageName not in self.ImageCache:
@@ -76,7 +81,10 @@ class UiManger:
 					return False
 
 			for button in self.ButtonList:
-				button.Update(self.Window)
+				button.Update(self.Window, self.DebugMode)
+
+			if self.DebugMode and mouse.get_pressed()[0]:
+				print("mouse pos: "+str(mouse.get_pos()))
 
 			display.update()
 		return
@@ -85,7 +93,9 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.ButtonList += [UiButton([50,50], [100,100], 
+		manger.DebugMode = True
+
+		manger.ButtonList += [UiButton([20,375], [110,100], 
 			manger.LoadImage("Button"), 
 			manger.LoadImage("Button_Hover"), 
 			manger.LoadImage("Button_Pressed"))]
