@@ -4,12 +4,19 @@ import os
 
 class UiButton:#todo make this a sprite to speed it up
 
-	def __init__(self, pos, size, normalImage, hoverImage=None, pressImage=None):
+	def __init__(self, pos, size, normalImage=None, hoverImage=None, pressImage=None):
 		self.Pos = pos
 		self.Size = size
-		self.NormalImage = pygame.transform.scale(normalImage, size)
-		self.HoverImage = pygame.transform.scale(hoverImage, size)
-		self.PressImage = pygame.transform.scale(pressImage, size)
+		self.NormalImage = normalImage
+		self.HoverImage = hoverImage
+		self.PressImage = pressImage
+
+		if self.NormalImage != None:
+			self.NormalImage = pygame.transform.scale(self.NormalImage, size)
+		if self.HoverImage != None:
+			self.HoverImage = pygame.transform.scale(self.HoverImage, size)
+		if self.PressImage != None:
+			self.PressImage = pygame.transform.scale(self.PressImage, size)
 		return
 
 	def Update(self, screen, debugMode):
@@ -22,17 +29,18 @@ class UiButton:#todo make this a sprite to speed it up
 		if mouseOverButton and mouseDown:
 			if self.PressImage != None:
 				screen.blit(self.PressImage, self.Pos)
-			else:
+			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
 		elif mouseOverButton and not mouseDown:
 			if self.HoverImage != None:
 				screen.blit(self.HoverImage, self.Pos)
-			else:
+			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
 		elif not mouseOverButton:
-			screen.blit(self.NormalImage, self.Pos)
+			if self.NormalImage != None:
+				screen.blit(self.NormalImage, self.Pos)
 
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
@@ -99,6 +107,8 @@ if __name__ == "__main__":
 			manger.LoadImage("Button"), 
 			manger.LoadImage("Button_Hover"), 
 			manger.LoadImage("Button_Pressed"))]
+
+		manger.ButtonList += [UiButton([220,30], [105,35])]
 
 		manger.Run()
 	except:
