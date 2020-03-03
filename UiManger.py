@@ -222,7 +222,7 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = False
+		manger.DebugMode = True
 		manger.SetMainScreen()
 		while manger.Running:
 			manger.Update()
