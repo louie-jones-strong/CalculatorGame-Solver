@@ -11,6 +11,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.HoverImage = None
 		self.PressImage = None
 		self.OnClick = None
+		self.OnClickData = None
 		self.FadedImage = None
 		self.GetIsFade = None
 
@@ -18,10 +19,11 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
 		return
 
-	def SetUpButton(self, hoverImage=None, pressImage=None, onClick=None):
+	def SetUpButton(self, hoverImage=None, pressImage=None, onClick=None, onClickData=None):
 		self.HoverImage = hoverImage
 		self.PressImage = pressImage
 		self.OnClick = onClick
+		self.OnClickData = onClickData
 
 		if self.HoverImage != None:
 			self.HoverImage = pygame.transform.scale(self.HoverImage, self.Size)
@@ -45,7 +47,10 @@ class UiPiece:#todo make this a sprite to speed it up
 		mouseDown = mouse.get_pressed()[0]
 		if mouseOverButton and mouseDown:
 			if self.OnClick != None:
-				self.OnClick()
+				if self.OnClickData == None:
+					self.OnClick()
+				else:
+					self.OnClick(self.OnClickData)
 
 			if self.PressImage != None:
 				screen.blit(self.PressImage, self.Pos)
@@ -170,32 +175,30 @@ class UiManger:
 		return
 
 	def SetMainScreen(self):
+		print("Setup Main Screen")
 		self.SetUpShared()
 		#button Grid
 		#row 1
 		piece = UiPiece([20, 375], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 375], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 375], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
 		manger.PieceList += [piece]
 
 		#row 2
 		piece = UiPiece([20, 485], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 485], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 485], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		manger.PieceList += [piece]
 
 		#row 3
@@ -204,16 +207,17 @@ class UiManger:
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 595], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 595], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		manger.PieceList += [piece]
 
 		return
 
-	def SetUpOperationSelectScreen(self):
+	def SetUpOperationSelectScreen(self, gridIndex):
+		print("Setup Operation Screen index: " + str(gridIndex))
 		self.SetUpShared()
 
 		return
