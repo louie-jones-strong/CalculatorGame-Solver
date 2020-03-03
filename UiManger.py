@@ -107,6 +107,9 @@ class UiManger:
 
 		#window
 		self.Window = display.set_mode(self.Resolution)
+
+		self.OperationsList = [None, None, None, None, None]
+		self.OperationSetUpIndex = None
 		return
 
 	def Update(self):
@@ -174,7 +177,7 @@ class UiManger:
 		manger.PieceList += [piece]
 		return
 
-	def SetMainScreen(self):
+	def SetUpMainScreen(self):
 		print("Setup Main Screen")
 		self.SetUpShared()
 		#button Grid
@@ -215,11 +218,36 @@ class UiManger:
 		manger.PieceList += [piece]
 
 		return
+	
+	def SetOperation(self, gridIndex):
+		print("set SetOperation: ["+str(self.OperationSetUpIndex)+"] to " + str(gridIndex))
+		self.OperationsList[self.OperationSetUpIndex] = gridIndex
+
+		self.SetUpMainScreen()
+		return
 
 	def SetUpOperationSelectScreen(self, gridIndex):
 		print("Setup Operation Screen index: " + str(gridIndex))
+		self.OperationSetUpIndex = gridIndex
+		
 		self.SetUpShared()
 
+		#button Grid
+		#row 1
+		piece = UiPiece([20, 375], [113, 100],
+                  manger.LoadImage("Button"))
+		piece.SetUpButton(onClick=self.SetOperation, onClickData=0)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([133, 375], [113, 100],
+                  manger.LoadImage("Button"))
+		piece.SetUpButton(onClick=self.SetOperation, onClickData=1)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([246, 375], [113, 100],
+                  manger.LoadImage("Button"))
+		piece.SetUpButton(onClick=self.SetOperation, onClickData=2)
+		manger.PieceList += [piece]
 		return
 
 
@@ -227,7 +255,7 @@ if __name__ == "__main__":
 	try:
 		manger = UiManger()
 		manger.DebugMode = True
-		manger.SetMainScreen()
+		manger.SetUpMainScreen()
 		while manger.Running:
 			manger.Update()
 
