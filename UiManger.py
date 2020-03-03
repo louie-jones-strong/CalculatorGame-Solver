@@ -32,7 +32,7 @@ class UiPiece:#todo make this a sprite to speed it up
 	def SetUpFade(self, fadedImage, getIsFade):
 		self.FadedImage = fadedImage
 		self.GetIsFade = getIsFade
-
+		#todo make a fade time
 		if self.FadedImage != None:
 			self.FadedImage = pygame.transform.scale(self.FadedImage, self.Size)
 		return
@@ -43,7 +43,6 @@ class UiPiece:#todo make this a sprite to speed it up
 							pos[1] > self.Pos[1] and pos[1] < self.Pos[1] + self.Size[1])
 
 		mouseDown = mouse.get_pressed()[0]
-
 		if mouseOverButton and mouseDown:
 			if self.OnClick != None:
 				self.OnClick()
@@ -150,7 +149,7 @@ class UiManger:
 	def GetSolarCovered(self):
 		return self.SolarCovered
 
-	def SetMainScreen(self):
+	def SetUpShared(self):
 		manger.PieceList = []
 
 		piece = UiPiece([220, 30], [105, 35])
@@ -168,28 +167,62 @@ class UiManger:
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(manger.LoadImage("TopStats_Faded"), self.GetSolarCovered)
 		manger.PieceList += [piece]
-
-		piece = UiPiece([20, 375], [113, 100])
-		manger.PieceList += [piece]
-		piece = UiPiece([133, 375], [113, 100])
-		manger.PieceList += [piece]
-		piece = UiPiece([246, 375], [113, 100])
-		manger.PieceList += [piece]
-
-		manger.PieceList += [UiPiece([20, 485], [113, 100])]
-		manger.PieceList += [UiPiece([133, 485], [113, 100])]
-		manger.PieceList += [UiPiece([246, 485], [113, 100])]
-
-		manger.PieceList += [UiPiece([20, 595], [113, 100],
-                               manger.LoadImage("Button"))]
-		manger.PieceList += [UiPiece([133, 595], [113, 100])]
-		manger.PieceList += [UiPiece([246, 595], [113, 100])]
 		return
+
+	def SetMainScreen(self):
+		self.SetUpShared()
+		#button Grid
+		#row 1
+		piece = UiPiece([20, 375], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([133, 375], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([246, 375], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		#row 2
+		piece = UiPiece([20, 485], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([133, 485], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([246, 485], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		#row 3
+		piece = UiPiece([20, 595], [113, 100],
+                  manger.LoadImage("Button"))
+		manger.PieceList += [piece]
+
+		piece = UiPiece([133, 595], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		piece = UiPiece([246, 595], [113, 100])
+		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen)
+		manger.PieceList += [piece]
+
+		return
+
+	def SetUpOperationSelectScreen(self):
+		self.SetUpShared()
+
+		return
+
 
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = True
+		manger.DebugMode = False
 		manger.SetMainScreen()
 		while manger.Running:
 			manger.Update()
