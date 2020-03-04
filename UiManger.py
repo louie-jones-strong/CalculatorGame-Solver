@@ -14,12 +14,15 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.OnClickData = None
 		self.FadedImage = None
 		self.GetIsFade = None
+		self.LastFrameMouseDown = False
+		self.ButtonHoldAllowed = False
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
 		return
 
-	def SetUpButton(self, hoverImage=None, pressImage=None, onClick=None, onClickData=None):
+	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None):
+		self.ButtonHoldAllowed = buttonHoldAllowed
 		self.HoverImage = hoverImage
 		self.PressImage = pressImage
 		self.OnClick = onClick
@@ -45,13 +48,17 @@ class UiPiece:#todo make this a sprite to speed it up
 							pos[1] > self.Pos[1] and pos[1] < self.Pos[1] + self.Size[1])
 
 		mouseDown = mouse.get_pressed()[0]
-		if mouseOverButton and mouseDown:
+
+		if (mouseOverButton and 
+			((self.LastFrameMouseDown and not mouseDown) or
+			(mouseDown and self.ButtonHoldAllowed))):
 			if self.OnClick != None:
 				if self.OnClickData == None:
 					self.OnClick()
 				else:
 					self.OnClick(self.OnClickData)
 
+		if mouseOverButton and mouseDown:
 			if self.PressImage != None:
 				screen.blit(self.PressImage, self.Pos)
 			elif self.NormalImage != None:
@@ -70,6 +77,9 @@ class UiPiece:#todo make this a sprite to speed it up
 		else:
 			if self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
+
+
+		self.LastFrameMouseDown = mouseDown
 
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
@@ -161,7 +171,7 @@ class UiManger:
 		manger.PieceList = []
 
 		piece = UiPiece([220, 30], [105, 35])
-		piece.SetUpButton(onClick=self.SetSolarCovered)
+		piece.SetUpButton(True, onClick=self.SetSolarCovered)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([40, 90], [90, 50], manger.LoadImage("FunGuy_Normal"))
@@ -186,7 +196,7 @@ class UiManger:
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 375], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=0)
+		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 375], [113, 100])
@@ -197,24 +207,26 @@ class UiManger:
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 485], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=1)
+		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 485], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=2)
+		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		manger.PieceList += [piece]
 
 		#row 3
 		piece = UiPiece([20, 595], [113, 100],
                   manger.LoadImage("Button"))
+		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+                    manger.LoadImage("Button_Pressed"))
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 595], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=3)
+		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 595], [113, 100])
-		piece.SetUpButton(onClick=self.SetUpOperationSelectScreen, onClickData=4)
+		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		manger.PieceList += [piece]
 
 		return
@@ -236,17 +248,23 @@ class UiManger:
 		#row 1
 		piece = UiPiece([20, 375], [113, 100],
                   manger.LoadImage("Button"))
-		piece.SetUpButton(onClick=self.SetOperation, onClickData=0)
+		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+                    manger.LoadImage("Button_Pressed"),
+					onClick=self.SetOperation, onClickData=0)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 375], [113, 100],
                   manger.LoadImage("Button"))
-		piece.SetUpButton(onClick=self.SetOperation, onClickData=1)
+		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+                    manger.LoadImage("Button_Pressed"),
+					onClick=self.SetOperation, onClickData=1)
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 375], [113, 100],
                   manger.LoadImage("Button"))
-		piece.SetUpButton(onClick=self.SetOperation, onClickData=2)
+		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+                    manger.LoadImage("Button_Pressed"), 
+					onClick=self.SetOperation, onClickData=2)
 		manger.PieceList += [piece]
 		return
 
