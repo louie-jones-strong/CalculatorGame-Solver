@@ -113,10 +113,19 @@ class UiPiece:#todo make this a sprite to speed it up
 			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
+		# if self.State != UiPiece.eState.Fade:
+		# 	font = pygame.font.SysFont("monospace", 15)
+		# 	label = font.render("test", 1, (255, 255, 255))
+		# 	screen.blit(label, self.Pos)
+
 
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
 			draw.rect(screen, [255, 0, 0], rect, 2)
+
+			font = pygame.font.SysFont("monospace", 15)
+			label = font.render(self.State.name, 1, (255, 0, 0))
+			screen.blit(label, [self.Pos[0]+3, self.Pos[1]])
 		return
 
 class UiManger:
