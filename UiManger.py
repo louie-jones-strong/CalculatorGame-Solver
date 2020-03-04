@@ -1,10 +1,19 @@
 from pygame import display, draw, Color, gfxdraw, mouse
 import pygame
 import os
+from enum import Enum
 
 class UiPiece:#todo make this a sprite to speed it up
 
+	class eState(Enum):
+		Normal = 0
+		Hover = 1
+		press = 2
+		Fade = 3
+
+
 	def __init__(self, pos, size, normalImage=None):
+		self.State = UiPiece.eState.Normal
 		self.Pos = pos
 		self.Size = size
 		self.NormalImage = normalImage
@@ -16,6 +25,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.GetIsFade = None
 		self.LastFrameMouseDown = False
 		self.ButtonHoldAllowed = False
+		self.LabelText = None
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -32,6 +42,10 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.HoverImage = pygame.transform.scale(self.HoverImage, self.Size)
 		if self.PressImage != None:
 			self.PressImage = pygame.transform.scale(self.PressImage, self.Size)
+		return
+
+	def SetUpLabel(self, message):
+		self.LabelText = message
 		return
 
 	def SetUpFade(self, fadedImage, getIsFade):
@@ -59,27 +73,46 @@ class UiPiece:#todo make this a sprite to speed it up
 					self.OnClick(self.OnClickData)
 
 		if mouseOverButton and mouseDown:
-			if self.PressImage != None:
-				screen.blit(self.PressImage, self.Pos)
-			elif self.NormalImage != None:
-				screen.blit(self.NormalImage, self.Pos)
+			self.State = UiPiece.eState.press
 		
 		elif self.GetIsFade != None and self.GetIsFade():
-			if self.FadedImage != None:
-				screen.blit(self.FadedImage, self.Pos)
+			self.State = UiPiece.eState.Fade
 
 		elif mouseOverButton and not mouseDown:
+			self.State = UiPiece.eState.Hover
+
+		else:
+			self.State = UiPiece.eState.Normal
+
+
+		self.LastFrameMouseDown = mouseDown
+
+		self.Draw(screen, debugMode)
+		return
+
+	def Draw(self, screen, debugMode):
+		if self.State == UiPiece.eState.Normal:
+			if self.NormalImage != None:
+				screen.blit(self.NormalImage, self.Pos)
+		
+		elif self.State == UiPiece.eState.Hover:
 			if self.HoverImage != None:
 				screen.blit(self.HoverImage, self.Pos)
 			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
-		else:
-			if self.NormalImage != None:
+		elif self.State == UiPiece.eState.press:
+			if self.PressImage != None:
+				screen.blit(self.PressImage, self.Pos)
+			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
+		elif self.State == UiPiece.eState.Fade:
+			if self.FadedImage != None:
+				screen.blit(self.FadedImage, self.Pos)
+			elif self.NormalImage != None:
+				screen.blit(self.NormalImage, self.Pos)
 
-		self.LastFrameMouseDown = mouseDown
 
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
