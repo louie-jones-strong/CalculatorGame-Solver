@@ -25,7 +25,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.GetIsFade = None
 		self.LastFrameMouseDown = False
 		self.ButtonHoldAllowed = False
-		self.LabelText = None
+		self.Label = None
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -44,11 +44,13 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.PressImage = pygame.transform.scale(self.PressImage, self.Size)
 		return
 
-	def SetUpLabel(self, message):
-		self.LabelText = message
+	def SetUpLabel(self, message, colour=(255, 255, 255)):
+		font = pygame.font.SysFont("monospace", 50)
+		self.Label = font.render(message, 1, colour)
+		self.Label = pygame.transform.scale(self.Label, self.Size)
 		return
 
-	def SetUpFade(self, fadedImage, getIsFade):
+	def SetUpFade(self, getIsFade, fadedImage=None):
 		self.FadedImage = fadedImage
 		self.GetIsFade = getIsFade
 		#todo make a fade time
@@ -113,10 +115,8 @@ class UiPiece:#todo make this a sprite to speed it up
 			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
-		# if self.State != UiPiece.eState.Fade:
-		# 	font = pygame.font.SysFont("monospace", 15)
-		# 	label = font.render("test", 1, (255, 255, 255))
-		# 	screen.blit(label, self.Pos)
+		if self.State != UiPiece.eState.Fade and self.Label != None:
+			screen.blit(self.Label, self.Pos)
 
 
 		if debugMode:
@@ -217,15 +217,22 @@ class UiManger:
 		manger.PieceList += [piece]
 
 		piece = UiPiece([40, 90], [90, 50], manger.LoadImage("FunGuy_Normal"))
-		piece.SetUpFade(manger.LoadImage("FunGuy_Faded"), self.GetSolarCovered)
+		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("FunGuy_Faded"))
 		manger.PieceList += [piece]
 
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
-		piece.SetUpFade(manger.LoadImage("TopStats_Faded"), self.GetSolarCovered)
+		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
+		piece.SetUpLabel("Moves:")
 		manger.PieceList += [piece]
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
-		piece.SetUpFade(manger.LoadImage("TopStats_Faded"), self.GetSolarCovered)
+		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
+		piece.SetUpLabel("Goal:")
+		manger.PieceList += [piece]
+
+		piece = UiPiece([50, 180], [270, 55])
+		piece.SetUpFade(self.GetSolarCovered)
+		piece.SetUpLabel("888888", (0, 0, 0))
 		manger.PieceList += [piece]
 		return
 
@@ -261,6 +268,7 @@ class UiManger:
                   manger.LoadImage("Button"))
 		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
                     manger.LoadImage("Button_Pressed"))
+		piece.SetUpLabel("Solve!")
 		manger.PieceList += [piece]
 
 		piece = UiPiece([133, 595], [113, 100])
