@@ -2,6 +2,7 @@ from pygame import display, draw, Color, gfxdraw, mouse
 import pygame
 import os
 from enum import Enum
+import time
 
 class UiPiece:#todo make this a sprite to speed it up
 
@@ -14,6 +15,7 @@ class UiPiece:#todo make this a sprite to speed it up
 
 	def __init__(self, pos, size, normalImage=None):
 		self.State = UiPiece.eState.Normal
+		self.LastState = self.State
 		self.Pos = pos
 		self.Size = size
 		self.NormalImage = normalImage
@@ -26,6 +28,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.LastFrameMouseDown = False
 		self.ButtonHoldAllowed = False
 		self.Label = None
+		self.TimeInState = 0
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -58,12 +61,13 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.FadedImage = pygame.transform.scale(self.FadedImage, self.Size)
 		return
 		
-	def Update(self, screen, debugMode):
+	def Update(self, screen, debugMode, deltaTime):
+		self.TimeInState += deltaTime
+
 		pos = mouse.get_pos()
+		mouseDown = mouse.get_pressed()[0]
 		mouseOverButton = (pos[0] > self.Pos[0] and pos[0] < self.Pos[0] + self.Size[0] and
 							pos[1] > self.Pos[1] and pos[1] < self.Pos[1] + self.Size[1])
-
-		mouseDown = mouse.get_pressed()[0]
 
 		if (mouseOverButton and 
 			((self.LastFrameMouseDown and not mouseDown) or
@@ -85,6 +89,11 @@ class UiPiece:#todo make this a sprite to speed it up
 
 		else:
 			self.State = UiPiece.eState.Normal
+
+		if self.State != self.LastState:
+			self.TimeInState = 0
+
+		self.LastState = self.State
 
 
 		self.LastFrameMouseDown = mouseDown
@@ -162,6 +171,7 @@ class UiManger:
 
 		self.OperationsList = [None, None, None, None, None]
 		self.OperationSetUpIndex = None
+		self.LastUpdateTime = time.time()
 		return
 
 	def Update(self):
@@ -173,10 +183,12 @@ class UiManger:
 				self.Quit()
 				return
 
+		deltaTime = self.LastUpdateTime - time.time()
+
 		self.Window.blit(self.BackGround, [0, 0])
 
 		for button in self.PieceList:
-			button.Update(self.Window, self.DebugMode)
+			button.Update(self.Window, self.DebugMode, deltaTime)
 		
 		if self.DebugMode:
 			if mouse.get_pressed()[0]:
@@ -196,6 +208,7 @@ class UiManger:
 		display.update()
 
 		self.SolarCovered = False
+		self.LastUpdateTime = time.time()
 		return
 
 	def Quit(self):
@@ -322,10 +335,10 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = True
+		manger.DebugMode = False
 		manger.SetUpMainScreen()
 		while manger.Running:
 			manger.Update()
 
-	except:
-		input("error:")
+	except Exception as e:
+		input("error: "+str(e))
