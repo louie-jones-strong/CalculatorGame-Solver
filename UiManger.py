@@ -49,7 +49,7 @@ class UiPiece:#todo make this a sprite to speed it up
 
 	def SetUpLabel(self, message, colour=(255, 255, 255)):
 		font = pygame.font.SysFont("monospace", 50)
-		self.Label = font.render(message, 1, colour)
+		self.Label = font.render(str(message), 1, colour)
 		self.Label = pygame.transform.scale(self.Label, self.Size)
 		return
 
@@ -259,6 +259,7 @@ class UiManger:
 
 		piece = UiPiece([133, 375], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
+		piece.SetUpLabel(self.OperationsList[0])
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 375], [113, 100])
@@ -270,10 +271,12 @@ class UiManger:
 
 		piece = UiPiece([133, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
+		piece.SetUpLabel(self.OperationsList[1])
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
+		piece.SetUpLabel(self.OperationsList[2])
 		manger.PieceList += [piece]
 
 		#row 3
@@ -286,10 +289,12 @@ class UiManger:
 
 		piece = UiPiece([133, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
+		piece.SetUpLabel(self.OperationsList[3])
 		manger.PieceList += [piece]
 
 		piece = UiPiece([246, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
+		piece.SetUpLabel(self.OperationsList[4])
 		manger.PieceList += [piece]
 
 		return
@@ -308,34 +313,28 @@ class UiManger:
 		self.SetUpShared()
 
 		#button Grid
-		#row 1
-		piece = UiPiece([20, 375], [113, 100],
-                  manger.LoadImage("Button"))
-		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"),
-					onClick=self.SetOperation, onClickData=0)
-		manger.PieceList += [piece]
+		loop = 0
+		for y in range(3):
+			for x in range(3):
 
-		piece = UiPiece([133, 375], [113, 100],
-                  manger.LoadImage("Button"))
-		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"),
-					onClick=self.SetOperation, onClickData=1)
-		manger.PieceList += [piece]
+				piece = UiPiece([20+x*115, 375+y*110], [110, 100],
+					manger.LoadImage("Button"))
 
-		piece = UiPiece([246, 375], [113, 100],
-                  manger.LoadImage("Button"))
-		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"), 
-					onClick=self.SetOperation, onClickData=2)
-		manger.PieceList += [piece]
+				piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+					manger.LoadImage("Button_Pressed"),
+					onClick=self.SetOperation, onClickData=loop)
+				piece.SetUpLabel(loop)
+				manger.PieceList += [piece]
+
+
+				loop += 1
 		return
 
 
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = False
+		manger.DebugMode = True
 		manger.SetUpMainScreen()
 		while manger.Running:
 			manger.Update()
