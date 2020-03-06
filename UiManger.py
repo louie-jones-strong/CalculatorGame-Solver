@@ -3,6 +3,8 @@ import pygame
 import os
 from enum import Enum
 import time
+import keyboard
+import traceback
 
 class UiPiece:#todo make this a sprite to speed it up
 
@@ -29,6 +31,8 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.ButtonHoldAllowed = False
 		self.Label = None
 		self.TimeInState = 0
+		self.Selected = False
+		self.Selectable = False
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -132,17 +136,28 @@ class UiPiece:#todo make this a sprite to speed it up
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
 			draw.rect(screen, [255, 0, 0], rect, 2)
 
-			font = pygame.font.SysFont("monospace", 15)
-			label = font.render(self.State.name, 1, (255, 0, 0))
+			font = pygame.font.SysFont("monospace", 10)
+
+			text = self.State.name 
+			if self.Selectable:
+				text += " " + str(self.Selected)
+
+			label = font.render(text, 1, (255, 0, 0))
 			screen.blit(label, [self.Pos[0]+3, self.Pos[1]])
+		return
+
+	def SetUpSelect(self):
+		self.Selectable = True
 		return
 
 class UiManger:
 	ImageCache = {}
 	PieceList = []
+	Selectable = []
 	DebugMode = False
 	SolarCovered = False
 	MouseStartPos = None
+	SelectIndex = 0
 
 	def LoadImage(self, imageName, scaleFactor=1):
 		if imageName not in self.ImageCache:
@@ -160,6 +175,7 @@ class UiManger:
 
 	def __init__(self):
 		self.Running = True
+		self.LastEnterDown = False
 		display.init()
 		pygame.font.init()
 
@@ -172,6 +188,18 @@ class UiManger:
 		self.OperationsList = [None, None, None, None, None]
 		self.OperationSetUpIndex = None
 		self.LastUpdateTime = time.time()
+		return
+
+	def ClearPieceList(self):
+		self.PieceList = []
+		self.Selectable = []
+		return
+
+	def AddPiece(self, piece, selectable):
+		if selectable:
+			self.Selectable += [len(self.PieceList)]
+			piece.SetUpSelect()
+		self.PieceList += [piece]
 		return
 
 	def Update(self):
@@ -187,8 +215,21 @@ class UiManger:
 
 		self.Window.blit(self.BackGround, [0, 0])
 
+		if self.LastEnterDown and not keyboard.is_pressed("enter"):
+			self.SelectIndex += 1
+			if self.SelectIndex >= len(self.Selectable):
+				self.SelectIndex = 0
+
+			if self.DebugMode:
+				print("Enter pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
+		
+		self.LastEnterDown = keyboard.is_pressed("enter")
+
+		loop = 0
 		for button in self.PieceList:
 			button.Update(self.Window, self.DebugMode, deltaTime)
+			button.Selected = loop == self.Selectable[self.SelectIndex]
+			loop += 1
 		
 		if self.DebugMode:
 			if mouse.get_pressed()[0]:
@@ -223,30 +264,30 @@ class UiManger:
 		return self.SolarCovered
 
 	def SetUpShared(self):
-		manger.PieceList = []
+		self.ClearPieceList()
 
 		piece = UiPiece([220, 30], [105, 35])
 		piece.SetUpButton(True, onClick=self.SetSolarCovered)
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([40, 90], [90, 50], manger.LoadImage("FunGuy_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("FunGuy_Faded"))
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
 		piece.SetUpLabel("Moves:")
-		manger.PieceList += [piece]
+		self.AddPiece(piece, True)
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
 		piece.SetUpLabel("Goal:")
-		manger.PieceList += [piece]
+		self.AddPiece(piece, True)
 
 		piece = UiPiece([50, 180], [270, 55])
 		piece.SetUpFade(self.GetSolarCovered)
 		piece.SetUpLabel("888888", (0, 0, 0))
-		manger.PieceList += [piece]
+		self.AddPiece(piece, True)
 		return
 
 	def SetUpMainScreen(self):
@@ -255,29 +296,29 @@ class UiManger:
 		#button Grid
 		#row 1
 		piece = UiPiece([20, 375], [113, 100])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([133, 375], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		piece.SetUpLabel(self.OperationsList[0])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 375], [113, 100])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		#row 2
 		piece = UiPiece([20, 485], [113, 100])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([133, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		piece.SetUpLabel(self.OperationsList[1])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		piece.SetUpLabel(self.OperationsList[2])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		#row 3
 		piece = UiPiece([20, 595], [113, 100],
@@ -285,17 +326,17 @@ class UiManger:
 		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
                     manger.LoadImage("Button_Pressed"))
 		piece.SetUpLabel("Solve!")
-		manger.PieceList += [piece]
+		self.AddPiece(piece, True)
 
 		piece = UiPiece([133, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		piece.SetUpLabel(self.OperationsList[3])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		piece.SetUpLabel(self.OperationsList[4])
-		manger.PieceList += [piece]
+		self.AddPiece(piece, False)
 
 		return
 	
@@ -324,7 +365,7 @@ class UiManger:
 					manger.LoadImage("Button_Pressed"),
 					onClick=self.SetOperation, onClickData=loop)
 				piece.SetUpLabel(loop)
-				manger.PieceList += [piece]
+				self.AddPiece(piece, False)
 
 
 				loop += 1
@@ -340,4 +381,6 @@ if __name__ == "__main__":
 			manger.Update()
 
 	except Exception as e:
+		strTrace = traceback.format_exc()
+		print(strTrace)
 		input("error: "+str(e))
