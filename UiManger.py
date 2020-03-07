@@ -6,7 +6,7 @@ import time
 import keyboard
 import traceback
 
-class UiPiece:#todo make this a sprite to speed it up
+class UiPiece:#todo make this a sprite to speed it up  
 
 	class eState(Enum):
 		Normal = 0
@@ -178,6 +178,8 @@ class UiManger:
 		self.LastEnterDown = False
 		display.init()
 		pygame.font.init()
+		pygame.init()
+		self.Number = 0.0
 
 		self.BackGround = self.LoadImage("BackGround", 0.35)
 		self.Resolution = self.BackGround.get_size()
@@ -210,19 +212,43 @@ class UiManger:
 			if event.type == pygame.QUIT:
 				self.Quit()
 				return
+			
+			elif event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_RETURN:
+					self.SelectIndex += 1
+					if self.SelectIndex >= len(self.Selectable):
+						self.SelectIndex = 0
+
+					if self.DebugMode:
+						print("Enter pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
+
+				elif event.key == pygame.K_BACKSPACE:
+					self.Number = int(self.Number/10)
+
+				else:
+					tempInput = event.unicode
+					try:
+						if tempInput == "-":
+							self.Number *= -1
+						else:
+							self.Number = self.Number*10
+							self.Number += int(tempInput)
+
+					except:
+						self.Number = self.Number
+
+				text = str(self.Number) + " ->"
+				if self.Number < 0:
+					text += "-" + str(round(self.Number*-1))
+				else:
+					text += str(round(self.Number))
+
+				print(text)
 
 		deltaTime = self.LastUpdateTime - time.time()
 
 		self.Window.blit(self.BackGround, [0, 0])
 
-		if self.LastEnterDown and not keyboard.is_pressed("enter"):
-			self.SelectIndex += 1
-			if self.SelectIndex >= len(self.Selectable):
-				self.SelectIndex = 0
-
-			if self.DebugMode:
-				print("Enter pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
-		
 		self.LastEnterDown = keyboard.is_pressed("enter")
 
 		loop = 0
