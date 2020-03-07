@@ -57,6 +57,7 @@ class UiPiece:#todo make this a sprite to speed it up
 	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0):
 		self.Message = str(message)
 		self.EditableMessage = str(editableMessage)
+		self.EditableIsNegtive = False
 		self.Colour = colour
 		self.XLabelAnchor = xLabelAnchor
 		self.YLabelAnchor = yLabelAnchor
@@ -122,9 +123,16 @@ class UiPiece:#todo make this a sprite to speed it up
 					if event.key == pygame.K_BACKSPACE:
 						self.EditableMessage = self.EditableMessage[:-1]
 
+					elif event.unicode == "-":
+						self.EditableIsNegtive = not self.EditableIsNegtive
+
 					else:
 						self.EditableMessage += event.unicode
-					print(self.EditableMessage)
+					
+					if self.EditableIsNegtive:
+						print("-"+self.EditableMessage)
+					else:
+						print(self.EditableMessage)
 
 			if len(text) > len("keys Pressed: ") and debugMode:
 				print(text)
@@ -155,8 +163,13 @@ class UiPiece:#todo make this a sprite to speed it up
 
 		if self.State != UiPiece.eState.Fade and self.Message != None:
 			font = pygame.font.SysFont("monospace", 50)
+			text = str(self.Message)
+			if self.EditableIsNegtive:
+				text = "-"
+			
+			text += str(self.EditableMessage)
 
-			label = font.render(str(self.Message) + str(self.EditableMessage), 1, self.Colour)
+			label = font.render(text, 1, self.Colour)
 			
 			xRatio = self.Size[0] / label.get_width()
 			yRatio = self.Size[1] / label.get_height()
@@ -336,17 +349,17 @@ class UiManger:
 
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Moves:\n", 0)
+		piece.SetUpLabel("Moves:", 0)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Goal:\n", 0)
+		piece.SetUpLabel("Goal:", 0)
 		self.AddPiece(piece, True)
 
-		piece = UiPiece([50, 180], [270, 55])
+		piece = UiPiece([38 , 180], [302, 75])
 		piece.SetUpFade(self.GetSolarCovered)
-		piece.SetUpLabel("", 0, (0, 0, 0), 1)
+		piece.SetUpLabel("", 0, (0, 0, 0), 1, 0.5)
 		self.AddPiece(piece, True)
 		return
 
