@@ -33,6 +33,8 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.TimeInState = 0
 		self.Selected = False
 		self.Selectable = False
+		self.Colour = (255,255,255)
+		self.Message = None
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -52,9 +54,8 @@ class UiPiece:#todo make this a sprite to speed it up
 		return
 
 	def SetUpLabel(self, message, colour=(255, 255, 255)):
-		font = pygame.font.SysFont("monospace", 50)
-		self.Label = font.render(str(message), 1, colour)
-		self.Label = pygame.transform.scale(self.Label, self.Size)
+		self.Message = message
+		self.Colour = colour
 		return
 
 	def SetUpFade(self, getIsFade, fadedImage=None):
@@ -103,6 +104,26 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.LastFrameMouseDown = mouseDown
 
 		self.Draw(screen, debugMode)
+		return self.Selectable and self.State == UiPiece.eState.press
+
+	def UpdateLabel(self, events, debugMode):
+		if self.Selected and self.Message != None:
+			
+			text = "keys Pressed: "
+			for event in events:
+				if event.type == pygame.KEYDOWN:
+					text += str(event.unicode)
+					text += ", "
+
+					if event.key == pygame.K_BACKSPACE:
+						self.Message = self.Message[:-1]
+
+					else:
+						self.Message += event.unicode
+					print(self.Message)
+
+			if len(text) > len("keys Pressed: ") and debugMode:
+				print(text)
 		return
 
 	def Draw(self, screen, debugMode):
@@ -128,8 +149,11 @@ class UiPiece:#todo make this a sprite to speed it up
 			elif self.NormalImage != None:
 				screen.blit(self.NormalImage, self.Pos)
 
-		if self.State != UiPiece.eState.Fade and self.Label != None:
-			screen.blit(self.Label, self.Pos)
+		if self.State != UiPiece.eState.Fade and self.Message != None:
+			font = pygame.font.SysFont("monospace", 50)
+			label = font.render(str(self.Message), 1, self.Colour)
+			label = pygame.transform.scale(label, self.Size)
+			screen.blit(label, self.Pos)
 
 
 		if debugMode:
@@ -208,6 +232,7 @@ class UiManger:
 		if not self.Running:
 			return
 
+		eventList =[]
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.Quit()
@@ -221,29 +246,11 @@ class UiManger:
 
 					if self.DebugMode:
 						print("Enter pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
-
-				elif event.key == pygame.K_BACKSPACE:
-					self.Number = int(self.Number/10)
-
 				else:
-					tempInput = event.unicode
-					try:
-						if tempInput == "-":
-							self.Number *= -1
-						else:
-							self.Number = self.Number*10
-							self.Number += int(tempInput)
+					eventList += [event]
 
-					except:
-						self.Number = self.Number
-
-				text = str(self.Number) + " ->"
-				if self.Number < 0:
-					text += "-" + str(round(self.Number*-1))
-				else:
-					text += str(round(self.Number))
-
-				print(text)
+			else:
+				eventList += [event]
 
 		deltaTime = self.LastUpdateTime - time.time()
 
@@ -252,11 +259,19 @@ class UiManger:
 		self.LastEnterDown = keyboard.is_pressed("enter")
 
 		loop = 0
-		for button in self.PieceList:
-			button.Update(self.Window, self.DebugMode, deltaTime)
-			button.Selected = loop == self.Selectable[self.SelectIndex]
+		for piece in self.PieceList:
+			if piece.Update(self.Window, self.DebugMode, deltaTime):
+				self.SelectIndex = self.Selectable.index(loop)
+				print("piece pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
+
+			piece.UpdateLabel(eventList, self.DebugMode)
 			loop += 1
 		
+		loop = 0
+		for piece in self.PieceList:
+			piece.Selected = loop == self.Selectable[self.SelectIndex]
+			loop += 1
+
 		if self.DebugMode:
 			if mouse.get_pressed()[0]:
 				if self.MouseStartPos == None:
