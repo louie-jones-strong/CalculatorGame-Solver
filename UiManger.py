@@ -35,6 +35,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.Selectable = False
 		self.Colour = (255,255,255)
 		self.Message = None
+		self.EditableMessage = None
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -53,9 +54,12 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.PressImage = pygame.transform.scale(self.PressImage, self.Size)
 		return
 
-	def SetUpLabel(self, message, colour=(255, 255, 255)):
-		self.Message = message
+	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0):
+		self.Message = str(message)
+		self.EditableMessage = str(editableMessage)
 		self.Colour = colour
+		self.XLabelAnchor = xLabelAnchor
+		self.YLabelAnchor = yLabelAnchor
 		return
 
 	def SetUpFade(self, getIsFade, fadedImage=None):
@@ -107,7 +111,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		return self.Selectable and self.State == UiPiece.eState.press
 
 	def UpdateLabel(self, events, debugMode):
-		if self.Selected and self.Message != None:
+		if self.Selected and self.EditableMessage != None:
 			
 			text = "keys Pressed: "
 			for event in events:
@@ -116,11 +120,11 @@ class UiPiece:#todo make this a sprite to speed it up
 					text += ", "
 
 					if event.key == pygame.K_BACKSPACE:
-						self.Message = self.Message[:-1]
+						self.EditableMessage = self.EditableMessage[:-1]
 
 					else:
-						self.Message += event.unicode
-					print(self.Message)
+						self.EditableMessage += event.unicode
+					print(self.EditableMessage)
 
 			if len(text) > len("keys Pressed: ") and debugMode:
 				print(text)
@@ -151,9 +155,24 @@ class UiPiece:#todo make this a sprite to speed it up
 
 		if self.State != UiPiece.eState.Fade and self.Message != None:
 			font = pygame.font.SysFont("monospace", 50)
-			label = font.render(str(self.Message), 1, self.Colour)
-			label = pygame.transform.scale(label, self.Size)
-			screen.blit(label, self.Pos)
+
+			label = font.render(str(self.Message) + str(self.EditableMessage), 1, self.Colour)
+			
+			xRatio = self.Size[0] / label.get_width()
+			yRatio = self.Size[1] / label.get_height()
+
+			if xRatio < yRatio:
+				ratio = xRatio
+			else:
+				ratio = yRatio
+				
+			newSize = [int(label.get_width() * ratio), int(label.get_height() * ratio)]
+			label = pygame.transform.scale(label, newSize)
+
+			xOffSet = (self.Size[0] - label.get_width()) * self.XLabelAnchor
+			yOffSet = (self.Size[1] - label.get_height()) * self.YLabelAnchor
+			pos = [self.Pos[0] + xOffSet, self.Pos[1] + yOffSet]
+			screen.blit(label, pos)
 
 
 		if debugMode:
@@ -317,17 +336,17 @@ class UiManger:
 
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Moves:")
+		piece.SetUpLabel("Moves:\n", 0)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Goal:")
+		piece.SetUpLabel("Goal:\n", 0)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([50, 180], [270, 55])
 		piece.SetUpFade(self.GetSolarCovered)
-		piece.SetUpLabel("888888", (0, 0, 0))
+		piece.SetUpLabel("", 0, (0, 0, 0), 1)
 		self.AddPiece(piece, True)
 		return
 
@@ -341,7 +360,7 @@ class UiManger:
 
 		piece = UiPiece([133, 375], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
-		piece.SetUpLabel(self.OperationsList[0])
+		piece.SetUpLabel(self.OperationsList[0], "")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 375], [113, 100])
@@ -353,12 +372,12 @@ class UiManger:
 
 		piece = UiPiece([133, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
-		piece.SetUpLabel(self.OperationsList[1])
+		piece.SetUpLabel(self.OperationsList[1], "")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 485], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
-		piece.SetUpLabel(self.OperationsList[2])
+		piece.SetUpLabel(self.OperationsList[2], "")
 		self.AddPiece(piece, False)
 
 		#row 3
@@ -366,17 +385,17 @@ class UiManger:
                   manger.LoadImage("Button"))
 		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
                     manger.LoadImage("Button_Pressed"))
-		piece.SetUpLabel("Solve!")
+		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([133, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
-		piece.SetUpLabel(self.OperationsList[3])
+		piece.SetUpLabel(self.OperationsList[3], "")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 595], [113, 100])
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
-		piece.SetUpLabel(self.OperationsList[4])
+		piece.SetUpLabel(self.OperationsList[4], "")
 		self.AddPiece(piece, False)
 
 		return
@@ -405,7 +424,7 @@ class UiManger:
 				piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
 					manger.LoadImage("Button_Pressed"),
 					onClick=self.SetOperation, onClickData=loop)
-				piece.SetUpLabel(loop)
+				piece.SetUpLabel(loop, "")
 				self.AddPiece(piece, False)
 
 
