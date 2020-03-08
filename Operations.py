@@ -1,14 +1,69 @@
 class Operation:
+	BaseImage = "Button"
+
+	def __init__(self):
+
+		return
+
+	def Setup(self):
+
+		return
+
 	def DoAction(self, inputValue):
 
 		return inputValue
 
 	def ToString(self):
 
+		return "?"
+
+def MakeOperation(opType=None):
+	if opType == None:
+		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] Insert[5] =>[6] pow[7] +/-[8] Reverse[9] Sum[10]: "))
+	
+	if opType == 0:
+		return Operation()
+
+	elif opType == 1:
+		return Add()
+
+	elif  opType == 2:
+		return Multiply()
+
+	elif opType == 3:
+		return Divide()
+
+	elif opType == 4:
+		return Shift()
+
+	elif opType == 5:
+		return Insert()
+	
+	elif opType == 6:
+		return Translate()
+
+	elif opType == 7:
+		return Pow()
+
+	elif opType == 8:
+		return Flip()
+
+	elif opType == 9:
+		return Reverse()
+
+	elif opType == 10:
+		return Sum()
+
+	return None
+
+class Add(Operation):#1
+	BaseImage = "Button_Black"
+
+	def __init__(self):
+		self.AddAmount = 1
 		return
 
-class Add(Operation):
-	def __init__(self, addAmount=None):
+	def Setup(self, addAmount=None):
 		if addAmount == None:
 			addAmount = int(input("Add Value: "))
 
@@ -25,8 +80,14 @@ class Add(Operation):
 		else:
 			return str(self.AddAmount)
 
-class Multiply(Operation):
-	def __init__(self, multiplyAmount=None):
+class Multiply(Operation):#2
+	BaseImage = "Button_Black"
+	
+	def __init__(self):
+		self.MultiplyAmount = 1
+		return
+
+	def Setup(self, multiplyAmount=None):
 
 		if multiplyAmount == None:
 			multiplyAmount = int(input("multiply Value: "))
@@ -42,8 +103,14 @@ class Multiply(Operation):
 
 		return "X"+str(self.MultiplyAmount)
 
-class Divide(Operation):
-	def __init__(self, divideAmount=None):
+class Divide(Operation):#3
+	BaseImage = "Button_Black"
+
+	def __init__(self):
+		self.DivideAmount = 1
+		return
+
+	def Setup(self, divideAmount=None):
 		if divideAmount == None:
 			divideAmount = int(input("Divide Value: "))
 
@@ -60,8 +127,14 @@ class Divide(Operation):
 
 		return "/"+str(self.DivideAmount)
 
-class Shift(Operation):
-	def __init__(self, isRightShift=None):
+class Shift(Operation):#4
+	BaseImage = "Button_Orange"
+
+	def __init__(self):
+		self.IsRightShift = True
+		return
+
+	def Setup(self, isRightShift=None):
 		if isRightShift == None:
 			isRightShift = int(input("<<[1] >>[2]: ")) == 1
 		self.IsRightShift = isRightShift
@@ -79,8 +152,14 @@ class Shift(Operation):
 		else:
 			return ">>"
 
-class Insert(Operation):
-	def __init__(self, insertNumber=None):
+class Insert(Operation):#5
+	BaseImage = "Button_Purple"
+
+	def __init__(self):
+		self.InsertNumber = 1
+		return
+
+	def Setup(self, insertNumber=None):
 		if insertNumber == None:
 			insertNumber = int(input("Insert Number: "))
 		self.InsertNumber = insertNumber
@@ -92,9 +171,15 @@ class Insert(Operation):
 	def ToString(self):
 		return "Insert "+str(self.InsertNumber)
 
-class Translate(Operation):
+class Translate(Operation):#6
+	BaseImage = "Button_Orange"
 
-	def __init__(self, fromNum=None, toNum=None):
+	def __init__(self):
+		self.From = 1
+		self.To = 1
+		return
+
+	def Setup(self, fromNum=None, toNum=None):
 
 		if fromNum == None:
 			fromNum = int(input("From: "))
@@ -114,8 +199,14 @@ class Translate(Operation):
 
 		return str(self.From) + "=>" + str(self.To)
 
-class Pow(Operation):
+class Pow(Operation):#7
+	BaseImage = "Button_Orange"
+
 	def __init__(self):
+		self.PowNumber = 2
+		return
+
+	def Setup(self):
 		self.PowNumber = 2#int(input("pow Number: "))
 		return
 
@@ -125,8 +216,10 @@ class Pow(Operation):
 	def ToString(self):
 		return "Pow "+str(self.PowNumber)
 
-class Flip(Operation):
-	def __init__(self):
+class Flip(Operation):#8
+	BaseImage = "Button_Orange"
+
+	def Setup(self):
 		return
 
 	def DoAction(self, inputValue):
@@ -135,8 +228,10 @@ class Flip(Operation):
 	def ToString(self):
 		return "+/- "
 
-class Reverse(Operation):
-	def __init__(self):
+class Reverse(Operation):#9
+	BaseImage = "Button_Orange"
+
+	def Setup(self):
 		return
 
 	def DoAction(self, inputValue):
@@ -148,8 +243,10 @@ class Reverse(Operation):
 	def ToString(self):
 		return "Reverse"
 
-class Sum(Operation):
-	def __init__(self):
+class Sum(Operation):#10
+	BaseImage = "Button_Orange"
+	
+	def Setup(self):
 		return
 
 	def DoAction(self, inputValue):
