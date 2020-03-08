@@ -1,5 +1,5 @@
 class Operation:
-	BaseImage = "Button"
+	BaseImage = ""
 
 	def __init__(self):
 
