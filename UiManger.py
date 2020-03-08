@@ -258,6 +258,7 @@ class UiManger:
 	def ClearPieceList(self):
 		self.PieceList = []
 		self.Selectable = []
+		self.SelectIndex = 0
 		return
 
 	def AddPiece(self, piece, selectable):
