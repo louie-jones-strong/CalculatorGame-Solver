@@ -310,8 +310,11 @@ class UiManger:
 		loop = 0
 		for piece in self.PieceList:
 			if piece.Update(self.Window, self.DebugMode, deltaTime):
-				self.SelectIndex = self.Selectable.index(loop)
-				print("piece pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
+				index = self.Selectable.index(loop)
+				if index != self.SelectIndex:
+					self.SelectIndex = index
+					if self.DebugMode:
+						print("piece pressed index: "+str(self.SelectIndex) + " ->" + str(self.Selectable[self.SelectIndex]))
 
 			piece.UpdateLabel(eventList, self.DebugMode)
 			loop += 1
