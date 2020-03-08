@@ -5,6 +5,7 @@ from enum import Enum
 import time
 import keyboard
 import traceback
+import GameSolver
 
 class UiPiece:#todo make this a sprite to speed it up  
 
@@ -54,13 +55,14 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.PressImage = pygame.transform.scale(self.PressImage, self.Size)
 		return
 
-	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0):
+	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
 		self.Message = str(message)
 		self.EditableMessage = str(editableMessage)
 		self.EditableIsNegtive = False
 		self.Colour = colour
 		self.XLabelAnchor = xLabelAnchor
 		self.YLabelAnchor = yLabelAnchor
+		self.TextUpdatedFunc = textUpdatedFunc
 		return
 
 	def SetUpFade(self, getIsFade, fadedImage=None):
@@ -133,6 +135,9 @@ class UiPiece:#todo make this a sprite to speed it up
 						print("-"+self.EditableMessage)
 					else:
 						print(self.EditableMessage)
+
+					if self.TextUpdatedFunc != None:
+						self.TextUpdatedFunc(self.EditableMessage)
 
 			if len(text) > len("keys Pressed: ") and debugMode:
 				print(text)
@@ -235,7 +240,9 @@ class UiManger:
 		display.init()
 		pygame.font.init()
 		pygame.init()
-		self.Number = 0.0
+		self.StartingNum = 0
+		self.Goal = 0
+		self.Moves = 0
 
 		self.BackGround = self.LoadImage("BackGround", 0.35)
 		self.Resolution = self.BackGround.get_size()
@@ -335,6 +342,44 @@ class UiManger:
 		return
 	def GetSolarCovered(self):
 		return self.SolarCovered
+	
+	def UpdateMovesNum(self, moves):
+		self.Moves = int(moves)
+		return
+	def UpdateGoalNum(self, goal):
+		self.Goal = int(goal)
+		return
+	def UpdateStartingNum(self, startingNum):
+		self.StartingNum = int(startingNum)
+		return
+
+	def ClickedSolve(self):
+		if self.DebugMode:
+			print("Sovle Clicked")
+
+		isVaild = self.Moves > 0 and self.Goal != self.StartingNum
+		for operation in self.OperationsList:
+			if operation != None:
+				isVaild = True
+				break
+		
+		if not isVaild:
+			if self.DebugMode:
+				print("not vaild To Sovle Atm")
+			return
+		
+		# found, operationList = GameSolver.Solve(self.Moves, operations, self.StartingNum, self.Goal)
+
+		# if self.DebugMode:
+		# 	print("===================")
+		# 	print("")
+		# 	print("Found: "+str(found))
+		# 	print("")
+		# 	print("")
+
+		# 	for operation in operationList:
+		# 		print(operation.ToString())
+		return
 
 	def SetUpShared(self):
 		self.ClearPieceList()
@@ -349,17 +394,17 @@ class UiManger:
 
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Moves:", 0)
+		piece.SetUpLabel("Moves:", self.Moves, textUpdatedFunc=self.UpdateMovesNum)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
-		piece.SetUpLabel("Goal:", 0)
+		piece.SetUpLabel("Goal:", self.Goal, textUpdatedFunc=self.UpdateGoalNum)
 		self.AddPiece(piece, True)
 
 		piece = UiPiece([38 , 180], [302, 75])
 		piece.SetUpFade(self.GetSolarCovered)
-		piece.SetUpLabel("", 0, (0, 0, 0), 1, 0.5)
+		piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
 		self.AddPiece(piece, True)
 		return
 
@@ -397,7 +442,8 @@ class UiManger:
 		piece = UiPiece([20, 595], [113, 100],
                   manger.LoadImage("Button"))
 		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"))
+                    manger.LoadImage("Button_Pressed"),
+					onClick=self.ClickedSolve)
 		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
