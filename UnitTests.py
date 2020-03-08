@@ -57,60 +57,72 @@ class UnitTests:
     def TestOperations(self):
         
         self.SetGroup("Add")
-        add = Operations.Add(1)
+        add = Operations.Add()
+        add.Setup(1)
         self.Assert(add.DoAction(1), 2, "+1 DoAction()")
         self.Assert(add.ToString(), "+1", "+1 ToString()")
 
-        add = Operations.Add(-1)
+        add = Operations.Add()
+        add.Setup(-1)
         self.Assert(add.DoAction(1), 0, "-1 DoAction()")
         self.Assert(add.ToString(), "-1", "-1 ToString()")
 
         self.SetGroup("Multiply")
-        multiply = Operations.Multiply(3)
+        multiply = Operations.Multiply()
+        multiply.Setup(3)
         self.Assert(multiply.DoAction(1), 3, "3 DoAction()")
         self.Assert(multiply.ToString(), "X3", "3 ToString()")
 
         self.SetGroup("Divide")
-        divide = Operations.Divide(3)
+        divide = Operations.Divide()
+        divide.Setup(3)
         self.Assert(divide.DoAction(9), 3, "3 DoAction()")
         self.Assert(divide.ToString(), "/3", "3 ToString()")
 
         self.SetGroup("Shift")
-        shift = Operations.Shift(True)
+        shift = Operations.Shift()
+        shift.Setup(True)
         self.Assert(shift.DoAction(10), 1, "right DoAction()")
         self.Assert(shift.ToString(), "<<", "right ToString()")
 
-        shift = Operations.Shift(False)
+        shift = Operations.Shift()
+        shift.Setup(False)
         self.Assert(shift.DoAction(1), 10, "Left DoAction()")
         self.Assert(shift.ToString(), ">>", "Left ToString()")
 
         self.SetGroup("Insert")
-        shift = Operations.Insert(12)
+        shift = Operations.Insert()
+        shift.Setup(12)
         self.Assert(shift.DoAction(1), 112, "DoAction()")
         self.Assert(shift.ToString(), "Insert 12", "ToString()")
 
         self.SetGroup("Translate")
-        translate = Operations.Translate(1,2)
+        translate = Operations.Translate()
+        translate.Setup(1,2)
         self.Assert(translate.DoAction(121), 222, "DoAction()")
         self.Assert(translate.ToString(), "1=>2", "ToString()")
 
         self.SetGroup("Pow")
         powOp = Operations.Pow()
+        powOp.Setup()
         self.Assert(powOp.DoAction(4), 16, "DoAction()")
         self.Assert(powOp.ToString(), "Pow 2", "ToString()")
 
         self.SetGroup("Flip")
         flip = Operations.Flip()
+        flip.Setup()
         self.Assert(flip.DoAction(1), -1, "DoAction()")
         self.Assert(flip.ToString(), "+/- ", "ToString()")
 
         self.SetGroup("Reverse")
         reverse = Operations.Reverse()
+        reverse.Setup()
         self.Assert(reverse.DoAction(1234), 4321, "DoAction()")
         self.Assert(reverse.ToString(), "Reverse", "ToString()")
 
         self.SetGroup("Sum")
         sumOp = Operations.Sum()
+        sumOp.Setup()
         self.Assert(sumOp.DoAction(1234), 10, "DoAction()")
         self.Assert(sumOp.ToString(), "Sum", "ToString()")
 
@@ -120,7 +132,9 @@ class UnitTests:
     def TestSolves(self):
         
         self.SetGroup("Simple Solve")
-        found, steps = GameSolver.Solve(1, [Operations.Add(1)], 0, 1)
+        op = Operations.Add()
+        op.Setup(1)
+        found, steps = GameSolver.Solve(1, [op], 0, 1)
         self.Assert(found, True, "found Add Solve")
         return
 

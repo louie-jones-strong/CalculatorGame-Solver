@@ -6,6 +6,7 @@ import time
 import keyboard
 import traceback
 import GameSolver
+import Operations
 
 class UiPiece:#todo make this a sprite to speed it up  
 
@@ -259,7 +260,7 @@ class UiManger:
 		#window
 		self.Window = display.set_mode(self.Resolution)
 
-		self.OperationsList = [None, None, None, None, None]
+		self.OperationsList = [0, 0, 0, 0, 0]
 		self.OperationSetUpIndex = None
 		self.LastUpdateTime = time.time()
 		return
@@ -434,9 +435,10 @@ class UiManger:
 		piece = UiPiece([20, 375], [113, 100])
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([133, 375], [113, 100])
+		op = Operations.MakeOperation(self.OperationsList[0])
+		piece = UiPiece([133, 375], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
-		piece.SetUpLabel(self.OperationsList[0], "")
+		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		piece = UiPiece([246, 375], [113, 100])
@@ -446,14 +448,16 @@ class UiManger:
 		piece = UiPiece([20, 485], [113, 100])
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([133, 485], [113, 100])
+		op = Operations.MakeOperation(self.OperationsList[1])
+		piece = UiPiece([133, 485], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
-		piece.SetUpLabel(self.OperationsList[1], "")
+		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([246, 485], [113, 100])
+		op = Operations.MakeOperation(self.OperationsList[2])
+		piece = UiPiece([246, 485], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
-		piece.SetUpLabel(self.OperationsList[2], "")
+		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		#row 3
@@ -465,14 +469,16 @@ class UiManger:
 		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
-		piece = UiPiece([133, 595], [113, 100])
+		op = Operations.MakeOperation(self.OperationsList[3])
+		piece = UiPiece([133, 595], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
-		piece.SetUpLabel(self.OperationsList[3], "")
+		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([246, 595], [113, 100])
+		op = Operations.MakeOperation(self.OperationsList[4])
+		piece = UiPiece([246, 595], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
-		piece.SetUpLabel(self.OperationsList[4], "")
+		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		return
@@ -495,17 +501,16 @@ class UiManger:
 		self.AddPiece(piece, False)
 
 		#button Grid
-		loop = 0
+		loop = 1
 		for y in range(3):
 			for x in range(3):
+				
+				op = Operations.MakeOperation(loop)
 
 				piece = UiPiece([20+x*115, 375+y*110], [110, 100],
-					manger.LoadImage("Button"))
-
-				piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-					manger.LoadImage("Button_Pressed"),
-					onClick=self.SetOperation, onClickData=loop)
-				piece.SetUpLabel(loop, "")
+					manger.LoadImage(op.BaseImage))
+				piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
+				piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 				self.AddPiece(piece, False)
 
 
