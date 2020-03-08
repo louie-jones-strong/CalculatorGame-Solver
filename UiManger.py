@@ -307,10 +307,11 @@ class UiManger:
 			piece.UpdateLabel(eventList, self.DebugMode)
 			loop += 1
 		
-		loop = 0
-		for piece in self.PieceList:
-			piece.Selected = loop == self.Selectable[self.SelectIndex]
-			loop += 1
+		if len(self.Selectable) > 0:
+			loop = 0
+			for piece in self.PieceList:
+				piece.Selected = loop == self.Selectable[self.SelectIndex]
+				loop += 1
 
 		if self.DebugMode:
 			if mouse.get_pressed()[0]:
