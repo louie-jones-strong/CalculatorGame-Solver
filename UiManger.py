@@ -233,7 +233,13 @@ class UiManger:
 	def LoadImage(self, imageName, scaleFactor=1):
 		if imageName not in self.ImageCache:
 			path = os.path.join("Images", str(imageName)+".png")
-			self.ImageCache[imageName] = pygame.image.load(path)
+
+			if os.path.isfile(path):
+				self.ImageCache[imageName] = pygame.image.load(path)
+			else:
+				self.ImageCache[imageName] = pygame.Surface((1, 1))
+				self.ImageCache[imageName].fill([0,0,0,0])
+				self.ImageCache[imageName].set_alpha(0)
 
 		image = self.ImageCache[imageName]
 		if scaleFactor != 1:
