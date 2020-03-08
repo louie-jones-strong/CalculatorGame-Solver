@@ -260,7 +260,12 @@ class UiManger:
 		#window
 		self.Window = display.set_mode(self.Resolution)
 
-		self.OperationsList = [0, 0, 0, 0, 0]
+		self.OperationsList = []
+		self.OperationsList += [Operations.MakeOperation(0)]
+		self.OperationsList += [Operations.MakeOperation(0)]
+		self.OperationsList += [Operations.MakeOperation(0)]
+		self.OperationsList += [Operations.MakeOperation(0)]
+		self.OperationsList += [Operations.MakeOperation(0)]
 		self.OperationSetUpIndex = None
 		self.LastUpdateTime = time.time()
 		return
@@ -383,17 +388,17 @@ class UiManger:
 				print("not vaild To Sovle Atm")
 			return
 		
-		# found, operationList = GameSolver.Solve(self.Moves, operations, self.StartingNum, self.Goal)
+		found, operationList = GameSolver.Solve(self.Moves, self.OperationsList, self.StartingNum, self.Goal)
 
-		# if self.DebugMode:
-		# 	print("===================")
-		# 	print("")
-		# 	print("Found: "+str(found))
-		# 	print("")
-		# 	print("")
+		if self.DebugMode:
+			print("===================")
+			print("")
+			print("Found: "+str(found))
+			print("")
+			print("")
 
-		# 	for operation in operationList:
-		# 		print(operation.ToString())
+			for operation in operationList:
+				print(operation.ToString())
 		return
 
 	def SetUpShared(self):
@@ -435,7 +440,7 @@ class UiManger:
 		piece = UiPiece([20, 375], [113, 100])
 		self.AddPiece(piece, False)
 
-		op = Operations.MakeOperation(self.OperationsList[0])
+		op = self.OperationsList[0]
 		piece = UiPiece([133, 375], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
@@ -448,13 +453,13 @@ class UiManger:
 		piece = UiPiece([20, 485], [113, 100])
 		self.AddPiece(piece, False)
 
-		op = Operations.MakeOperation(self.OperationsList[1])
+		op = self.OperationsList[1]
 		piece = UiPiece([133, 485], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		op = Operations.MakeOperation(self.OperationsList[2])
+		op = self.OperationsList[2]
 		piece = UiPiece([246, 485], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
@@ -469,13 +474,13 @@ class UiManger:
 		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
-		op = Operations.MakeOperation(self.OperationsList[3])
+		op = self.OperationsList[3]
 		piece = UiPiece([133, 595], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		op = Operations.MakeOperation(self.OperationsList[4])
+		op = self.OperationsList[4]
 		piece = UiPiece([246, 595], [113, 100], manger.LoadImage(op.BaseImage))
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
@@ -485,7 +490,7 @@ class UiManger:
 	
 	def SetOperation(self, gridIndex):
 		print("set SetOperation: ["+str(self.OperationSetUpIndex)+"] to " + str(gridIndex))
-		self.OperationsList[self.OperationSetUpIndex] = gridIndex
+		self.OperationsList[self.OperationSetUpIndex] = Operations.MakeOperation(gridIndex)
 
 		self.SetUpMainScreen()
 		return
@@ -496,22 +501,26 @@ class UiManger:
 		
 		self.SetUpShared()
 
-		piece = UiPiece([10, 360], [360, 360],
+		#button Grid
+		xStart = 20
+		yStart = 265
+
+		piece = UiPiece([xStart-10, yStart-10], [360, 450],
 			manger.LoadImage("Popup_BackGround"))
 		self.AddPiece(piece, False)
 
-		#button Grid
 		loop = 1
-		for y in range(3):
+		for y in range(4):
 			for x in range(3):
 				
 				op = Operations.MakeOperation(loop)
-
-				piece = UiPiece([20+x*115, 375+y*110], [110, 100],
-					manger.LoadImage(op.BaseImage))
-				piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
-				piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
-				self.AddPiece(piece, False)
+				
+				if op != None:
+					piece = UiPiece([xStart+x*115, yStart+y*110], [110, 100],
+						manger.LoadImage(op.BaseImage))
+					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
+					piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+					self.AddPiece(piece, False)
 
 
 				loop += 1
