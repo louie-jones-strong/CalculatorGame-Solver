@@ -474,6 +474,10 @@ class UiManger:
 		
 		self.SetUpShared()
 
+		piece = UiPiece([10, 360], [360, 360],
+			manger.LoadImage("Popup_BackGround"))
+		self.AddPiece(piece, False)
+
 		#button Grid
 		loop = 0
 		for y in range(3):
