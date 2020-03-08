@@ -398,6 +398,10 @@ class UiManger:
 	def SetUpShared(self):
 		self.ClearPieceList()
 
+		piece = UiPiece([55, 35], [145, 30])
+		piece.SetUpLabel("LEVEL:", 0)
+		self.AddPiece(piece, False)
+
 		piece = UiPiece([220, 30], [105, 35])
 		piece.SetUpButton(True, onClick=self.SetSolarCovered)
 		self.AddPiece(piece, False)
