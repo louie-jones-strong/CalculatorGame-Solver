@@ -37,6 +37,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.Colour = (255,255,255)
 		self.Message = None
 		self.EditableMessage = None
+		self.SelectedImage = None
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
@@ -192,6 +193,10 @@ class UiPiece:#todo make this a sprite to speed it up
 			pos = [self.Pos[0] + xOffSet, self.Pos[1] + yOffSet]
 			screen.blit(label, pos)
 
+		if self.Selectable and self.Selected:
+			if self.SelectedImage != None:
+				screen.blit(self.SelectedImage, self.Pos)
+
 
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
@@ -207,8 +212,12 @@ class UiPiece:#todo make this a sprite to speed it up
 			screen.blit(label, [self.Pos[0]+3, self.Pos[1]])
 		return
 
-	def SetUpSelect(self):
+	def SetUpSelect(self, selectedImage=None):
 		self.Selectable = True
+		self.SelectedImage = selectedImage
+
+		if self.SelectedImage != None:
+			self.SelectedImage = pygame.transform.scale(self.SelectedImage, self.Size)
 		return
 
 class UiManger:
@@ -264,7 +273,7 @@ class UiManger:
 	def AddPiece(self, piece, selectable):
 		if selectable:
 			self.Selectable += [len(self.PieceList)]
-			piece.SetUpSelect()
+			piece.SetUpSelect(self.LoadImage("Button_Selected"))
 		self.PieceList += [piece]
 		return
 
