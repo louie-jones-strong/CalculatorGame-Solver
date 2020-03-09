@@ -19,7 +19,7 @@ class Operation:
 
 def MakeOperation(opType=None):
 	if opType == None:
-		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] Insert[5] =>[6] pow[7] +/-[8] Reverse[9] Sum[10]: "))
+		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] >>[5] Insert[6] =>[7] pow[8] +/-[9] Reverse[10] Sum[11]: "))
 	
 	if opType == 0:
 		return Operation()
@@ -34,24 +34,27 @@ def MakeOperation(opType=None):
 		return Divide()
 
 	elif opType == 4:
-		return Shift()
+		return ShiftRight()
 
 	elif opType == 5:
+		return ShiftLeft()
+
+	elif opType == 6:
 		return Insert()
 	
-	elif opType == 6:
+	elif opType == 7:
 		return Translate()
 
-	elif opType == 7:
+	elif opType == 8:
 		return Pow()
 
-	elif opType == 8:
+	elif opType == 9:
 		return Flip()
 
-	elif opType == 9:
+	elif opType == 10:
 		return Reverse()
 
-	elif opType == 10:
+	elif opType == 11:
 		return Sum()
 
 	return None
@@ -127,32 +130,38 @@ class Divide(Operation):#3
 
 		return "/"+str(self.DivideAmount)
 
-class Shift(Operation):#4
+
+class ShiftRight(Operation):  # 4
 	BaseImage = "Button_Orange"
 
 	def __init__(self):
-		self.IsRightShift = True
 		return
 
-	def Setup(self, isRightShift=None):
-		if isRightShift == None:
-			isRightShift = int(input("<<[1] >>[2]: ")) == 1
-		self.IsRightShift = isRightShift
+	def Setup(self):
 		return
 
 	def DoAction(self, inputValue):
-		if self.IsRightShift:
-			return int(inputValue / 10)
-		else:
-			return inputValue * 10
+		return int(inputValue / 10)
 
 	def ToString(self):
-		if self.IsRightShift:
-			return "<<"
-		else:
-			return ">>"
+		return "<<"
 
-class Insert(Operation):#5
+class ShiftLeft(Operation):  # 5
+	BaseImage = "Button_Orange"
+
+	def __init__(self):
+		return
+
+	def Setup(self):
+		return
+
+	def DoAction(self, inputValue):
+		return inputValue * 10
+
+	def ToString(self):
+		return ">>"
+
+class Insert(Operation):#6
 	BaseImage = "Button_Purple"
 
 	def __init__(self):
@@ -171,7 +180,7 @@ class Insert(Operation):#5
 	def ToString(self):
 		return "Insert "+str(self.InsertNumber)
 
-class Translate(Operation):#6
+class Translate(Operation):#7
 	BaseImage = "Button_Orange"
 
 	def __init__(self):
@@ -199,7 +208,7 @@ class Translate(Operation):#6
 
 		return str(self.From) + "=>" + str(self.To)
 
-class Pow(Operation):#7
+class Pow(Operation):#8
 	BaseImage = "Button_Orange"
 
 	def __init__(self):
@@ -216,7 +225,7 @@ class Pow(Operation):#7
 	def ToString(self):
 		return "Pow "+str(self.PowNumber)
 
-class Flip(Operation):#8
+class Flip(Operation):#9
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -228,7 +237,7 @@ class Flip(Operation):#8
 	def ToString(self):
 		return "+/- "
 
-class Reverse(Operation):#9
+class Reverse(Operation):#10
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -243,7 +252,7 @@ class Reverse(Operation):#9
 	def ToString(self):
 		return "Reverse"
 
-class Sum(Operation):#10
+class Sum(Operation):#11
 	BaseImage = "Button_Orange"
 	
 	def Setup(self):
