@@ -1,5 +1,6 @@
 class Operation:
 	BaseImage = ""
+	NumberOfSetting = 0
 
 	def __init__(self):
 
@@ -61,6 +62,8 @@ def MakeOperation(opType=None):
 
 class Add(Operation):#1
 	BaseImage = "Button_Black"
+	NumberOfSetting = 1
+
 
 	def __init__(self):
 		self.AddAmount = 1
@@ -85,6 +88,7 @@ class Add(Operation):#1
 
 class Multiply(Operation):#2
 	BaseImage = "Button_Black"
+	NumberOfSetting = 1
 	
 	def __init__(self):
 		self.MultiplyAmount = 1
@@ -108,6 +112,7 @@ class Multiply(Operation):#2
 
 class Divide(Operation):#3
 	BaseImage = "Button_Black"
+	NumberOfSetting = 1
 
 	def __init__(self):
 		self.DivideAmount = 1
@@ -163,6 +168,7 @@ class ShiftLeft(Operation):  # 5
 
 class Insert(Operation):#6
 	BaseImage = "Button_Purple"
+	NumberOfSetting = 1
 
 	def __init__(self):
 		self.InsertNumber = 1
@@ -182,6 +188,7 @@ class Insert(Operation):#6
 
 class Translate(Operation):#7
 	BaseImage = "Button_Orange"
+	NumberOfSetting = 2
 
 	def __init__(self):
 		self.From = 1
