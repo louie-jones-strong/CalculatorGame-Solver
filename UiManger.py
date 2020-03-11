@@ -407,7 +407,7 @@ class UiManger:
 				print(operation.ToString())
 		return
 
-	def SetUpShared(self):
+	def SetUpShared(self, selectable=True):
 		self.ClearPieceList()
 
 		piece = UiPiece([55, 35], [145, 30])
@@ -425,17 +425,17 @@ class UiManger:
 		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
 		piece.SetUpLabel("Moves:", self.Moves, textUpdatedFunc=self.UpdateMovesNum)
-		self.AddPiece(piece, True)
+		self.AddPiece(piece, selectable)
 
 		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
 		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
 		piece.SetUpLabel("Goal:", self.Goal, textUpdatedFunc=self.UpdateGoalNum)
-		self.AddPiece(piece, True)
+		self.AddPiece(piece, selectable)
 
 		piece = UiPiece([38 , 180], [302, 75])
 		piece.SetUpFade(self.GetSolarCovered)
 		piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
-		self.AddPiece(piece, True)
+		self.AddPiece(piece, selectable)
 		return
 
 	def SetUpMainScreen(self):
@@ -498,14 +498,14 @@ class UiManger:
 		print("set SetOperation: ["+str(self.OperationSetUpIndex)+"] to " + str(gridIndex))
 		self.OperationsList[self.OperationSetUpIndex] = Operations.MakeOperation(gridIndex)
 
-		self.SetUpMainScreen()
+		self.SetUpOperationInfoScreen()
 		return
 
 	def SetUpOperationSelectScreen(self, gridIndex):
 		print("Setup Operation Screen index: " + str(gridIndex))
 		self.OperationSetUpIndex = gridIndex
 		
-		self.SetUpShared()
+		self.SetUpShared(False)
 
 		#button Grid
 		xStart = 20
@@ -530,6 +530,29 @@ class UiManger:
 
 
 				loop += 1
+		return
+
+	def SetUpOperationInfoScreen(self):
+		if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 0:
+			self.SetUpMainScreen()
+
+		else:
+			self.SetUpShared(False)
+
+			piece = UiPiece([10, 480], [360, 220],
+							manger.LoadImage("Popup_BackGround"))
+			self.AddPiece(piece, False)
+
+			piece = UiPiece([20, 485], [110, 100],
+							manger.LoadImage("Button"))
+			piece.SetUpLabel("", 0, xLabelAnchor=0.5, yLabelAnchor=0.5)
+			self.AddPiece(piece, True)
+
+			if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 2:
+				piece = UiPiece([245, 485], [110, 100],
+                                    manger.LoadImage("Button"))
+				piece.SetUpLabel("", 0, xLabelAnchor=0.5, yLabelAnchor=0.5)
+				self.AddPiece(piece, True)
 		return
 
 
