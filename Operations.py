@@ -1,9 +1,12 @@
 class Operation:
 	BaseImage = ""
 	NumberOfSetting = 0
+	Setting = []
 
 	def __init__(self):
-
+		self.Setting = []
+		for loop in range(self.NumberOfSetting):
+			self.Setting += [1]
 		return
 
 	def Setup(self):
@@ -17,6 +20,17 @@ class Operation:
 	def ToString(self):
 
 		return "?"
+
+	def GetSetting(self, index):
+		if len(self.Setting) > index and index >= 0:
+			return self.Setting[index]
+		return 0
+
+	def SetSetting(self, index, value):
+		if len(self.Setting) > index and index >= 0:
+			self.Setting[index] = value
+			
+		return
 
 def MakeOperation(opType=None):
 	if opType == None:
@@ -64,83 +78,67 @@ class Add(Operation):#1
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
-
-	def __init__(self):
-		self.AddAmount = 1
-		return
-
 	def Setup(self, addAmount=None):
 		if addAmount == None:
 			addAmount = int(input("Add Value: "))
 
-		self.AddAmount = addAmount
+		self.Setting[0] = addAmount
 		return
 
 	def DoAction(self, inputValue):
 
-		return inputValue + self.AddAmount
+		return inputValue + self.Setting[0]
 
 	def ToString(self):
-		if self.AddAmount >= 0:
-			return "+"+str(self.AddAmount)
+		if self.Setting[0] >= 0:
+			return "+"+str(self.Setting[0])
 		else:
-			return str(self.AddAmount)
+			return str(self.Setting[0])
 
 class Multiply(Operation):#2
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
-	
-	def __init__(self):
-		self.MultiplyAmount = 1
-		return
 
 	def Setup(self, multiplyAmount=None):
 
 		if multiplyAmount == None:
 			multiplyAmount = int(input("multiply Value: "))
 
-		self.MultiplyAmount = multiplyAmount
+		self.Setting[0] = multiplyAmount
 		return
 
 	def DoAction(self, inputValue):
 
-		return inputValue * self.MultiplyAmount
+		return inputValue * self.Setting[0]
 
 	def ToString(self):
 
-		return "X"+str(self.MultiplyAmount)
+		return "X"+str(self.Setting[0])
 
 class Divide(Operation):#3
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
-	def __init__(self):
-		self.DivideAmount = 1
-		return
-
 	def Setup(self, divideAmount=None):
 		if divideAmount == None:
 			divideAmount = int(input("Divide Value: "))
 
-		self.DivideAmount = divideAmount
+		self.Setting[0] = divideAmount
 		return
 
 	def DoAction(self, inputValue):
-		output = inputValue / self.DivideAmount
+		output = inputValue / self.Setting[0]
 		if int(output) == output:
 			return int(output)
 		return output
 
 	def ToString(self):
 
-		return "/"+str(self.DivideAmount)
+		return "/"+str(self.Setting[0])
 
 
 class ShiftRight(Operation):  # 4
 	BaseImage = "Button_Orange"
-
-	def __init__(self):
-		return
 
 	def Setup(self):
 		return
@@ -153,9 +151,6 @@ class ShiftRight(Operation):  # 4
 
 class ShiftLeft(Operation):  # 5
 	BaseImage = "Button_Orange"
-
-	def __init__(self):
-		return
 
 	def Setup(self):
 		return
@@ -170,30 +165,21 @@ class Insert(Operation):#6
 	BaseImage = "Button_Purple"
 	NumberOfSetting = 1
 
-	def __init__(self):
-		self.InsertNumber = 1
-		return
-
 	def Setup(self, insertNumber=None):
 		if insertNumber == None:
 			insertNumber = int(input("Insert Number: "))
-		self.InsertNumber = insertNumber
+		self.Setting[0] = insertNumber
 		return
 
 	def DoAction(self, inputValue):
-		return int(str(inputValue) + str(self.InsertNumber))
+		return int(str(inputValue) + str(self.Setting[0]))
 
 	def ToString(self):
-		return "Insert "+str(self.InsertNumber)
+		return "Insert "+str(self.Setting[0])
 
 class Translate(Operation):#7
 	BaseImage = "Button_Orange"
 	NumberOfSetting = 2
-
-	def __init__(self):
-		self.From = 1
-		self.To = 1
-		return
 
 	def Setup(self, fromNum=None, toNum=None):
 
@@ -203,40 +189,29 @@ class Translate(Operation):#7
 		if toNum == None:
 			toNum = int(input("To: "))
 
-		self.From = fromNum
-		self.To = toNum
+		self.Setting[0] = fromNum
+		self.Setting[1] = toNum
 		return
 
 	def DoAction(self, inputValue):
 
-		return int(str(inputValue).replace(str(self.From), str(self.To)))
+		return int(str(inputValue).replace(str(self.Setting[0]), str(self.Setting[1])))
 	
 	def ToString(self):
 
-		return str(self.From) + "=>" + str(self.To)
+		return str(self.Setting[0]) + "=>" + str(self.Setting[1])
 
 class Pow(Operation):#8
 	BaseImage = "Button_Orange"
 
-	def __init__(self):
-		self.PowNumber = 2
-		return
-
-	def Setup(self):
-		self.PowNumber = 2#int(input("pow Number: "))
-		return
-
 	def DoAction(self, inputValue):
-		return inputValue ** self.PowNumber
+		return inputValue ** 2
 
 	def ToString(self):
-		return "Pow "+str(self.PowNumber)
+		return "Pow "+str(2)
 
 class Flip(Operation):#9
 	BaseImage = "Button_Orange"
-
-	def Setup(self):
-		return
 
 	def DoAction(self, inputValue):
 		return inputValue * -1
@@ -246,9 +221,6 @@ class Flip(Operation):#9
 
 class Reverse(Operation):#10
 	BaseImage = "Button_Orange"
-
-	def Setup(self):
-		return
 
 	def DoAction(self, inputValue):
 		if inputValue > 0:
@@ -261,9 +233,6 @@ class Reverse(Operation):#10
 
 class Sum(Operation):#11
 	BaseImage = "Button_Orange"
-	
-	def Setup(self):
-		return
 
 	def DoAction(self, inputValue):
 
