@@ -59,7 +59,7 @@ class UiPiece:#todo make this a sprite to speed it up
 
 	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
 		self.Message = str(message)
-		self.EditableMessage = str(editableMessage)
+		self.EditableMessage = editableMessage
 		self.EditableIsNegtive = False
 		self.Colour = colour
 		self.XLabelAnchor = xLabelAnchor
@@ -125,16 +125,21 @@ class UiPiece:#todo make this a sprite to speed it up
 					text += ", "
 
 					if event.key == pygame.K_BACKSPACE:
-						self.EditableMessage = self.EditableMessage[:-1]
+						self.EditableMessage = int(self.EditableMessage/10)
 
 					elif event.unicode == "-":
 						self.EditableIsNegtive = not self.EditableIsNegtive
 
 					else:
-						self.EditableMessage += event.unicode
+						try:
+							num = int(event.unicode)
+							self.EditableMessage *= 10
+							self.EditableMessage += int(event.unicode)
+						except Exception as e:
+							pass
 					
 					if self.EditableIsNegtive:
-						print("-"+self.EditableMessage)
+						print("-"+str(self.EditableMessage))
 					else:
 						print(self.EditableMessage)
 
