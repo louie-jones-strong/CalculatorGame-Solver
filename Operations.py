@@ -6,7 +6,7 @@ class Operation:
 	def __init__(self):
 		self.Setting = []
 		for loop in range(self.NumberOfSetting):
-			self.Setting += [1]
+			self.Setting += [0]
 		return
 
 	def Setup(self):
