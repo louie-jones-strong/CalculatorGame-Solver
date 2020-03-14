@@ -138,13 +138,15 @@ class UiPiece:#todo make this a sprite to speed it up
 						except Exception as e:
 							pass
 					
+
+					number = self.EditableMessage
 					if self.EditableIsNegtive:
-						print("-"+str(self.EditableMessage))
-					else:
-						print(self.EditableMessage)
+						number *= -1
+					
+					print(number)
 
 					if self.TextUpdatedFunc != None:
-						self.TextUpdatedFunc(self.EditableMessage)
+						self.TextUpdatedFunc(number)
 
 			if len(text) > len("keys Pressed: ") and debugMode:
 				print(text)
