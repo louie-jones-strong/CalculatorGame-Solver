@@ -279,7 +279,7 @@ class UiManger:
 		self.Resolution = self.BackGround.get_size()
 
 		#window
-		self.Window = display.set_mode(self.Resolution)
+		self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)#todo  add pygame.NOFRAME
 
 		pygame.display.set_icon(self.LoadImage("Icon"))
 
@@ -312,13 +312,31 @@ class UiManger:
 	def Update(self):
 		if not self.Running:
 			return
-
 		eventList = []
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.Quit()
 				return
-			
+
+			elif event.type == pygame.VIDEORESIZE:
+				windowSize = [event.w, event.h]
+				if windowSize != self.Resolution:
+					xRatio = windowSize[0] / self.Resolution[0]
+					yRatio = windowSize[1] / self.Resolution[1]
+
+					if xRatio < yRatio:
+						ratio = xRatio
+					else:
+						ratio = yRatio
+
+					self.Resolution = [int(self.Resolution[0] * ratio), int(self.Resolution[1] * ratio)]
+					self.ScaleFactor *= ratio
+					self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)
+					self.BackGround = self.LoadImage("BackGround", self.ScaleFactor)
+
+					if self.DebugMode:
+						print("reSized to: "+str(self.Resolution))
+
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_RETURN:
 					piece = self.PieceList[self.Selectable[self.SelectIndex]]
