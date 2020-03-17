@@ -567,15 +567,6 @@ class UiManger:
 			self.AddPiece(piece, False)
 
 
-
-			piece = UiPiece([250, 380], [110, 100],
-							manger.LoadImage("Button"))
-			piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"),
-					onClick=self.SetUpMainScreen)
-			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
-			self.AddPiece(piece, True)
-
 			#row two
 			piece = UiPiece([20, 485], [110, 100],
 							manger.LoadImage("Button"))
@@ -592,6 +583,16 @@ class UiManger:
                                     manger.LoadImage("Button"))
 				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
 				self.AddPiece(piece, True)
+
+
+			#finsh button
+			piece = UiPiece([250, 380], [110, 100],
+							manger.LoadImage("Button"))
+			piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
+                    manger.LoadImage("Button_Pressed"),
+					onClick=self.SetUpMainScreen)
+			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+			self.AddPiece(piece, True)
 		return
 
 
