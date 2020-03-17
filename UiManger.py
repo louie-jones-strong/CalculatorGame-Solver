@@ -39,17 +39,19 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.Message = None
 		self.EditableMessage = None
 		self.SelectedImage = None
+		self.EnterCanClick = False
 
 		if self.NormalImage != None:
 			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
 		return
 
-	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None):
+	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
 		self.ButtonHoldAllowed = buttonHoldAllowed
 		self.HoverImage = hoverImage
 		self.PressImage = pressImage
 		self.OnClick = onClick
 		self.OnClickData = onClickData
+		self.EnterCanClick = enterCanClick
 
 		if self.HoverImage != None:
 			self.HoverImage = pygame.transform.scale(self.HoverImage, self.Size)
@@ -86,11 +88,7 @@ class UiPiece:#todo make this a sprite to speed it up
 		if (mouseOverButton and 
 			((self.LastFrameMouseDown and not mouseDown) or
 			(mouseDown and self.ButtonHoldAllowed))):
-			if self.OnClick != None:
-				if self.OnClickData == None:
-					self.OnClick()
-				else:
-					self.OnClick(self.OnClickData)
+			self.TriggerOnClick(True)
 
 		if mouseOverButton and mouseDown:
 			self.State = UiPiece.eState.press
@@ -228,6 +226,15 @@ class UiPiece:#todo make this a sprite to speed it up
 			self.SelectedImage = pygame.transform.scale(self.SelectedImage, self.Size)
 		return
 
+	def TriggerOnClick(self, fromMouse):
+		if self.EnterCanClick or fromMouse:
+			if self.OnClick != None:
+				if self.OnClickData == None:
+					self.OnClick()
+				else:
+					self.OnClick(self.OnClickData)
+		return
+
 class UiManger:
 	ImageCache = {}
 	PieceList = []
@@ -301,7 +308,7 @@ class UiManger:
 		if not self.Running:
 			return
 
-		eventList =[]
+		eventList = []
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.Quit()
@@ -309,6 +316,9 @@ class UiManger:
 			
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_RETURN:
+					piece = self.PieceList[self.Selectable[self.SelectIndex]]
+					piece.TriggerOnClick(False)
+
 					self.SelectIndex += 1
 					if self.SelectIndex >= len(self.Selectable):
 						self.SelectIndex = 0
@@ -484,7 +494,8 @@ class UiManger:
                   manger.LoadImage("Button"))
 		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
                     manger.LoadImage("Button_Pressed"),
-					onClick=self.ClickedSolve)
+					onClick=self.ClickedSolve,
+					enterCanClick=True)
 		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
@@ -590,7 +601,8 @@ class UiManger:
 							manger.LoadImage("Button"))
 			piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
                     manger.LoadImage("Button_Pressed"),
-					onClick=self.SetUpMainScreen)
+					onClick=self.SetUpMainScreen,
+					enterCanClick=True)
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			self.AddPiece(piece, True)
 		return
