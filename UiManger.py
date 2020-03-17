@@ -274,6 +274,7 @@ class UiManger:
 		self.Goal = 0
 		self.Moves = 0
 
+		pygame.display.set_caption("Calculator: The Game")
 		self.BackGround = self.LoadImage("BackGround", 0.35)
 		self.Resolution = self.BackGround.get_size()
 
