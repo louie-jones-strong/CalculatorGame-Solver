@@ -11,17 +11,10 @@ import Operations
 class ImageDrawer:
 	RawImageCache = {}
 	SizedImageCache = {}
-
-	def SetScaleFactor(self, scaleFactor):
-		self.ScaleFactor = scaleFactor
-		return
 	
 	def GetSizedImage(self, imageName, size):
 		
-		newSize = [int(size[0]*self.ScaleFactor),
-				int(size[1]*self.ScaleFactor)]
-
-		sizedKey = imageName + str(newSize[0])+","+str(newSize[1])
+		sizedKey = imageName + str(size[0])+","+str(size[1])
 
 		if sizedKey not in self.SizedImageCache:
 
@@ -29,8 +22,8 @@ class ImageDrawer:
 
 			x, y = image.get_size()
 
-			if x != newSize[0] or y != newSize[1]:
-				image = pygame.transform.scale(image, newSize)
+			if x != size[0] or y != size[1]:
+				image = pygame.transform.scale(image, size)
 
 			self.SizedImageCache[sizedKey] = image
 		return self.SizedImageCache[sizedKey]
@@ -55,12 +48,9 @@ class ImageDrawer:
 		if imageName == None:
 			return False
 
-		newPos = [int(pos[0]*self.ScaleFactor),
-				int(pos[1]*self.ScaleFactor)]
-
 		sizedImage = self.GetSizedImage(imageName, size)
 
-		surface.blit(sizedImage, newPos)
+		surface.blit(sizedImage, pos)
 
 		return surface
 
@@ -77,8 +67,8 @@ class UiPiece:
 		self.Drawer = imageDrawer
 		self.State = UiPiece.eState.Normal
 		self.LastState = self.State
-		self.Pos = pos
-		self.Size = size
+		self.BasePos = pos
+		self.BaseSize = size
 		self.NormalImage = normalImage
 		self.HoverImage = None
 		self.PressImage = None
@@ -124,8 +114,13 @@ class UiPiece:
 		#todo make a fade time
 		return
 		
-	def Update(self, screen, debugMode, deltaTime):
+	def Update(self, screen, debugMode, deltaTime, scaleFactor):
 		self.TimeInState += deltaTime
+
+		self.Pos = [int(self.BasePos[0]*scaleFactor),
+				int(self.BasePos[1]*scaleFactor)]
+		self.Size = [int(self.BaseSize[0]*scaleFactor),
+				int(self.BaseSize[1]*scaleFactor)]
 
 		pos = mouse.get_pos()
 		mouseDown = mouse.get_pressed()[0]
@@ -290,7 +285,6 @@ class UiManger:
 		self.Moves = 0
 		self.ScaleFactor = 1
 		self.Drawer = ImageDrawer()
-		self.Drawer.SetScaleFactor(self.ScaleFactor)
 		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
 		pygame.display.set_caption("Calculator: The Game")
 
@@ -344,7 +338,6 @@ class UiManger:
 
 					self.Resolution = [int(self.Resolution[0] * ratio), int(self.Resolution[1] * ratio)]
 					self.ScaleFactor *= ratio
-					self.Drawer.SetScaleFactor(self.ScaleFactor)
 					self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)
 
 					if self.DebugMode:
@@ -369,11 +362,9 @@ class UiManger:
 
 		deltaTime = self.LastUpdateTime - time.time()
 
-		self.Drawer.DrawImage(self.Window, "BackGround", [0,0], [378, 704])
-
 		loop = 0
 		for piece in self.PieceList:
-			if piece.Update(self.Window, self.DebugMode, deltaTime):
+			if piece.Update(self.Window, self.DebugMode, deltaTime, self.ScaleFactor):
 				index = self.Selectable.index(loop)
 				if index != self.SelectIndex:
 					self.SelectIndex = index
@@ -461,6 +452,9 @@ class UiManger:
 
 	def SetUpShared(self, selectable=True, clearSelected=True):
 		self.ClearPieceList(clearSelected)
+
+		piece = UiPiece(self.Drawer, [0, 0], [378, 704], "BackGround")
+		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [55, 35], [145, 30])
 		piece.SetUpLabel("LEVEL:", 0)
