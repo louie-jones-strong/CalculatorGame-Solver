@@ -52,7 +52,7 @@ class ImageDrawer:
 
 		surface.blit(sizedImage, pos)
 
-		return surface
+		return True
 
 class UiPiece:
 
