@@ -85,7 +85,6 @@ class UiPiece:
 		self.Colour = (255,255,255)
 		self.Message = None
 		self.EditableMessage = None
-		self.SelectedImage = None
 		self.EnterCanClick = False
 		return
 
@@ -234,14 +233,15 @@ class UiPiece:
 			pos = [self.Pos[0] + xOffSet, self.Pos[1] + yOffSet]
 			screen.blit(label, pos)
 
-		if self.Selectable and self.Selected:
-			self.Drawer.DrawImage(screen, self.SelectedImage, self.Pos, self.Size)
-
-
 		if debugMode:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
 			draw.rect(screen, [255, 0, 0], rect, 2)
 
+		if self.Selectable and self.Selected:
+			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
+			draw.rect(screen, [255, 255, 255], rect, 2)
+
+		if debugMode:
 			font = pygame.font.SysFont("monospace", 10)
 
 			text = self.State.name 
@@ -252,9 +252,8 @@ class UiPiece:
 			screen.blit(label, [self.Pos[0]+3, self.Pos[1]])
 		return
 
-	def SetUpSelect(self, selectedImage=None):
+	def SetUpSelect(self):
 		self.Selectable = True
-		self.SelectedImage = selectedImage
 		return
 
 	def TriggerOnClick(self, fromMouse):
@@ -312,7 +311,7 @@ class UiManger:
 	def AddPiece(self, piece, selectable):
 		if selectable:
 			self.Selectable += [len(self.PieceList)]
-			piece.SetUpSelect("Button_Selected")
+			piece.SetUpSelect()
 		self.PieceList += [piece]
 		return
 
