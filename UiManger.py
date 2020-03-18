@@ -8,7 +8,63 @@ import traceback
 import GameSolver
 import Operations
 
-class UiPiece:#todo make this a sprite to speed it up  
+class ImageDrawer:
+	RawImageCache = {}
+	SizedImageCache = {}
+
+	def SetScaleFactor(self, scaleFactor):
+		self.ScaleFactor = scaleFactor
+		return
+	
+	def GetSizedImage(self, imageName, size):
+		
+		newSize = [int(size[0]*self.ScaleFactor),
+				int(size[1]*self.ScaleFactor)]
+
+		sizedKey = imageName + str(newSize[0])+","+str(newSize[1])
+
+		if sizedKey not in self.SizedImageCache:
+
+			image = self.GetRawImage(imageName)
+
+			x, y = image.get_size()
+
+			if x != newSize[0] or y != newSize[1]:
+				image = pygame.transform.scale(image, newSize)
+
+			self.SizedImageCache[sizedKey] = image
+		return self.SizedImageCache[sizedKey]
+
+	def GetRawImage(self, imageName):
+		if imageName not in self.RawImageCache:
+			path = os.path.join("Images", str(imageName) + ".png")
+
+			if os.path.isfile(path):
+				image = pygame.image.load(path)
+			else:
+				image = pygame.Surface((1, 1))
+				image.fill([0,0,0,0])
+				image.set_alpha(0)
+
+			self.RawImageCache[imageName] = image
+
+		return self.RawImageCache[imageName]
+	
+	def DrawImage(self, surface, imageName, pos, size):
+		
+		if imageName == None:
+			return False
+
+		newPos = [int(pos[0]*self.ScaleFactor),
+				int(pos[1]*self.ScaleFactor)]
+
+		sizedImage = self.GetSizedImage(imageName, size)
+
+		surface.blit(sizedImage, newPos)
+
+		return surface
+
+class UiPiece:
 
 	class eState(Enum):
 		Normal = 0
@@ -17,7 +73,8 @@ class UiPiece:#todo make this a sprite to speed it up
 		Fade = 3
 
 
-	def __init__(self, pos, size, normalImage=None):
+	def __init__(self, imageDrawer, pos, size, normalImage=None):
+		self.Drawer = imageDrawer
 		self.State = UiPiece.eState.Normal
 		self.LastState = self.State
 		self.Pos = pos
@@ -40,9 +97,6 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.EditableMessage = None
 		self.SelectedImage = None
 		self.EnterCanClick = False
-
-		if self.NormalImage != None:
-			self.NormalImage = pygame.transform.scale(self.NormalImage, self.Size)
 		return
 
 	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
@@ -52,11 +106,6 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.OnClick = onClick
 		self.OnClickData = onClickData
 		self.EnterCanClick = enterCanClick
-
-		if self.HoverImage != None:
-			self.HoverImage = pygame.transform.scale(self.HoverImage, self.Size)
-		if self.PressImage != None:
-			self.PressImage = pygame.transform.scale(self.PressImage, self.Size)
 		return
 
 	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
@@ -73,8 +122,6 @@ class UiPiece:#todo make this a sprite to speed it up
 		self.FadedImage = fadedImage
 		self.GetIsFade = getIsFade
 		#todo make a fade time
-		if self.FadedImage != None:
-			self.FadedImage = pygame.transform.scale(self.FadedImage, self.Size)
 		return
 		
 	def Update(self, screen, debugMode, deltaTime):
@@ -152,26 +199,19 @@ class UiPiece:#todo make this a sprite to speed it up
 
 	def Draw(self, screen, debugMode):
 		if self.State == UiPiece.eState.Normal:
-			if self.NormalImage != None:
-				screen.blit(self.NormalImage, self.Pos)
+			self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 		
 		elif self.State == UiPiece.eState.Hover:
-			if self.HoverImage != None:
-				screen.blit(self.HoverImage, self.Pos)
-			elif self.NormalImage != None:
-				screen.blit(self.NormalImage, self.Pos)
+			if not self.Drawer.DrawImage(screen, self.HoverImage, self.Pos, self.Size):
+				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 
 		elif self.State == UiPiece.eState.press:
-			if self.PressImage != None:
-				screen.blit(self.PressImage, self.Pos)
-			elif self.NormalImage != None:
-				screen.blit(self.NormalImage, self.Pos)
+			if not self.Drawer.DrawImage(screen, self.PressImage, self.Pos, self.Size):
+				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 
 		elif self.State == UiPiece.eState.Fade:
-			if self.FadedImage != None:
-				screen.blit(self.FadedImage, self.Pos)
-			elif self.NormalImage != None:
-				screen.blit(self.NormalImage, self.Pos)
+			if not self.Drawer.DrawImage(screen, self.FadedImage, self.Pos, self.Size):
+				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 
 		if self.State != UiPiece.eState.Fade and self.Message != None:
 			font = pygame.font.SysFont("monospace", 50)
@@ -200,8 +240,7 @@ class UiPiece:#todo make this a sprite to speed it up
 			screen.blit(label, pos)
 
 		if self.Selectable and self.Selected:
-			if self.SelectedImage != None:
-				screen.blit(self.SelectedImage, self.Pos)
+			self.Drawer.DrawImage(screen, self.SelectedImage, self.Pos, self.Size)
 
 
 		if debugMode:
@@ -221,9 +260,6 @@ class UiPiece:#todo make this a sprite to speed it up
 	def SetUpSelect(self, selectedImage=None):
 		self.Selectable = True
 		self.SelectedImage = selectedImage
-
-		if self.SelectedImage != None:
-			self.SelectedImage = pygame.transform.scale(self.SelectedImage, self.Size)
 		return
 
 	def TriggerOnClick(self, fromMouse):
@@ -236,7 +272,6 @@ class UiPiece:#todo make this a sprite to speed it up
 		return
 
 class UiManger:
-	ImageCache = {}
 	PieceList = []
 	Selectable = []
 	DebugMode = False
@@ -244,46 +279,24 @@ class UiManger:
 	MouseStartPos = None
 	SelectIndex = 0
 
-	def LoadImage(self, imageName, scaleFactor=1):
-		if imageName not in self.ImageCache:
-			path = os.path.join("Images", str(imageName)+".png")
-
-			if os.path.isfile(path):
-				self.ImageCache[imageName] = pygame.image.load(path)
-			else:
-				self.ImageCache[imageName] = pygame.Surface((1, 1))
-				self.ImageCache[imageName].fill([0,0,0,0])
-				self.ImageCache[imageName].set_alpha(0)
-
-		image = self.ImageCache[imageName]
-		if scaleFactor != 1:
-			x, y = image.get_size()
-			x = int(x*scaleFactor)
-			y = int(y*scaleFactor)
-			image = pygame.transform.scale(image, (x, y))
-
-		return image
-
 	def __init__(self):
 		self.Running = True
-		self.LastEnterDown = False
+
 		display.init()
 		pygame.font.init()
 		pygame.init()
 		self.StartingNum = 0
 		self.Goal = 0
 		self.Moves = 0
-		self.ScaleFactor = 0.35
+		self.ScaleFactor = 1
+		self.Drawer = ImageDrawer()
+		self.Drawer.SetScaleFactor(self.ScaleFactor)
+		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
+		pygame.display.set_caption("Calculator: The Game")
 
-		self.BackGround = self.LoadImage("BackGround", self.ScaleFactor)
-		self.Resolution = self.BackGround.get_size()
-
+		self.Resolution = [378, 704]
 		#window
 		self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)#todo  add pygame.NOFRAME
-
-		pygame.display.set_icon(self.LoadImage("Icon"))
-
-		pygame.display.set_caption("Calculator: The Game")
 
 		self.OperationsList = []
 		self.OperationsList += [Operations.MakeOperation(0)]
@@ -305,7 +318,7 @@ class UiManger:
 	def AddPiece(self, piece, selectable):
 		if selectable:
 			self.Selectable += [len(self.PieceList)]
-			piece.SetUpSelect(self.LoadImage("Button_Selected"))
+			piece.SetUpSelect("Button_Selected")
 		self.PieceList += [piece]
 		return
 
@@ -331,8 +344,8 @@ class UiManger:
 
 					self.Resolution = [int(self.Resolution[0] * ratio), int(self.Resolution[1] * ratio)]
 					self.ScaleFactor *= ratio
+					self.Drawer.SetScaleFactor(self.ScaleFactor)
 					self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)
-					self.BackGround = self.LoadImage("BackGround", self.ScaleFactor)
 
 					if self.DebugMode:
 						print("reSized to: "+str(self.Resolution))
@@ -356,9 +369,7 @@ class UiManger:
 
 		deltaTime = self.LastUpdateTime - time.time()
 
-		self.Window.blit(self.BackGround, [0, 0])
-
-		self.LastEnterDown = keyboard.is_pressed("enter")
+		self.Drawer.DrawImage(self.Window, "BackGround", [0,0], [378, 704])
 
 		loop = 0
 		for piece in self.PieceList:
@@ -451,29 +462,29 @@ class UiManger:
 	def SetUpShared(self, selectable=True, clearSelected=True):
 		self.ClearPieceList(clearSelected)
 
-		piece = UiPiece([55, 35], [145, 30])
+		piece = UiPiece(self.Drawer, [55, 35], [145, 30])
 		piece.SetUpLabel("LEVEL:", 0)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([220, 30], [105, 35])
+		piece = UiPiece(self.Drawer, [220, 30], [105, 35])
 		piece.SetUpButton(True, onClick=self.SetSolarCovered)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([40, 90], [90, 50], manger.LoadImage("FunGuy_Normal"))
-		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("FunGuy_Faded"))
+		piece = UiPiece(self.Drawer, [40, 90], [90, 50], "FunGuy_Normal")
+		piece.SetUpFade(self.GetSolarCovered, "FunGuy_Faded")
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([140, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
-		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
+		piece = UiPiece(self.Drawer, [140, 90], [90, 50], "TopStats_Normal")
+		piece.SetUpFade(self.GetSolarCovered, "TopStats_Faded")
 		piece.SetUpLabel("Moves:", self.Moves, textUpdatedFunc=self.UpdateMovesNum)
 		self.AddPiece(piece, selectable)
 
-		piece = UiPiece([245, 90], [90, 50], manger.LoadImage("TopStats_Normal"))
-		piece.SetUpFade(self.GetSolarCovered, manger.LoadImage("TopStats_Faded"))
+		piece = UiPiece(self.Drawer, [245, 90], [90, 50], "TopStats_Normal")
+		piece.SetUpFade(self.GetSolarCovered, "TopStats_Faded")
 		piece.SetUpLabel("Goal:", self.Goal, textUpdatedFunc=self.UpdateGoalNum)
 		self.AddPiece(piece, selectable)
 
-		piece = UiPiece([38 , 180], [302, 75])
+		piece = UiPiece(self.Drawer, [38 , 180], [302, 75])
 		piece.SetUpFade(self.GetSolarCovered)
 		piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
 		self.AddPiece(piece, selectable)
@@ -484,52 +495,52 @@ class UiManger:
 		self.SetUpShared()
 		#button Grid
 		#row 1
-		piece = UiPiece([20, 375], [113, 100])
+		piece = UiPiece(self.Drawer, [20, 375], [113, 100])
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[0]
-		piece = UiPiece([133, 375], [113, 100], manger.LoadImage(op.BaseImage))
+		piece = UiPiece(self.Drawer, [133, 375], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece([246, 375], [113, 100])
+		piece = UiPiece(self.Drawer, [246, 375], [113, 100])
 		self.AddPiece(piece, False)
 
 		#row 2
-		piece = UiPiece([20, 485], [113, 100])
+		piece = UiPiece(self.Drawer, [20, 485], [113, 100])
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[1]
-		piece = UiPiece([133, 485], [113, 100], manger.LoadImage(op.BaseImage))
+		piece = UiPiece(self.Drawer, [133, 485], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[2]
-		piece = UiPiece([246, 485], [113, 100], manger.LoadImage(op.BaseImage))
+		piece = UiPiece(self.Drawer, [246, 485], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		#row 3
-		piece = UiPiece([20, 595], [113, 100],
-                  manger.LoadImage("Button"))
-		piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"),
+		piece = UiPiece(self.Drawer, [20, 595], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
 					onClick=self.ClickedSolve,
 					enterCanClick=True)
 		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
 		op = self.OperationsList[3]
-		piece = UiPiece([133, 595], [113, 100], manger.LoadImage(op.BaseImage))
+		piece = UiPiece(self.Drawer, [133, 595], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[4]
-		piece = UiPiece([246, 595], [113, 100], manger.LoadImage(op.BaseImage))
+		piece = UiPiece(self.Drawer, [246, 595], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
@@ -553,8 +564,8 @@ class UiManger:
 		xStart = 20
 		yStart = 265
 
-		piece = UiPiece([xStart-10, yStart-10], [360, 450],
-			manger.LoadImage("Popup_BackGround"))
+		piece = UiPiece(self.Drawer, [xStart-10, yStart-10], [360, 450],
+			"Popup_BackGround")
 		self.AddPiece(piece, False)
 
 		loop = 1
@@ -564,8 +575,8 @@ class UiManger:
 				op = Operations.MakeOperation(loop)
 				
 				if op != None:
-					piece = UiPiece([xStart+x*115, yStart+y*110], [110, 100],
-						manger.LoadImage(op.BaseImage))
+					piece = UiPiece(self.Drawer, [xStart+x*115, yStart+y*110], [110, 100],
+						op.BaseImage)
 					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
 					piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					self.AddPiece(piece, False)
@@ -596,34 +607,34 @@ class UiManger:
 			op = self.OperationsList[self.OperationSetUpIndex]
 
 			#backGround
-			piece = UiPiece([10, 370], [360, 220],
-							manger.LoadImage("Popup_BackGround"))
+			piece = UiPiece(self.Drawer, [10, 370], [360, 220],
+							"Popup_BackGround")
 			self.AddPiece(piece, False)
 
 
 			#row two
-			piece = UiPiece([20, 485], [110, 100],
-							manger.LoadImage("Button"))
+			piece = UiPiece(self.Drawer, [20, 485], [110, 100],
+							"Button")
 			piece.SetUpLabel("", op.GetSetting(0), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting1)
 			self.AddPiece(piece, True)
 
-			piece = UiPiece([135, 485], [110, 100],
-							manger.LoadImage(op.BaseImage))
+			piece = UiPiece(self.Drawer, [135, 485], [110, 100],
+							op.BaseImage)
 			piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			self.AddPiece(piece, False)
 			
 			if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 2:
-				piece = UiPiece([250, 485], [110, 100],
-                                    manger.LoadImage("Button"))
+				piece = UiPiece(self.Drawer, [250, 485], [110, 100],
+                                    "Button")
 				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
 				self.AddPiece(piece, True)
 
 
 			#finsh button
-			piece = UiPiece([250, 380], [110, 100],
-							manger.LoadImage("Button"))
-			piece.SetUpButton(False, manger.LoadImage("Button_Hover"),
-                    manger.LoadImage("Button_Pressed"),
+			piece = UiPiece(self.Drawer, [250, 380], [110, 100],
+							"Button")
+			piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
 					onClick=self.SetUpMainScreen,
 					enterCanClick=True)
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
