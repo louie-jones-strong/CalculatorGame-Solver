@@ -279,9 +279,6 @@ class UiManger:
 		display.init()
 		pygame.font.init()
 		pygame.init()
-		self.StartingNum = 0
-		self.Goal = 0
-		self.Moves = 0
 		self.ScaleFactor = 1
 		self.Drawer = ImageDrawer()
 		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
@@ -291,12 +288,8 @@ class UiManger:
 		#window
 		self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)#todo  add pygame.NOFRAME
 
-		self.OperationsList = []
-		self.OperationsList += [Operations.MakeOperation(0)]
-		self.OperationsList += [Operations.MakeOperation(0)]
-		self.OperationsList += [Operations.MakeOperation(0)]
-		self.OperationsList += [Operations.MakeOperation(0)]
-		self.OperationsList += [Operations.MakeOperation(0)]
+		self.ClearClicked()
+
 		self.OperationSetUpIndex = None
 		self.LastUpdateTime = time.time()
 		return
@@ -445,8 +438,28 @@ class UiManger:
 			print("")
 			print("")
 
-			for operation in operationList:
-				print(operation.ToString())
+			
+			for loop in range(len(operationList)):
+				op = operationList[loop]
+				print(op.ToString())
+
+				if len(self.SolveOrder[opIndex]) > 0:
+					self.SolveOrder[opIndex] += ", "
+				self.SolveOrder[opIndex] += str(loop+1)
+
+		return
+
+	def ClearClicked(self):
+		self.StartingNum = 0
+		self.Goal = 0
+		self.Moves = 0
+		self.OperationsList = []
+		self.SolveOrder = []
+		for loop in range(5):
+			self.OperationsList += [Operations.MakeOperation(0)]
+			self.SolveOrder += [""]
+
+		self.SetUpMainScreen()
 		return
 
 	def SetUpShared(self, selectable=True, clearSelected=True):
@@ -497,7 +510,11 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [246, 375], [113, 100])
+		piece = UiPiece(self.Drawer, [246, 375], [113, 100],
+                  "Button_Clear")
+		piece.SetUpButton(False, "Button_Clear_Hover",
+                    "Button_Clear_Pressed",
+					onClick=self.ClearClicked)
 		self.AddPiece(piece, False)
 
 		#row 2
@@ -638,8 +655,7 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = True
-		manger.SetUpMainScreen()
+		manger.DebugMode = False
 		while manger.Running:
 			manger.Update()
 
