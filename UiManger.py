@@ -510,6 +510,10 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
+		piece = UiPiece(self.Drawer, [133, 375], [50, 35])
+		piece.SetUpLabel(self.SolveOrder[0], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+
 		piece = UiPiece(self.Drawer, [246, 375], [113, 100],
                   "Button_Clear")
 		piece.SetUpButton(False, "Button_Clear_Hover",
@@ -526,11 +530,19 @@ class UiManger:
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
+		
+		piece = UiPiece(self.Drawer, [133, 485], [50, 35])
+		piece.SetUpLabel(self.SolveOrder[1], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
 
 		op = self.OperationsList[2]
 		piece = UiPiece(self.Drawer, [246, 485], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [246, 485], [50, 35])
+		piece.SetUpLabel(self.SolveOrder[2], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		#row 3
@@ -548,11 +560,19 @@ class UiManger:
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
+		
+		piece = UiPiece(self.Drawer, [133, 595], [50, 35])
+		piece.SetUpLabel(self.SolveOrder[3], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
 
 		op = self.OperationsList[4]
 		piece = UiPiece(self.Drawer, [246, 595], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [246, 595], [50, 35])
+		piece.SetUpLabel(self.SolveOrder[4], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		return
@@ -655,7 +675,7 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = False
+		manger.DebugMode = True
 		while manger.Running:
 			manger.Update()
 
