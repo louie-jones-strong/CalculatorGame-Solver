@@ -522,9 +522,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [196, 440], [50, 35])
-		print("test"+self.SolveOrder[0])
-		piece.SetUpLabel(self.SolveOrder[0], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece = UiPiece(self.Drawer, [166, 450], [80, 25])
+		piece.SetUpLabel(self.SolveOrder[0], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [246, 375], [113, 100],
@@ -544,8 +543,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 		
-		piece = UiPiece(self.Drawer, [196, 550], [50, 35])
-		piece.SetUpLabel(self.SolveOrder[1], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece = UiPiece(self.Drawer, [166, 560], [80, 25])
+		piece.SetUpLabel(self.SolveOrder[1], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[2]
@@ -554,8 +553,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [309, 550], [50, 35])
-		piece.SetUpLabel(self.SolveOrder[2], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece = UiPiece(self.Drawer, [279, 560], [80, 25])
+		piece.SetUpLabel(self.SolveOrder[2], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		#row 3
@@ -574,8 +573,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 		
-		piece = UiPiece(self.Drawer, [196, 660], [50, 35])
-		piece.SetUpLabel(self.SolveOrder[3], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece = UiPiece(self.Drawer, [166, 670], [80, 25])
+		piece.SetUpLabel(self.SolveOrder[3], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[4]
@@ -584,8 +583,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [309, 660], [50, 35])
-		piece.SetUpLabel(self.SolveOrder[4], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece = UiPiece(self.Drawer, [279, 670], [80, 25])
+		piece.SetUpLabel(self.SolveOrder[4], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		return
