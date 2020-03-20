@@ -429,7 +429,7 @@ class UiManger:
 				print("not vaild To Sovle Atm")
 			return
 		
-		found, operationList = GameSolver.Solve(self.Moves, self.OperationsList, self.StartingNum, self.Goal)
+		found, solveOperationList = GameSolver.Solve(self.Moves, self.OperationsList, self.StartingNum, self.Goal)
 
 		if self.DebugMode:
 			print("===================")
@@ -438,15 +438,27 @@ class UiManger:
 			print("")
 			print("")
 
+		self.SolveOrder = []
+		for loop in range(5):
+			self.SolveOrder += [""]
+
+		opIndex = 0
+		for solveLoop in range(len(solveOperationList)):
+			solveOp = solveOperationList[solveLoop]
+			if self.DebugMode:
+				print(str(solveLoop) +") "+ solveOp.ToString())
+
+			for loop in range(len(self.OperationsList)):
+				if self.OperationsList[loop] is solveOp:
+					opIndex = loop
+					break
+
+			if len(self.SolveOrder[opIndex]) > 0:
+				self.SolveOrder[opIndex] += "," 
+			self.SolveOrder[opIndex] += str(solveLoop+1)
+
 			
-			for loop in range(len(operationList)):
-				op = operationList[loop]
-				print(op.ToString())
-
-				if len(self.SolveOrder[opIndex]) > 0:
-					self.SolveOrder[opIndex] += ", "
-				self.SolveOrder[opIndex] += str(loop+1)
-
+		self.SetUpMainScreen()
 		return
 
 	def ClearClicked(self):
@@ -510,7 +522,8 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [133, 375], [50, 35])
+		piece = UiPiece(self.Drawer, [196, 440], [50, 35])
+		print("test"+self.SolveOrder[0])
 		piece.SetUpLabel(self.SolveOrder[0], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
@@ -531,7 +544,7 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 		
-		piece = UiPiece(self.Drawer, [133, 485], [50, 35])
+		piece = UiPiece(self.Drawer, [196, 550], [50, 35])
 		piece.SetUpLabel(self.SolveOrder[1], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
@@ -541,7 +554,7 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [246, 485], [50, 35])
+		piece = UiPiece(self.Drawer, [309, 550], [50, 35])
 		piece.SetUpLabel(self.SolveOrder[2], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
@@ -561,7 +574,7 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 		
-		piece = UiPiece(self.Drawer, [133, 595], [50, 35])
+		piece = UiPiece(self.Drawer, [196, 660], [50, 35])
 		piece.SetUpLabel(self.SolveOrder[3], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
@@ -571,7 +584,7 @@ class UiManger:
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
-		piece = UiPiece(self.Drawer, [246, 595], [50, 35])
+		piece = UiPiece(self.Drawer, [309, 660], [50, 35])
 		piece.SetUpLabel(self.SolveOrder[4], "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
