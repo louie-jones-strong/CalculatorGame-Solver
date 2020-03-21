@@ -208,7 +208,7 @@ class UiPiece:
 				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 
 		if self.State != UiPiece.eState.Fade and self.Message != None:
-			font = pygame.font.SysFont("monospace", 50)
+			font = pygame.font.SysFont("monospace", 200)
 			text = str(self.Message)
 			if self.EditableIsNegtive:
 				text = "-"
@@ -242,7 +242,7 @@ class UiPiece:
 			draw.rect(screen, [255, 255, 255], rect, 2)
 
 		if debugMode:
-			font = pygame.font.SysFont("monospace", 10)
+			font = pygame.font.SysFont("monospace", 200)
 
 			text = self.State.name 
 			if self.Selectable:
