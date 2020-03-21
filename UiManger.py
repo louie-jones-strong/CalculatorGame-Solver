@@ -1,4 +1,4 @@
-from pygame import display, draw, Color, gfxdraw, mouse
+from pygame import display, draw, Color, gfxdraw, mouse, mixer
 import pygame
 import os
 from enum import Enum
@@ -30,7 +30,7 @@ class ImageDrawer:
 
 	def GetRawImage(self, imageName):
 		if imageName not in self.RawImageCache:
-			path = os.path.join("Images", str(imageName) + ".png")
+			path = os.path.join("Assets", "Images", str(imageName) + ".png")
 
 			if os.path.isfile(path):
 				image = pygame.image.load(path)
@@ -53,6 +53,23 @@ class ImageDrawer:
 		surface.blit(sizedImage, pos)
 
 		return True
+
+class AudioPlayer:
+	def __init__(self):
+		mixer.init()
+		self.AudioCache = {}
+		return
+
+	def PlayEvent(self, eventName):
+
+		if eventName not in self.AudioCache:
+			path = os.path.join("Assets", "Audio", str(eventName) + ".wav")
+			audioEvent = mixer.Sound(path)
+			self.AudioCache[eventName] = audioEvent
+
+		print("Play audio Event: "+str(eventName))
+		self.AudioCache[eventName].play()
+		return
 
 class UiPiece:
 
@@ -86,6 +103,8 @@ class UiPiece:
 		self.Message = None
 		self.EditableMessage = None
 		self.EnterCanClick = False
+		self.AudioPlayer = None
+		self.ClickAudioEvent = None
 		return
 
 	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
@@ -95,6 +114,11 @@ class UiPiece:
 		self.OnClick = onClick
 		self.OnClickData = onClickData
 		self.EnterCanClick = enterCanClick
+		return
+
+	def SetupAudio(self, audioPlayer, clickEvent):
+		self.AudioPlayer = audioPlayer
+		self.ClickAudioEvent = clickEvent
 		return
 
 	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
@@ -133,6 +157,10 @@ class UiPiece:
 
 		if mouseOverButton and mouseDown:
 			self.State = UiPiece.eState.press
+			if (self.LastState != UiPiece.eState.press and
+				self.AudioPlayer != None and self.ClickAudioEvent != None):
+				
+				self.AudioPlayer.PlayEvent(self.ClickAudioEvent)
 		
 		elif self.GetIsFade != None and self.GetIsFade():
 			self.State = UiPiece.eState.Fade
@@ -279,6 +307,7 @@ class UiManger:
 		pygame.init()
 		self.ScaleFactor = 1
 		self.Drawer = ImageDrawer()
+		self.AudioPlayer = AudioPlayer()
 		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
 		pygame.display.set_caption("Calculator: The Game")
 
@@ -547,6 +576,7 @@ class UiManger:
                     "Button_Pressed",
 					onClick=self.ClickedSolve,
 					enterCanClick=True)
+		piece.SetupAudio(self.AudioPlayer, "Click")
 		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
@@ -739,7 +769,6 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = False
 		while manger.Running:
 			manger.Update()
 
