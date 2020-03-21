@@ -509,7 +509,8 @@ class UiManger:
 		return
 
 	def SetUpMainScreen(self):
-		print("Setup Main Screen")
+		if self.DebugMode:
+			print("Setup Main Screen")
 		self.SetUpShared()
 		#button Grid
 		#row 1
@@ -591,14 +592,23 @@ class UiManger:
 		return
 	
 	def SetOperation(self, gridIndex):
-		print("set SetOperation: ["+str(self.OperationSetUpIndex)+"] to " + str(gridIndex))
-		self.OperationsList[self.OperationSetUpIndex] = Operations.MakeOperation(gridIndex)
+		if self.DebugMode:
+			print("set SetOperation: ["+str(self.OperationSetUpIndex)+"] to " + str(gridIndex))
 
-		self.SetUpOperationInfoScreen()
+		op = Operations.MakeOperation(gridIndex)
+		if op == None:
+			self.OperationsList[self.OperationSetUpIndex] = Operations.MakeOperation(0)
+			self.SetUpMainScreen()
+
+		else:
+			self.OperationsList[self.OperationSetUpIndex] = op
+			self.SetUpOperationInfoScreen()
+
 		return
 
 	def SetUpOperationSelectScreen(self, gridIndex):
-		print("Setup Operation Screen index: " + str(gridIndex))
+		if self.DebugMode:
+			print("Setup Operation Screen index: " + str(gridIndex))
 		self.OperationSetUpIndex = gridIndex
 		
 		self.SetUpShared(False)
@@ -628,7 +638,8 @@ class UiManger:
 						"Button_Red")
 					piece.SetUpButton(False, "Button_Red_Hover",
 						"Button_Red_Pressed",
-						onClick=self.SetUpMainScreen)
+						onClick=self.SetOperation, 
+						onClickData=loop)
 					piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					self.AddPiece(piece, False)
 					return
