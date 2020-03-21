@@ -240,7 +240,7 @@ class UiPiece:
 			draw.rect(screen, [255, 255, 255], rect, 2)
 
 		if debugMode:
-			font = pygame.font.SysFont("monospace", 200)
+			font = pygame.font.SysFont("monospace", 10)
 
 			text = self.State.name 
 			if self.Selectable:
@@ -459,8 +459,33 @@ class UiManger:
 		self.SetUpMainScreen()
 		return
 
-	def ClickedSettings(self):
+	def SetupSettingsScreen(self):
+		self.SetUpShared(False)
 
+		piece = UiPiece(self.Drawer, [20, 595], [113, 100],
+                  "Settings_Button")
+		piece.SetUpButton(False, "Settings_Hover",
+                    "Settings_Pressed",
+					onClick=self.SetUpMainScreen)
+		self.AddPiece(piece, False)
+
+		debugButton = "Button_"
+		if self.DebugMode:
+			debugButton += "Green"
+		else:
+			debugButton += "Red"
+
+		piece = UiPiece(self.Drawer, [135, 595], [113, 100],
+                  debugButton)
+		piece.SetUpButton(False,
+					onClick=self.DebugModeToggle)
+		piece.SetUpLabel("Debug", "", yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+		return
+
+	def DebugModeToggle(self):
+		self.DebugMode = not self.DebugMode
+		self.SetupSettingsScreen()
 		return
 
 	def ClearClicked(self):
@@ -572,8 +597,8 @@ class UiManger:
                   "Settings_Button")
 		piece.SetUpButton(False, "Settings_Hover",
                     "Settings_Pressed",
-					onClick=self.ClickedSettings)
-		self.AddPiece(piece, True)
+					onClick=self.SetupSettingsScreen)
+		self.AddPiece(piece, False)
 
 		op = self.OperationsList[3]
 		piece = UiPiece(self.Drawer, [133, 595], [113, 100], op.BaseImage)
