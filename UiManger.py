@@ -566,7 +566,7 @@ class UiManger:
                     "Button_Pressed",
 					onClick=self.ClickedSolve,
 					enterCanClick=True)
-		piece.SetUpLabel("Solve!", "", yLabelAnchor=0.5)
+		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
 		op = self.OperationsList[3]
