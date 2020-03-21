@@ -61,6 +61,8 @@ class AudioPlayer:
 		return
 
 	def PlayEvent(self, eventName):
+		if eventName == None:
+			return
 
 		if eventName not in self.AudioCache:
 			path = os.path.join("Assets", "Audio", str(eventName) + ".wav")
@@ -104,7 +106,8 @@ class UiPiece:
 		self.EditableMessage = None
 		self.EnterCanClick = False
 		self.AudioPlayer = None
-		self.ClickAudioEvent = None
+		self.ButtonDownAudioEvent = None
+		self.ButtonUpAudioEvent = None
 		return
 
 	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
@@ -116,9 +119,10 @@ class UiPiece:
 		self.EnterCanClick = enterCanClick
 		return
 
-	def SetupAudio(self, audioPlayer, clickEvent):
+	def SetupAudio(self, audioPlayer, buttonDownEvent, buttonUpEvent):
 		self.AudioPlayer = audioPlayer
-		self.ClickAudioEvent = clickEvent
+		self.ButtonDownAudioEvent = buttonDownEvent
+		self.ButtonUpAudioEvent = buttonUpEvent
 		return
 
 	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
@@ -157,10 +161,6 @@ class UiPiece:
 
 		if mouseOverButton and mouseDown:
 			self.State = UiPiece.eState.press
-			if (self.LastState != UiPiece.eState.press and
-				self.AudioPlayer != None and self.ClickAudioEvent != None):
-				
-				self.AudioPlayer.PlayEvent(self.ClickAudioEvent)
 		
 		elif self.GetIsFade != None and self.GetIsFade():
 			self.State = UiPiece.eState.Fade
@@ -173,6 +173,13 @@ class UiPiece:
 
 		if self.State != self.LastState:
 			self.TimeInState = 0
+
+		if self.AudioPlayer != None:
+			if self.State == UiPiece.eState.press and self.LastState != UiPiece.eState.press:
+				self.AudioPlayer.PlayEvent(self.ButtonDownAudioEvent)
+
+			elif self.State != UiPiece.eState.press and self.LastState == UiPiece.eState.press:
+				self.AudioPlayer.PlayEvent(self.ButtonUpAudioEvent)
 
 		self.LastState = self.State
 
@@ -576,7 +583,7 @@ class UiManger:
                     "Button_Pressed",
 					onClick=self.ClickedSolve,
 					enterCanClick=True)
-		piece.SetupAudio(self.AudioPlayer, "Click")
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
 		self.AddPiece(piece, True)
 
@@ -584,6 +591,7 @@ class UiManger:
 		piece = UiPiece(self.Drawer, [133, 375], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [166, 450], [80, 25])
@@ -596,6 +604,7 @@ class UiManger:
                     "Button_Red_Pressed",
 					onClick=self.ClearClicked)
 		piece.SetUpLabel("Clear", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		#row 2
@@ -606,16 +615,19 @@ class UiManger:
 		piece = UiPiece(self.Drawer, [133, 485], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 		
 		piece = UiPiece(self.Drawer, [166, 560], [80, 25])
 		piece.SetUpLabel(self.SolveOrder[1], "", xLabelAnchor=1, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[2]
 		piece = UiPiece(self.Drawer, [246, 485], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [279, 560], [80, 25])
@@ -628,12 +640,14 @@ class UiManger:
 		piece.SetUpButton(False, "Settings_Hover",
                     "Settings_Pressed",
 					onClick=self.SetupSettingsScreen)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		op = self.OperationsList[3]
 		piece = UiPiece(self.Drawer, [133, 595], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 		
 		piece = UiPiece(self.Drawer, [166, 670], [80, 25])
@@ -644,6 +658,7 @@ class UiManger:
 		piece = UiPiece(self.Drawer, [246, 595], [113, 100], op.BaseImage)
 		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [279, 670], [80, 25])
@@ -693,6 +708,7 @@ class UiManger:
 						op.BaseImage)
 					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
 					piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+					piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 					self.AddPiece(piece, False)
 				else:
 					piece = UiPiece(self.Drawer, [xStart+x*115, yStart+y*110], [110, 100],
@@ -702,6 +718,7 @@ class UiManger:
 						onClick=self.SetOperation, 
 						onClickData=loop)
 					piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+					piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 					self.AddPiece(piece, False)
 					return
 
@@ -740,6 +757,7 @@ class UiManger:
 			piece = UiPiece(self.Drawer, [20, 485], [110, 100],
 							"Button")
 			piece.SetUpLabel("", op.GetSetting(0), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting1)
+			piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 			self.AddPiece(piece, True)
 
 			piece = UiPiece(self.Drawer, [135, 485], [110, 100],
@@ -751,6 +769,7 @@ class UiManger:
 				piece = UiPiece(self.Drawer, [250, 485], [110, 100],
                                     "Button")
 				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
+				piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 				self.AddPiece(piece, True)
 
 
@@ -762,6 +781,7 @@ class UiManger:
 					onClick=self.SetUpMainScreen,
 					enterCanClick=True)
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+			piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 			self.AddPiece(piece, True)
 		return
 
