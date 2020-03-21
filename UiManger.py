@@ -181,8 +181,6 @@ class UiPiece:
 					number = self.EditableMessage
 					if self.EditableIsNegtive:
 						number *= -1
-					
-					print(number)
 
 					if self.TextUpdatedFunc != None:
 						self.TextUpdatedFunc(number)
@@ -461,6 +459,10 @@ class UiManger:
 		self.SetUpMainScreen()
 		return
 
+	def ClickedSettings(self):
+
+		return
+
 	def ClearClicked(self):
 		self.StartingNum = 0
 		self.Goal = 0
@@ -514,8 +516,14 @@ class UiManger:
 		self.SetUpShared()
 		#button Grid
 		#row 1
-		piece = UiPiece(self.Drawer, [20, 375], [113, 100])
-		self.AddPiece(piece, False)
+		piece = UiPiece(self.Drawer, [20, 375], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.ClickedSolve,
+					enterCanClick=True)
+		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
+		self.AddPiece(piece, True)
 
 		op = self.OperationsList[0]
 		piece = UiPiece(self.Drawer, [133, 375], [113, 100], op.BaseImage)
@@ -561,12 +569,10 @@ class UiManger:
 
 		#row 3
 		piece = UiPiece(self.Drawer, [20, 595], [113, 100],
-                  "Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ClickedSolve,
-					enterCanClick=True)
-		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
+                  "Settings_Button")
+		piece.SetUpButton(False, "Settings_Hover",
+                    "Settings_Pressed",
+					onClick=self.ClickedSettings)
 		self.AddPiece(piece, True)
 
 		op = self.OperationsList[3]
