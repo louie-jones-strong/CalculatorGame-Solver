@@ -7,6 +7,7 @@ import keyboard
 import traceback
 import GameSolver
 import Operations
+import random
 
 class ImageDrawer:
 	RawImageCache = {}
@@ -58,19 +59,41 @@ class AudioPlayer:
 	def __init__(self):
 		mixer.init()
 		self.AudioCache = {}
+		self.MultiEventDict = {}
 		return
 
 	def PlayEvent(self, eventName):
 		if eventName == None:
 			return
 
+		if eventName in self.MultiEventDict:
+			subEventList = self.MultiEventDict[eventName]
+			index = random.randint(0, len(subEventList)-1)
+			eventName = subEventList[index]
+
 		if eventName not in self.AudioCache:
 			path = os.path.join("Assets", "Audio", str(eventName) + ".wav")
 			audioEvent = mixer.Sound(path)
 			self.AudioCache[eventName] = audioEvent
 
+		audioEvent = self.AudioCache[eventName]
+
 		print("Play audio Event: "+str(eventName))
-		self.AudioCache[eventName].play()
+		audioEvent.play()
+		return
+
+	def SetupMultiEvent(self, eventName, subEventNames):
+
+		eventList = []
+		for subEventName in subEventNames:
+			path = os.path.join("Assets", "Audio", str(subEventName) + ".wav")
+			audioEvent = mixer.Sound(path)
+
+			if audioEvent != None:
+				eventList += [subEventName]
+
+		if len(eventList) > 0:
+			self.MultiEventDict[eventName] = eventList
 		return
 
 class UiPiece:
@@ -315,6 +338,10 @@ class UiManger:
 		self.ScaleFactor = 1
 		self.Drawer = ImageDrawer()
 		self.AudioPlayer = AudioPlayer()
+
+		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown", "ButtonDown1"])
+		self.AudioPlayer.SetupMultiEvent("ButtonUp", ["ButtonUp", "ButtonUp1"])
+
 		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
 		pygame.display.set_caption("Calculator: The Game")
 
