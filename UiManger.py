@@ -527,10 +527,11 @@ class UiManger:
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [246, 375], [113, 100],
-                  "Button_Clear")
-		piece.SetUpButton(False, "Button_Clear_Hover",
-                    "Button_Clear_Pressed",
+                  "Button_Red")
+		piece.SetUpButton(False, "Button_Red_Hover",
+                    "Button_Red_Pressed",
 					onClick=self.ClearClicked)
+		piece.SetUpLabel("Clear", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.AddPiece(piece, False)
 
 		#row 2
@@ -622,6 +623,15 @@ class UiManger:
 					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
 					piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					self.AddPiece(piece, False)
+				else:
+					piece = UiPiece(self.Drawer, [xStart+x*115, yStart+y*110], [110, 100],
+						"Button_Red")
+					piece.SetUpButton(False, "Button_Red_Hover",
+						"Button_Red_Pressed",
+						onClick=self.SetUpMainScreen)
+					piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+					self.AddPiece(piece, False)
+					return
 
 
 				loop += 1
