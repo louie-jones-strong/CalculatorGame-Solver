@@ -687,7 +687,7 @@ class UiManger:
 if __name__ == "__main__":
 	try:
 		manger = UiManger()
-		manger.DebugMode = True
+		manger.DebugMode = False
 		while manger.Running:
 			manger.Update()
 
