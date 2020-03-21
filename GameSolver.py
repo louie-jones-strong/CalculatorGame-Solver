@@ -8,6 +8,9 @@ def Solve(movesLeft, operations, currentNumber, targetNumber):
 		if targetNumber == newCurrentNumber:
 			return True, [operation]
 
+		elif newCurrentNumber == currentNumber:
+			continue
+		
 		elif int(newCurrentNumber) != newCurrentNumber:
 			continue
 
