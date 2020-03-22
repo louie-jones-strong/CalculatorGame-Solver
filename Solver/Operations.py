@@ -37,6 +37,9 @@ class Operation:
 		newNumber = self.DoAction(number)
 		return number != newNumber
 
+	def Serialize(self):
+		return {"OpType":1, "Settings": self.Setting}
+
 def MakeOperation(opType=None):
 	if opType == None:
 		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] >>[5] Insert[6] =>[7] pow[8] +/-[9] Reverse[10] Sum[11]: "))
@@ -147,7 +150,7 @@ class Divide(Operation):#3
 	def IsValid(self):
 		return self.Setting[0] != 0 and super().IsValid()
 
-class ShiftRight(Operation):  # 4
+class ShiftRight(Operation):# 4
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -159,7 +162,7 @@ class ShiftRight(Operation):  # 4
 	def ToString(self):
 		return "<<"
 
-class ShiftLeft(Operation):  # 5
+class ShiftLeft(Operation):# 5
 	BaseImage = "Button_Orange"
 
 	def Setup(self):

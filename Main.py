@@ -25,6 +25,7 @@ class Main:
 		self.OperationSetUpIndex = None
 		self.Level = 0
 		self.SolarCovered = False
+		self.LevelsData = {}
 		self.ClearClicked()
 		return
 
@@ -160,12 +161,30 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 		return
 	def SaveLevelData(self):
-		if not self.CheckIsLevelValid():
+		if not self.CheckIsLevelValid() or self.Level in self.LevelsData:
 			if self.DebugMode:
 				print("not vaild To Level Data")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
+		
+		levelDataDict = {}
+		levelDataDict["Level"] = self.Level
+		levelDataDict["Moves"] = self.Moves
+		levelDataDict["Goal"] = self.Goal
+		levelDataDict["StartingNumber"] = self.StartingNum
 
+		operationsData = []
+		for op in self.OperationsList:
+			if op.IsValid():
+				operationsData += [op.Serialize()]
+
+		levelDataDict["Operations"] = operationsData
+
+		self.LevelsData[self.Level] = levelDataDict
+
+		if self.DebugMode:
+			for levelData in self.LevelsData.items():
+				print(levelData)
 		return
 #end of ui called funtions
 
@@ -189,6 +208,7 @@ class Main:
 				numValidOps += 1
 				
 		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
+
 #screens 
 	def SetupSettingsScreen(self):
 		self.SetUpShared(False)
