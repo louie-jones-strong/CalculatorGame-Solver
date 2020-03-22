@@ -29,6 +29,15 @@ class Main:
 
 
 		self.Manger = UiManger.UiManger(self.AudioPlayer, drawer, "Calculator: The Game", "Icon")
+		self.Manger.DebugMode = self.DebugMode
+
+		if os.path.isfile(self.LevelDataPath):
+			file = open(self.LevelDataPath, "r")
+			self.LevelsData = json.load(file)
+			file.close()
+
+			for levelData in self.LevelsData.items():
+				print(levelData)
 
 		self.OperationSetUpIndex = None
 		self.Level = 0
