@@ -17,10 +17,12 @@ class UiManger:
 
 		pygame.display.set_icon(self.Drawer.GetRawImage(icon))
 		pygame.display.set_caption(title)
-
+		
 		self.Resolution = [378, 704]
-		#window
-		self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)#todo  add pygame.NOFRAME
+		info = pygame.display.Info()
+		width = int(info.current_w * 0.6)
+		hight = int(info.current_h * 0.6)
+		self.UpdateWindowSize(width, hight)
 
 		self.PieceList = []
 		self.Selectable = []
@@ -57,22 +59,7 @@ class UiManger:
 				return False
 
 			elif event.type == pygame.VIDEORESIZE:
-				windowSize = [event.w, event.h]
-				if windowSize != self.Resolution:
-					xRatio = windowSize[0] / self.Resolution[0]
-					yRatio = windowSize[1] / self.Resolution[1]
-
-					if xRatio < yRatio:
-						ratio = xRatio
-					else:
-						ratio = yRatio
-
-					self.Resolution = [int(self.Resolution[0] * ratio), int(self.Resolution[1] * ratio)]
-					self.ScaleFactor *= ratio
-					self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)
-
-					if self.DebugMode:
-						print("reSized to: "+str(self.Resolution))
+				self.UpdateWindowSize(event.w, event.h)
 
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_RETURN:
@@ -137,3 +124,22 @@ class UiManger:
 		self.Running = False
 		return
 	
+	def UpdateWindowSize(self, width, hight):
+
+		windowSize = [width, hight]
+		if windowSize != self.Resolution:
+			xRatio = windowSize[0] / self.Resolution[0]
+			yRatio = windowSize[1] / self.Resolution[1]
+
+			if xRatio < yRatio:
+				ratio = xRatio
+			else:
+				ratio = yRatio
+
+			self.Resolution = [int(self.Resolution[0] * ratio), int(self.Resolution[1] * ratio)]
+			self.ScaleFactor *= ratio
+			self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)
+
+			if self.DebugMode:
+				print("reSized to: "+str(self.Resolution))
+		return
