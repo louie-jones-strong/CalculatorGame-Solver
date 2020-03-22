@@ -341,8 +341,8 @@ class UiManger:
 		self.Drawer = ImageDrawer()
 		self.AudioPlayer = AudioPlayer()
 
-		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown", "ButtonDown1"])
-		self.AudioPlayer.SetupMultiEvent("ButtonUp", ["ButtonUp", "ButtonUp1"])
+		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown1", "ButtonDown2"])
+		self.AudioPlayer.SetupMultiEvent("ButtonUp", ["ButtonUp1", "ButtonUp2"])
 
 		pygame.display.set_icon(self.Drawer.GetRawImage("Icon"))
 		pygame.display.set_caption("Calculator: The Game")
