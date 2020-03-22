@@ -353,10 +353,11 @@ class UiManger:
 		#window
 		self.Window = display.set_mode(self.Resolution, pygame.RESIZABLE)#todo  add pygame.NOFRAME
 
-		self.ClearClicked()
-
 		self.OperationSetUpIndex = None
+		self.Level = 0
 		self.LastUpdateTime = time.time()
+
+		self.ClearClicked()
 		return
 
 	def ClearPieceList(self, clearSelected=True):
@@ -539,6 +540,16 @@ class UiManger:
 		self.SetupSettingsScreen()
 		return
 
+	def ChangeLevelSelect(self, delta):
+		level = self.Level + delta
+		if level < 0:
+			level = 0
+
+		self.Level = level
+
+		self.SetupSettingsScreen()
+		return
+
 	def SetupSettingsScreen(self):
 		self.SetUpShared(False)
 
@@ -566,6 +577,34 @@ class UiManger:
 		piece.SetUpButton(False, "Button_Hover",
                     "Button_Pressed",
 					onClick=self.ChangeVolume, onClickData=1)
+		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
+		self.AddPiece(piece, False)
+
+		#level select row 2
+		piece = UiPiece(self.Drawer, [20, 490], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.ChangeLevelSelect, onClickData=-1)
+		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [133, 490], [113, 100],
+                  "Button_Black")
+		piece.SetUpLabel("Level", "", xLabelAnchor=0.5, yLabelAnchor=0)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [133, 510], [113, 80])
+		piece.SetUpLabel(self.Level, "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [246, 490], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.ChangeLevelSelect, onClickData=1)
 		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
@@ -621,7 +660,7 @@ class UiManger:
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [55, 35], [145, 30])
-		piece.SetUpLabel("LEVEL:", 0)
+		piece.SetUpLabel("LEVEL:", self.Level)
 		self.AddPiece(piece, False)
 
 		piece = UiPiece(self.Drawer, [220, 30], [105, 35])
