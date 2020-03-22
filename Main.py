@@ -56,6 +56,8 @@ class Main:
 		if not isVaild:
 			if self.DebugMode:
 				print("not vaild To Sovle Atm")
+
+			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
 		found, solveOperationList = GameSolver.Solve(self.Moves, self.OperationsList, self.StartingNum, self.Goal)
@@ -152,7 +154,13 @@ class Main:
 		op.SetSetting(1, value)
 		self.SetUpOperationInfoScreen(clearSelected=False)
 		return
-
+	def ClickDoneOpSetup(self):
+		op = self.OperationsList[self.OperationSetUpIndex]
+		if op.IsValid():
+			self.SetUpMainScreen()
+		else:
+			self.AudioPlayer.PlayEvent("CannotDoAction")
+		return
 #end of ui called funtions
 
 	def MakeGridPiece(self, xIndex, yIndex, image=None, yStart=375):
@@ -447,12 +455,13 @@ class Main:
 			piece = self.MakeGridPiece(2, 0, image="Button")
 			piece.SetUpButton(False, "Button_Hover",
                     "Button_Pressed",
-					onClick=self.SetUpMainScreen,
+					onClick=self.ClickDoneOpSetup,
 					enterCanClick=True)
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, True)
 
+			#Back Button
 			piece = self.MakeGridPiece(0, 0, image="Button_Red")
 			piece.SetUpButton(False, "Button_Red_Hover",
 				"Button_Red_Pressed",
