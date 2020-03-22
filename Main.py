@@ -161,6 +161,9 @@ class Main:
 		else:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 		return
+	def SaveLevelData(self):
+
+		return
 #end of ui called funtions
 
 	def MakeGridPiece(self, xIndex, yIndex, image=None, yStart=375):
@@ -231,7 +234,7 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 
-
+		#row 3
 		piece = self.MakeGridPiece(0, 2, image="Settings_Button")
 		piece.SetUpButton(False, "Settings_Hover",
                     "Settings_Pressed",
@@ -248,7 +251,15 @@ class Main:
 		piece = self.MakeGridPiece(1, 2, image=debugButton)
 		piece.SetUpButton(False,
 					onClick=self.DebugModeToggle)
-		piece.SetUpLabel("Debug", "", yLabelAnchor=0.5)
+		piece.SetUpLabel("Debug", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
+		piece.SetupAudio("ButtonDown", "ButtonUp")
+		self.Manger.AddPiece(piece, False)
+
+		piece = self.MakeGridPiece(2, 2, image="Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.SaveLevelData)
+		piece.SetUpLabel("Save Level", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 		return
