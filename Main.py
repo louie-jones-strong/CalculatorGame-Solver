@@ -452,6 +452,15 @@ class Main:
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, True)
+
+			piece = self.MakeGridPiece(0, 0, image="Button_Red")
+			piece.SetUpButton(False, "Button_Red_Hover",
+				"Button_Red_Pressed",
+				onClick=self.SetUpOperationSelectScreen,
+				onClickData=self.OperationSetUpIndex)
+			piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+			piece.SetupAudio("ButtonDown", "ButtonUp")
+			self.Manger.AddPiece(piece, False)
 		return
 #end of screens
 
