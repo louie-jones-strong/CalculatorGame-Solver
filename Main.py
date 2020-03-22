@@ -6,13 +6,21 @@ import Rendering.AudioPlayer as AudioPlayer
 import Rendering.ImageDrawer as ImageDrawer
 import Rendering.UiManger as UiManger
 import Rendering.UiPiece as Piece
+import json
 
 class Main:
 
 	def __init__(self):
 		self.DebugMode = False
 
+
 		path = "Assets"
+		self.LevelDataPath = os.path.join(path, "Data")
+		if not os.path.exists(self.LevelDataPath):
+			os.makedirs(self.LevelDataPath)
+
+		self.LevelDataPath = os.path.join(self.LevelDataPath, "LevelData.json")
+
 		self.AudioPlayer = AudioPlayer.AudioPlayer(os.path.join(path, "Audio"), self.DebugMode)
 		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown1", "ButtonDown2"])
 		self.AudioPlayer.SetupMultiEvent("ButtonUp", ["ButtonUp1", "ButtonUp2"])
@@ -185,6 +193,11 @@ class Main:
 		if self.DebugMode:
 			for levelData in self.LevelsData.items():
 				print(levelData)
+
+		
+		file = open(self.LevelDataPath, "w")
+		json.dump(self.LevelsData, file, indent=4, sort_keys=True)
+		file.close()
 		return
 #end of ui called funtions
 
