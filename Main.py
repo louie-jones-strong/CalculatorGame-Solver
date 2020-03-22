@@ -9,6 +9,7 @@ import Rendering.UiPiece as Piece
 import json
 
 class Main:
+	Version = 1
 
 	def __init__(self):
 		self.DebugMode = False
@@ -37,8 +38,21 @@ class Main:
 			self.LevelsData = json.load(file)
 			file.close()
 
-			for levelData in self.LevelsData.items():
-				print(levelData)
+			if self.DebugMode:
+				for levelData in self.LevelsData.items():
+					print(levelData)
+
+		if os.path.isfile(self.PlayerPrefsPath):
+			file = open(self.PlayerPrefsPath, "r")
+			playerData = json.load(file)
+			file.close()
+
+			if self.DebugMode:
+				for levelData in self.LevelsData.items():
+					print(playerData)
+			
+			if "Version" in playerData and playerData["Version"] == self.Version:
+				self.AudioPlayer.Volume = playerData["Volume"]
 
 		self.OperationSetUpIndex = None
 		self.Level = 0
@@ -117,7 +131,11 @@ class Main:
 		if volume < 0:
 			volume = 0
 
+		if volume == self.AudioPlayer.Volume:
+			return
+
 		self.AudioPlayer.Volume = volume
+		self.SavePlayerPrefs()
 		self.SetupSettingsScreen()
 		return
 	def ChangeLevelSelect(self, delta):
@@ -231,6 +249,16 @@ class Main:
 				numValidOps += 1
 				
 		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
+
+	def SavePlayerPrefs(self):
+		playerData = {}
+		playerData["Version"] = self.Version
+		playerData["Volume"] = self.AudioPlayer.Volume
+
+		file = open(self.PlayerPrefsPath, "w")
+		json.dump(playerData, file, indent=4, sort_keys=True)
+		file.close()
+		return
 
 #screens 
 	def SetupSettingsScreen(self):
