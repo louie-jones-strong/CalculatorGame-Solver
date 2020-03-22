@@ -1,1 +1,1 @@
-python UiManger.py
+python Main.py

@@ -1,5 +1,3 @@
-import Operations
-
 def Solve(movesLeft, operations, currentNumber, targetNumber):
 
 	for operation in operations:
@@ -56,4 +54,5 @@ def Main():
 
 
 if __name__ == "__main__":
+	import Operations
 	Main()
