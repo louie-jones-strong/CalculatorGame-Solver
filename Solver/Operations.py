@@ -32,6 +32,11 @@ class Operation:
 			
 		return
 
+	def IsValid(self):
+		number = 1234
+		newNumber = self.DoAction(number)
+		return number != newNumber
+
 def MakeOperation(opType=None):
 	if opType == None:
 		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] >>[5] Insert[6] =>[7] pow[8] +/-[9] Reverse[10] Sum[11]: "))
@@ -200,6 +205,9 @@ class Translate(Operation):#7
 	def ToString(self):
 
 		return str(self.Setting[0]) + "=>" + str(self.Setting[1])
+	
+	def IsValid(self):
+		return self.Setting[0] != self.Setting[1]
 
 class Pow(Operation):#8
 	BaseImage = "Button_Orange"
