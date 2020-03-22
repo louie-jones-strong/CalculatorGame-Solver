@@ -427,28 +427,24 @@ class Main:
 
 
 			#row two
-			piece = Piece.UiPiece([20, 485], [110, 100],
-							"Button")
+			piece = self.MakeGridPiece(0, 1, image="Button")
 			piece.SetUpLabel("", op.GetSetting(0), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting1)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, True)
 
-			piece = Piece.UiPiece([135, 485], [110, 100],
-							op.BaseImage)
+			piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
 			piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			self.Manger.AddPiece(piece, False)
 			
 			if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 2:
-				piece = Piece.UiPiece([250, 485], [110, 100],
-                                    "Button")
+				piece = self.MakeGridPiece(2, 1, image="Button")
 				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
 				piece.SetupAudio("ButtonDown", "ButtonUp")
 				self.Manger.AddPiece(piece, True)
 
 
 			#finsh button
-			piece = Piece.UiPiece([250, 380], [110, 100],
-							"Button")
+			piece = self.MakeGridPiece(2, 0, image="Button")
 			piece.SetUpButton(False, "Button_Hover",
                     "Button_Pressed",
 					onClick=self.SetUpMainScreen,
