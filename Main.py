@@ -15,11 +15,12 @@ class Main:
 
 
 		path = "Assets"
-		self.LevelDataPath = os.path.join(path, "Data")
-		if not os.path.exists(self.LevelDataPath):
-			os.makedirs(self.LevelDataPath)
+		dataPath = os.path.join(path, "Data")
+		if not os.path.exists(dataPath):
+			os.makedirs(dataPath)
 
-		self.LevelDataPath = os.path.join(self.LevelDataPath, "LevelData.json")
+		self.LevelDataPath = os.path.join(dataPath, "LevelData.json")
+		self.PlayerPrefsPath = os.path.join(dataPath, "PlayerPrefs.json")
 
 		self.AudioPlayer = AudioPlayer.AudioPlayer(os.path.join(path, "Audio"), self.DebugMode)
 		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown1", "ButtonDown2"])
