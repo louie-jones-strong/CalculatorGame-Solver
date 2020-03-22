@@ -51,9 +51,7 @@ class Main:
 		if self.DebugMode:
 			print("Sovle Clicked")
 
-		isVaild = self.Moves > 0 and self.Goal != self.StartingNum
-		
-		if not isVaild:
+		if not self.CheckIsLevelValid():
 			if self.DebugMode:
 				print("not vaild To Sovle Atm")
 
@@ -162,6 +160,11 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 		return
 	def SaveLevelData(self):
+		if not self.CheckIsLevelValid():
+			if self.DebugMode:
+				print("not vaild To Level Data")
+			self.AudioPlayer.PlayEvent("CannotDoAction")
+			return
 
 		return
 #end of ui called funtions
@@ -178,7 +181,14 @@ class Main:
 		y = (boxHight+ySpacing) * yIndex + yStart
 
 		return Piece.UiPiece([x, y], [boxWidth, boxHight], image)
-
+	
+	def CheckIsLevelValid(self):
+		numValidOps = 0
+		for op in self.OperationsList:
+			if op.IsValid():
+				numValidOps += 1
+				
+		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
 #screens 
 	def SetupSettingsScreen(self):
 		self.SetUpShared(False)
