@@ -60,6 +60,7 @@ class AudioPlayer:
 		mixer.init()
 		self.AudioCache = {}
 		self.MultiEventDict = {}
+		self.Volume = 10
 		return
 
 	def PlayEvent(self, eventName):
@@ -79,6 +80,7 @@ class AudioPlayer:
 		audioEvent = self.AudioCache[eventName]
 
 		print("Play audio Event: "+str(eventName))
+		audioEvent.set_volume(self.Volume/10)
 		audioEvent.play()
 		return
 
@@ -521,15 +523,59 @@ class UiManger:
 			
 		self.SetUpMainScreen()
 		return
+	
+	def ChangeVolume(self, delta):
+		volume = self.AudioPlayer.Volume + delta
+
+		if volume > 10:
+			volume = 10
+		
+		if volume < 0:
+			volume = 0
+
+		self.AudioPlayer.Volume = volume
+		self.SetupSettingsScreen()
+		return
 
 	def SetupSettingsScreen(self):
 		self.SetUpShared(False)
+
+		#volume control row 1
+		piece = UiPiece(self.Drawer, [20, 375], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.ChangeVolume, onClickData=-1)
+		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [133, 375], [113, 100],
+                  "Button_Black")
+		piece.SetUpLabel("Volume", "", xLabelAnchor=0.5, yLabelAnchor=0)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [133, 395], [113, 80])
+		piece.SetUpLabel(str(self.AudioPlayer.Volume), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		self.AddPiece(piece, False)
+
+		piece = UiPiece(self.Drawer, [246, 375], [113, 100],
+                  "Button")
+		piece.SetUpButton(False, "Button_Hover",
+                    "Button_Pressed",
+					onClick=self.ChangeVolume, onClickData=1)
+		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
+		self.AddPiece(piece, False)
+
+
 
 		piece = UiPiece(self.Drawer, [20, 595], [113, 100],
                   "Settings_Button")
 		piece.SetUpButton(False, "Settings_Hover",
                     "Settings_Pressed",
 					onClick=self.SetUpMainScreen)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 
 		debugButton = "Button_"
@@ -543,6 +589,7 @@ class UiManger:
 		piece.SetUpButton(False,
 					onClick=self.DebugModeToggle)
 		piece.SetUpLabel("Debug", "", yLabelAnchor=0.5)
+		piece.SetupAudio(self.AudioPlayer, "ButtonDown", "ButtonUp")
 		self.AddPiece(piece, False)
 		return
 
