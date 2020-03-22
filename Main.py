@@ -53,10 +53,6 @@ class Main:
 			print("Sovle Clicked")
 
 		isVaild = self.Moves > 0 and self.Goal != self.StartingNum
-		for operation in self.OperationsList:
-			if operation != None:
-				isVaild = True
-				break
 		
 		if not isVaild:
 			if self.DebugMode:
