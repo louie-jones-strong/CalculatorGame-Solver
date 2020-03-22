@@ -56,11 +56,12 @@ class ImageDrawer:
 		return True
 
 class AudioPlayer:
-	def __init__(self):
+	def __init__(self, debugMode):
 		mixer.init()
 		self.AudioCache = {}
 		self.MultiEventDict = {}
 		self.Volume = 10
+		self.DebugMode = debugMode
 		return
 
 	def PlayEvent(self, eventName):
@@ -79,7 +80,8 @@ class AudioPlayer:
 
 		audioEvent = self.AudioCache[eventName]
 
-		print("Play audio Event: "+str(eventName))
+		if self.DebugMode:
+			print("Play audio Event: "+str(eventName))
 		audioEvent.set_volume(self.Volume/10)
 		audioEvent.play()
 		return
@@ -326,20 +328,20 @@ class UiPiece:
 class UiManger:
 	PieceList = []
 	Selectable = []
-	DebugMode = False
 	SolarCovered = False
 	MouseStartPos = None
 	SelectIndex = 0
 
 	def __init__(self):
 		self.Running = True
+		self.DebugMode = False
 
 		display.init()
 		pygame.font.init()
 		pygame.init()
 		self.ScaleFactor = 1
 		self.Drawer = ImageDrawer()
-		self.AudioPlayer = AudioPlayer()
+		self.AudioPlayer = AudioPlayer(self.DebugMode)
 
 		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown1", "ButtonDown2"])
 		self.AudioPlayer.SetupMultiEvent("ButtonUp", ["ButtonUp1", "ButtonUp2"])
@@ -595,6 +597,7 @@ class UiManger:
 
 	def DebugModeToggle(self):
 		self.DebugMode = not self.DebugMode
+		self.AudioPlayer.DebugMode = self.DebugMode
 		self.SetupSettingsScreen()
 		return
 
