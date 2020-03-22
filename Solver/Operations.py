@@ -120,6 +120,9 @@ class Multiply(Operation):#2
 
 		return "X"+str(self.Setting[0])
 
+	def IsValid(self):
+		return self.Setting[0] != 0 and super().IsValid()
+
 class Divide(Operation):#3
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
@@ -141,6 +144,8 @@ class Divide(Operation):#3
 
 		return "/"+str(self.Setting[0])
 
+	def IsValid(self):
+		return self.Setting[0] != 0 and super().IsValid()
 
 class ShiftRight(Operation):  # 4
 	BaseImage = "Button_Orange"
