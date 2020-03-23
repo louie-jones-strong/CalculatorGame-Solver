@@ -1,6 +1,7 @@
 from pygame import display, Color, mouse
 import pygame
 import time
+import os
 
 class UiManger:
 
@@ -21,6 +22,9 @@ class UiManger:
 		info = pygame.display.Info()
 		self.Resolution = [378, 704]
 		self.SystemResolution = [info.current_w, info.current_h]
+		x = self.SystemResolution[0] * 0.01
+		y = self.SystemResolution[0] * 0.01
+		os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (x, y)
 		self.UpdateWindowSize()
 
 		self.PieceList = []
@@ -140,7 +144,7 @@ class UiManger:
 		minWidth = int(self.SystemResolution[0] * 0.25)
 		minHight = int(self.SystemResolution[1] * 0.25)
 
-		if width == None or  hight == None:
+		if width == None or hight == None:
 			width = maxWidth
 			hight = maxHight
 
