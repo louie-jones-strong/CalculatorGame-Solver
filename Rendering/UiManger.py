@@ -29,6 +29,7 @@ class UiManger:
 		self.SelectIndex = 0
 		self.OperationSetUpIndex = None
 		self.LastUpdateTime = time.time()
+		self.Clock = pygame.time.Clock()
 		return
 
 	def ClearPieceList(self, clearSelected=True):
@@ -98,6 +99,14 @@ class UiManger:
 				loop += 1
 
 		if self.DebugMode:
+			font = pygame.font.SysFont("monospace", 20)
+			text = "FPS: "
+			text += str(round(self.Clock.get_fps()))
+			text += " LastFrame: "
+			text += str(round(self.Clock.get_rawtime()/1000,3))
+			label = font.render(text, 1, (255, 0, 0))
+			self.Window.blit(label, [8, 8])
+
 			if mouse.get_pressed()[0]:
 				if self.MouseStartPos == None:
 					self.MouseStartPos = list(mouse.get_pos())
@@ -113,6 +122,7 @@ class UiManger:
 			
 
 		display.update()
+		self.Clock.tick()
 
 		self.SolarCovered = False
 		self.LastUpdateTime = time.time()
