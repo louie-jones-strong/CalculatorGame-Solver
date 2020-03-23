@@ -18,11 +18,10 @@ class UiManger:
 		pygame.display.set_icon(self.Drawer.GetRawImage(icon))
 		pygame.display.set_caption(title)
 		
-		self.Resolution = [378, 704]
 		info = pygame.display.Info()
-		width = int(info.current_w * 0.6)
-		hight = int(info.current_h * 0.6)
-		self.UpdateWindowSize(width, hight)
+		self.Resolution = [378, 704]
+		self.SystemResolution = [info.current_w, info.current_h]
+		self.UpdateWindowSize()
 
 		self.PieceList = []
 		self.Selectable = []
@@ -124,12 +123,31 @@ class UiManger:
 		self.Running = False
 		return
 	
-	def UpdateWindowSize(self, width, hight):
+	def UpdateWindowSize(self, width=None, hight=None):
+		maxWidth = int(self.SystemResolution[0] * 0.6)
+		maxHight = int(self.SystemResolution[1] * 0.6)
 
-		windowSize = [width, hight]
-		if windowSize != self.Resolution:
-			xRatio = windowSize[0] / self.Resolution[0]
-			yRatio = windowSize[1] / self.Resolution[1]
+		minWidth = int(self.SystemResolution[0] * 0.25)
+		minHight = int(self.SystemResolution[1] * 0.25)
+
+		if width == None or  hight == None:
+			width = maxWidth
+			hight = maxHight
+
+		if [width, hight] != self.Resolution:
+
+			if width > maxWidth:
+				width = maxWidth
+			if hight > maxHight:
+				hight = maxHight
+
+			if width < minWidth:
+				width = minWidth
+			if hight < minHight:
+				hight = minHight
+
+			xRatio = width / self.Resolution[0]
+			yRatio = hight / self.Resolution[1]
 
 			if xRatio < yRatio:
 				ratio = xRatio
