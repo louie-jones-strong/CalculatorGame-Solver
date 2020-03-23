@@ -2,8 +2,10 @@ class Operation:
 	BaseImage = ""
 	NumberOfSetting = 0
 	Setting = []
+	OperationId = 0
 
-	def __init__(self):
+	def __init__(self, Id):
+		self.OperationId = Id
 		self.Setting = []
 		for loop in range(self.NumberOfSetting):
 			self.Setting += [0]
@@ -38,51 +40,39 @@ class Operation:
 		return number != newNumber
 
 	def Serialize(self):
-		return {"OpType":1, "Settings": self.Setting}
+		return {"OpType":self.OperationId, "Settings": self.Setting}
 
 def MakeOperation(opType=None):
+	#do not change the order of this list
+	opList = [
+		Operation, 
+		Add,
+		Multiply,
+		Divide,
+		ShiftRight,
+		ShiftLeft,
+		Insert,
+		Translate,
+		Pow,
+		Flip,
+		Reverse,
+		Sum]
+
 	if opType == None:
-		opType = int(input("Type none [0] +[1] *[2] /[3] <<[4] >>[5] Insert[6] =>[7] pow[8] +/-[9] Reverse[10] Sum[11]: "))
-	
-	if opType == 0:
-		return Operation()
+		text = "Type none [0]"
 
-	elif opType == 1:
-		return Add()
+		for loop in range(1, len(opList)):
+			op = opList[loop](loop)
+			text += " " + str(type(op).__name__) + "["+str(loop)+"]"
+		text += ": "
+		opType = int(input(text))
 
-	elif  opType == 2:
-		return Multiply()
-
-	elif opType == 3:
-		return Divide()
-
-	elif opType == 4:
-		return ShiftRight()
-
-	elif opType == 5:
-		return ShiftLeft()
-
-	elif opType == 6:
-		return Insert()
-	
-	elif opType == 7:
-		return Translate()
-
-	elif opType == 8:
-		return Pow()
-
-	elif opType == 9:
-		return Flip()
-
-	elif opType == 10:
-		return Reverse()
-
-	elif opType == 11:
-		return Sum()
+	if opType >= 0 and opType < len(opList):
+		return opList[opType](opType)
 
 	return None
 
-class Add(Operation):#1
+class Add(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
@@ -103,7 +93,7 @@ class Add(Operation):#1
 		else:
 			return str(self.Setting[0])
 
-class Multiply(Operation):#2
+class Multiply(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
@@ -126,7 +116,7 @@ class Multiply(Operation):#2
 	def IsValid(self):
 		return self.Setting[0] != 0 and super().IsValid()
 
-class Divide(Operation):#3
+class Divide(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
@@ -150,7 +140,7 @@ class Divide(Operation):#3
 	def IsValid(self):
 		return self.Setting[0] != 0 and super().IsValid()
 
-class ShiftRight(Operation):# 4
+class ShiftRight(Operation):
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -162,7 +152,7 @@ class ShiftRight(Operation):# 4
 	def ToString(self):
 		return "<<"
 
-class ShiftLeft(Operation):# 5
+class ShiftLeft(Operation):
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -174,7 +164,7 @@ class ShiftLeft(Operation):# 5
 	def ToString(self):
 		return ">>"
 
-class Insert(Operation):#6
+class Insert(Operation):
 	BaseImage = "Button_Purple"
 	NumberOfSetting = 1
 
@@ -190,7 +180,7 @@ class Insert(Operation):#6
 	def ToString(self):
 		return "Insert "+str(self.Setting[0])
 
-class Translate(Operation):#7
+class Translate(Operation):
 	BaseImage = "Button_Orange"
 	NumberOfSetting = 2
 
@@ -217,7 +207,7 @@ class Translate(Operation):#7
 	def IsValid(self):
 		return self.Setting[0] != self.Setting[1]
 
-class Pow(Operation):#8
+class Pow(Operation):
 	BaseImage = "Button_Orange"
 
 	def DoAction(self, inputValue):
@@ -226,7 +216,7 @@ class Pow(Operation):#8
 	def ToString(self):
 		return "Pow "+str(2)
 
-class Flip(Operation):#9
+class Flip(Operation):
 	BaseImage = "Button_Orange"
 
 	def DoAction(self, inputValue):
@@ -235,7 +225,7 @@ class Flip(Operation):#9
 	def ToString(self):
 		return "+/- "
 
-class Reverse(Operation):#10
+class Reverse(Operation):
 	BaseImage = "Button_Orange"
 
 	def DoAction(self, inputValue):
@@ -247,7 +237,7 @@ class Reverse(Operation):#10
 	def ToString(self):
 		return "Reverse"
 
-class Sum(Operation):#11
+class Sum(Operation):
 	BaseImage = "Button_Orange"
 
 	def DoAction(self, inputValue):
