@@ -72,6 +72,15 @@ def MakeOperation(opType=None):
 
 	return None
 
+def OpDeserialization(opData):
+	op = MakeOperation(opData["OpType"])
+	
+	settingList = opData["Settings"]
+	for loop in range(len(settingList)):
+		op.SetSetting(loop, settingList[loop])
+		
+	return op
+
 class Add(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
