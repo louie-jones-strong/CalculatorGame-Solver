@@ -9,7 +9,7 @@ import Rendering.UiPiece as Piece
 import json
 
 class Main:
-	Version = 1
+	Version = "1.1"
 
 	def __init__(self):
 		self.DebugMode = False
@@ -43,6 +43,9 @@ class Main:
 				for levelData in self.LevelsData.items():
 					print(levelData)
 
+
+		self.Level = 0
+		self.ClearLevel()
 		if os.path.isfile(self.PlayerPrefsPath):
 			file = open(self.PlayerPrefsPath, "r")
 			playerData = json.load(file)
@@ -53,11 +56,12 @@ class Main:
 			
 			if "Version" in playerData and playerData["Version"] == self.Version:
 				self.AudioPlayer.Volume = playerData["Volume"]
+				if str(playerData["Level"]) in self.LevelsData:
+					self.LoadLevelFromData(self.LevelsData[str(playerData["Level"])])
 
 		self.OperationSetUpIndex = None
-		self.Level = 0
 		self.SolarCovered = False
-		self.ClearClicked()
+		self.SetUpMainScreen()
 		return
 
 	def Update(self):
@@ -144,7 +148,12 @@ class Main:
 
 		self.Level = level
 
-		self.LoadLevelFromData()
+		self.ClearLevel()
+		key = str(self.Level)
+		if key in self.LevelsData:
+			self.LoadLevelFromData(self.LevelsData[key])
+
+		self.SavePlayerPrefs()
 		self.SetupSettingsScreen()
 		return
 	def DebugModeToggle(self):
@@ -156,6 +165,7 @@ class Main:
 	def ClearClicked(self):
 		self.Level = 0
 		self.ClearLevel()
+		self.SavePlayerPrefs()
 		self.SetUpMainScreen()
 		return
 	def SetOperation(self, gridIndex):
@@ -190,25 +200,13 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 		return
 	def SaveLevelData(self):
-		if not self.CheckIsLevelValid() or self.Level in self.LevelsData:
+		if not self.CheckIsLevelValid() or self.Level in self.LevelsData or self.Level == 0:
 			if self.DebugMode:
 				print("not vaild To Level Data")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
-		levelDataDict = {}
-		levelDataDict["Level"] = self.Level
-		levelDataDict["Moves"] = self.Moves
-		levelDataDict["Goal"] = self.Goal
-		levelDataDict["StartingNumber"] = self.StartingNum
-
-		operationsData = []
-		for op in self.OperationsList:
-			operationsData += [op.Serialize()]
-
-		levelDataDict["Operations"] = operationsData
-
-		self.LevelsData[str(self.Level)] = levelDataDict
+		self.LevelsData[str(self.Level)] = self.GetlevelDictData()
 
 		if self.DebugMode:
 			for levelData in self.LevelsData.items():
@@ -221,27 +219,34 @@ class Main:
 		return
 #end of ui called funtions
 
-	def LoadLevelFromData(self):
+	def GetlevelDictData(self):
+		levelDataDict = {}
+		levelDataDict["Level"] = self.Level
+		levelDataDict["Moves"] = self.Moves
+		levelDataDict["Goal"] = self.Goal
+		levelDataDict["StartingNumber"] = self.StartingNum
 
-		self.ClearLevel()
-		key = str(self.Level)
-		if key in self.LevelsData:
-			data = self.LevelsData[key]
+		operationsData = []
+		for op in self.OperationsList:
+			operationsData += [op.Serialize()]
 
-			self.Level = data["Level"] 
-			self.StartingNum = data["StartingNumber"] 
-			self.Goal = data["Goal"] 
-			self.Moves = data["Moves"] 
+		levelDataDict["Operations"] = operationsData
+		return levelDataDict
 
-			operationsData = data["Operations"]
+	def LoadLevelFromData(self, data):
 
-			self.OperationsList = []
-			for opData in operationsData:
-				self.OperationsList += [Operations.OpDeserialization(opData)]
+		self.Level = data["Level"] 
+		self.StartingNum = data["StartingNumber"] 
+		self.Goal = data["Goal"] 
+		self.Moves = data["Moves"] 
 
-			return True
+		operationsData = data["Operations"]
 
-		return False
+		self.OperationsList = []
+		for opData in operationsData:
+			self.OperationsList += [Operations.OpDeserialization(opData)]
+
+		return
 
 	def ClearLevel(self):
 		self.StartingNum = 0
@@ -279,6 +284,7 @@ class Main:
 		playerData = {}
 		playerData["Version"] = self.Version
 		playerData["Volume"] = self.AudioPlayer.Volume
+		playerData["Level"] = self.Level
 
 		file = open(self.PlayerPrefsPath, "w")
 		json.dump(playerData, file, indent=4, sort_keys=True)
