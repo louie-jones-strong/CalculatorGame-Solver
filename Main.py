@@ -224,7 +224,6 @@ class Main:
 	def LoadLevelFromData(self):
 
 		self.ClearLevel()
-		print(self.LevelsData)
 		key = str(self.Level)
 		if key in self.LevelsData:
 			data = self.LevelsData[key]
