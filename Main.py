@@ -33,6 +33,7 @@ class Main:
 		self.Manger = UiManger.UiManger(self.AudioPlayer, drawer, "Calculator: The Game", "Icon")
 		self.Manger.DebugMode = self.DebugMode
 
+		self.LevelsData  = {}
 		if os.path.isfile(self.LevelDataPath):
 			file = open(self.LevelDataPath, "r")
 			self.LevelsData = json.load(file)
@@ -48,8 +49,7 @@ class Main:
 			file.close()
 
 			if self.DebugMode:
-				for levelData in self.LevelsData.items():
-					print(playerData)
+				print(playerData)
 			
 			if "Version" in playerData and playerData["Version"] == self.Version:
 				self.AudioPlayer.Volume = playerData["Volume"]
@@ -57,7 +57,6 @@ class Main:
 		self.OperationSetUpIndex = None
 		self.Level = 0
 		self.SolarCovered = False
-		self.LevelsData = {}
 		self.ClearClicked()
 		return
 
@@ -145,6 +144,7 @@ class Main:
 
 		self.Level = level
 
+		self.LoadLevelFromData()
 		self.SetupSettingsScreen()
 		return
 	def DebugModeToggle(self):
@@ -154,15 +154,8 @@ class Main:
 		self.SetupSettingsScreen()
 		return
 	def ClearClicked(self):
-		self.StartingNum = 0
-		self.Goal = 0
-		self.Moves = 0
-		self.OperationsList = []
-		self.SolveOrder = []
-		for loop in range(5):
-			self.OperationsList += [Operations.MakeOperation(0)]
-			self.SolveOrder += [""]
-
+		self.Level = 0
+		self.ClearLevel()
 		self.SetUpMainScreen()
 		return
 	def SetOperation(self, gridIndex):
@@ -211,12 +204,11 @@ class Main:
 
 		operationsData = []
 		for op in self.OperationsList:
-			if op.IsValid():
-				operationsData += [op.Serialize()]
+			operationsData += [op.Serialize()]
 
 		levelDataDict["Operations"] = operationsData
 
-		self.LevelsData[self.Level] = levelDataDict
+		self.LevelsData[str(self.Level)] = levelDataDict
 
 		if self.DebugMode:
 			for levelData in self.LevelsData.items():
@@ -228,6 +220,40 @@ class Main:
 		file.close()
 		return
 #end of ui called funtions
+
+	def LoadLevelFromData(self):
+
+		self.ClearLevel()
+		print(self.LevelsData)
+		key = str(self.Level)
+		if key in self.LevelsData:
+			data = self.LevelsData[key]
+
+			self.Level = data["Level"] 
+			self.StartingNum = data["StartingNumber"] 
+			self.Goal = data["Goal"] 
+			self.Moves = data["Moves"] 
+
+			operationsData = data["Operations"]
+
+			self.OperationsList = []
+			for opData in operationsData:
+				self.OperationsList += [Operations.OpDeserialization(opData)]
+
+			return True
+
+		return False
+
+	def ClearLevel(self):
+		self.StartingNum = 0
+		self.Goal = 0
+		self.Moves = 0
+		self.OperationsList = []
+		self.SolveOrder = []
+		for loop in range(5):
+			self.OperationsList += [Operations.MakeOperation(0)]
+			self.SolveOrder += [""]
+		return
 
 	def MakeGridPiece(self, xIndex, yIndex, image=None, yStart=375):
 		xStart = 20
