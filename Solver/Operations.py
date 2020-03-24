@@ -4,7 +4,7 @@ class Operation:
 	Setting = []
 	OperationId = 0
 
-	def __init__(self, Id):
+	def __init__(self, Id=0):
 		self.OperationId = Id
 		self.Setting = []
 		for loop in range(self.NumberOfSetting):
