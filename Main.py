@@ -59,6 +59,7 @@ class Main:
 				if str(playerData["Level"]) in self.LevelsData:
 					self.LoadLevelFromData(self.LevelsData[str(playerData["Level"])])
 
+		self.AudioPlayer.PlayEvent("Intro")
 		self.OperationSetUpIndex = None
 		self.SolarCovered = False
 		self.SetUpMainScreen()
