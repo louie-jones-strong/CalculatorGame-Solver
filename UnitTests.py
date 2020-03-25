@@ -1,5 +1,5 @@
-import GameSolver
-import Operations
+import Solver.GameSolver as GameSolver
+import Solver.Operations as Operations
 import json
 import os
 
@@ -136,8 +136,6 @@ class UnitTests:
 		self.SetGroup("Loading Level Data")
 
 		path = os.getcwd()
-		print(path)
-		path = os.path.dirname(path)
 		path = os.path.join(path, "Assets", "Data")
 		levelDataPath = os.path.join(path, "LevelData.json")
 		file = open(levelDataPath, "r")
