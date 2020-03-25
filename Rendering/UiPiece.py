@@ -175,7 +175,7 @@ class UiPiece:
 			font = pygame.font.SysFont("monospace", 200)
 			text = str(self.Message)
 			if self.EditableIsNegtive:
-				text = "-"
+				text += "-"
 			
 			text += str(self.EditableMessage)
 
