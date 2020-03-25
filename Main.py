@@ -58,6 +58,8 @@ class Main:
 				self.AudioPlayer.Volume = playerData["Volume"]
 				if str(playerData["Level"]) in self.LevelsData:
 					self.LoadLevelFromData(self.LevelsData[str(playerData["Level"])])
+				else:
+					self.Level = playerData["Level"]
 
 		self.AudioPlayer.PlayEvent("Intro")
 		self.OperationSetUpIndex = None
