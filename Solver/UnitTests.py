@@ -135,7 +135,9 @@ class UnitTests:
 		
 		self.SetGroup("Loading Level Data")
 
-		path = os.path.dirname(os.getcwd())
+		path = os.getcwd()
+		print(path)
+		path = os.path.dirname(path)
 		path = os.path.join(path, "Assets", "Data")
 		levelDataPath = os.path.join(path, "LevelData.json")
 		file = open(levelDataPath, "r")
