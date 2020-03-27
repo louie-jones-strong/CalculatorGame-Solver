@@ -22,9 +22,6 @@ class UiManger:
 		info = pygame.display.Info()
 		self.Resolution = [378, 704]
 		self.SystemResolution = [info.current_w, info.current_h]
-		x = self.SystemResolution[0] * 0.01
-		y = self.SystemResolution[0] * 0.01
-		os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (x, y)
 		self.UpdateWindowSize()
 
 		self.PieceList = []
@@ -149,11 +146,6 @@ class UiManger:
 			hight = maxHight
 
 		if [width, hight] != self.Resolution:
-
-			if width > maxWidth:
-				width = maxWidth
-			if hight > maxHight:
-				hight = maxHight
 
 			if width < minWidth:
 				width = minWidth
