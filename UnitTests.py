@@ -106,9 +106,14 @@ class UnitTests:
 
 		self.SetGroup("Pow")
 		powOp = Operations.Pow()
-		powOp.Setup()
+		powOp.Setup(2)
 		self.Assert(powOp.DoAction(4), 16, "DoAction()")
 		self.Assert(powOp.ToString(), "Pow 2", "ToString()")
+
+		powOp = Operations.Pow()
+		powOp.Setup(3)
+		self.Assert(powOp.DoAction(4), 64, "DoAction()")
+		self.Assert(powOp.ToString(), "Pow 3", "ToString()")
 
 		self.SetGroup("Flip")
 		flip = Operations.Flip()
@@ -141,8 +146,6 @@ class UnitTests:
 		file = open(levelDataPath, "r")
 		levelDataDict = json.load(file)
 		file.close()
-
-		self.SetGroup("Regression Testing")
 
 		for key, value in levelDataDict.items():
 			self.CheckLevelData(value, key)
