@@ -220,7 +220,8 @@ class Main:
 		json.dump(self.LevelsData, file, indent=4, sort_keys=True)
 		file.close()
 		return
-#end of ui called funtions
+
+#Functions used by a few
 
 	def GetlevelDictData(self):
 		levelDataDict = {}
@@ -597,7 +598,7 @@ class Main:
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, False)
 		return
-#end of screens
+
 
 if __name__ == "__main__":
 	try:

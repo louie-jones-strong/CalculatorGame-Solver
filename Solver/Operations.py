@@ -218,12 +218,24 @@ class Translate(Operation):
 
 class Pow(Operation):
 	BaseImage = "Button_Orange"
+	NumberOfSetting = 1
+
+	def Setup(self, powNumber=None):
+
+		if powNumber == None:
+			powNumber = int(input("pow number: "))
+
+		self.Setting[0] = powNumber
+		return
 
 	def DoAction(self, inputValue):
-		return inputValue ** 2
+		return inputValue ** self.Setting[0]
 
 	def ToString(self):
-		return "Pow "+str(2)
+		return "Pow "+str(self.Setting[0])
+
+	def IsValid(self):
+		return self.Setting[0] > 1 and super().IsValid()
 
 class Flip(Operation):
 	BaseImage = "Button_Orange"
@@ -250,8 +262,15 @@ class Sum(Operation):
 	BaseImage = "Button_Orange"
 
 	def DoAction(self, inputValue):
+		isNegtive = inputValue < 0
+		if isNegtive:
+			inputValue *= -1
 
-		return sum( map(lambda x: int(x), str(inputValue)))
+		newValue = sum( map(lambda x: int(x), str(inputValue)))
+
+		if isNegtive:
+			newValue *= -1
+		return newValue
 		
 
 	def ToString(self):
