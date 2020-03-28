@@ -19,14 +19,12 @@ class UnitTests:
 			self.TestSolves()
 
 		except Exception as e:
-			print("Got Exception running test: "+str(self.TestNumber)+") "+self.GroupName)
+			self.Assert(False, True, "working code")
+			self.SetGroup("test: "+str(self.TestNumber)+")")
 			
 			strTrace = traceback.format_exc()
 
-			print("")
-			print("===================")
 			print(strTrace)
-			print("===================")
 			self.AllPassed = False
 			
 
@@ -99,11 +97,6 @@ class UnitTests:
 		shiftRight.Setup()
 		self.Assert(shiftRight.DoAction(10), 1, "right DoAction()")
 		self.Assert(shiftRight.ToString(), "<<", "right ToString()")
-
-		shiftLeft = Operations.ShiftLeft()
-		shiftLeft.Setup()
-		self.Assert(shiftLeft.DoAction(1), 10, "Left DoAction()")
-		self.Assert(shiftLeft.ToString(), ">>", "Left ToString()")
 
 		self.SetGroup("Insert")
 		insert = Operations.Insert()
