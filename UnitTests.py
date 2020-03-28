@@ -2,6 +2,7 @@ import Solver.GameSolver as GameSolver
 import Solver.Operations as Operations
 import json
 import os
+import traceback
 
 class UnitTests:
 
@@ -13,9 +14,21 @@ class UnitTests:
 		self.GroupPassed = True
 		self.GroupName = ""
 
+		try:
+			self.TestOperations()
+			self.TestSolves()
 
-		self.TestOperations()
-		self.TestSolves()
+		except Exception as e:
+			print("Got Exception running test: "+str(self.TestNumber)+") "+self.GroupName)
+			
+			strTrace = traceback.format_exc()
+
+			print("")
+			print("===================")
+			print(strTrace)
+			print("===================")
+			self.AllPassed = False
+			
 
 		self.SetGroup("Done")
 		if not self.AllPassed:
