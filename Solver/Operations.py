@@ -50,7 +50,6 @@ def MakeOperation(opType=None):
 		Multiply,
 		Divide,
 		ShiftRight,
-		ShiftLeft,
 		Insert,
 		Translate,
 		Pow,
@@ -160,18 +159,6 @@ class ShiftRight(Operation):
 
 	def ToString(self):
 		return "<<"
-
-class ShiftLeft(Operation):
-	BaseImage = "Button_Orange"
-
-	def Setup(self):
-		return
-
-	def DoAction(self, inputValue):
-		return inputValue * 10
-
-	def ToString(self):
-		return ">>"
 
 class Insert(Operation):
 	BaseImage = "Button_Purple"
