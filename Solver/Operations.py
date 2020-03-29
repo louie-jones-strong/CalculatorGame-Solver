@@ -179,7 +179,7 @@ class Insert(Operation):
 		return int(str(inputValue) + str(self.Setting[0]))
 
 	def ToString(self):
-		return "Insert "+str(self.Setting[0])
+		return ""+str(self.Setting[0])
 
 class Translate(Operation):
 	BaseImage = "Button_Orange"
