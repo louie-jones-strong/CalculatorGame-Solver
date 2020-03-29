@@ -3,9 +3,9 @@ class OperationSettings:
 	def __init__(self, value=None, canModify=True, settingType=int):
 		if value == None:
 			if settingType == int:
-				settingType = 0
+				self.SettingValue = 0
 			elif settingType == bool:
-				settingType = False
+				self.SettingValue = False
 		else:
 			self.SettingValue = value
 

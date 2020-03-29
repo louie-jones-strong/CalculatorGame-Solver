@@ -547,7 +547,7 @@ class Main:
 		return
 
 	def SetUpOperationInfoScreen(self, clearSelected=True):
-		if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 0:
+		if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 0:
 			self.SetUpMainScreen()
 
 		else:
@@ -571,7 +571,7 @@ class Main:
 			piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			self.Manger.AddPiece(piece, False)
 			
-			if self.OperationsList[self.OperationSetUpIndex].NumberOfSetting == 2:
+			if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 2:
 				piece = self.MakeGridPiece(2, 1, image="Button")
 				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
 				piece.SetupAudio("ButtonDown", "ButtonUp")
