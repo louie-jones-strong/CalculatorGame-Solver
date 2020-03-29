@@ -3,12 +3,16 @@ class Operation:
 	NumberOfSetting = 0
 	Setting = []
 	OperationId = 0
+	SettingType = int
 
 	def __init__(self, Id=0):
 		self.OperationId = Id
 		self.Setting = []
 		for loop in range(self.NumberOfSetting):
-			self.Setting += [0]
+			if self.SettingType == int:
+				self.Setting += [0]
+			elif self.SettingType == bool:
+				self.Setting += [False]
 		return
 
 	def Setup(self):
@@ -49,13 +53,14 @@ def MakeOperation(opType=None):
 		Add,
 		Multiply,
 		Divide,
-		ShiftRight,
+		BitShiftRight,
 		Insert,
 		Translate,
 		Pow,
 		Flip,
 		Reverse,
-		Sum]
+		Sum,
+		SwapOrder]
 
 	if opType == None:
 		text = "Type none [0]"
@@ -148,7 +153,7 @@ class Divide(Operation):
 	def IsValid(self):
 		return self.Setting[0] != 0 and super().IsValid()
 
-class ShiftRight(Operation):
+class BitShiftRight(Operation):
 	BaseImage = "Button_Orange"
 
 	def Setup(self):
@@ -262,3 +267,43 @@ class Sum(Operation):
 
 	def ToString(self):
 		return "Sum"
+
+class SwapOrder(Operation):
+	BaseImage = "Button_Orange"
+	NumberOfSetting = 1
+	SettingType = bool
+
+	def Setup(self, isLeftShift=None):
+
+		if isLeftShift == None:
+			isLeftShift = bool(input("is Left Shift: "))
+
+		self.Setting[0] = isLeftShift
+		return
+
+	def DoAction(self, inputValue):
+		isNegtive = inputValue < 0
+		if isNegtive:
+			inputValue *= -1
+		
+		valueStr = str(inputValue)
+
+		if self.Setting[0]:
+			valueStr = valueStr[1:] + valueStr[0]
+		else:
+			valueStr = valueStr[-1] + valueStr[:-1]
+
+		newValue = int(valueStr)
+
+		if isNegtive:
+			newValue *= -1
+
+		return newValue
+
+	def ToString(self):
+		text = "Shift "
+		if self.Setting[0]:
+			text += "<"
+		else:
+			text += ">"
+		return text

@@ -93,10 +93,10 @@ class UnitTests:
 		self.Assert(divide.ToString(), "/3", "3 ToString()")
 
 		self.SetGroup("Shift")
-		shiftRight = Operations.ShiftRight()
-		shiftRight.Setup()
-		self.Assert(shiftRight.DoAction(10), 1, "right DoAction()")
-		self.Assert(shiftRight.ToString(), "<<", "right ToString()")
+		shift = Operations.BitShiftRight()
+		shift.Setup()
+		self.Assert(shift.DoAction(10), 1, "right DoAction()")
+		self.Assert(shift.ToString(), "<<", "right ToString()")
 
 		self.SetGroup("Insert")
 		insert = Operations.Insert()
@@ -138,6 +138,17 @@ class UnitTests:
 		sumOp.Setup()
 		self.Assert(sumOp.DoAction(1234), 10, "DoAction()")
 		self.Assert(sumOp.ToString(), "Sum", "ToString()")
+
+		self.SetGroup("SwapOrder")
+		swap = Operations.SwapOrder()
+		swap.Setup(True)
+		self.Assert(swap.DoAction(122), 221, "DoAction()")
+		self.Assert(swap.ToString(), "Shift <", "ToString()")
+
+		swap = Operations.SwapOrder()
+		swap.Setup(False)
+		self.Assert(swap.DoAction(122), 212, "DoAction()")
+		self.Assert(swap.ToString(), "Shift >", "ToString()")
 
 
 		return
