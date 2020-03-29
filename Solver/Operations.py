@@ -69,10 +69,10 @@ class Operation:
 			return True
 
 		opList = []
-		opList += [Add(0)]
+		opList += [MakeOperation(1)]
 		
 		newOpList = self.DoActionOnOpList(opList)
-		return opList[0].Setting[0].Value() == newOpList[0].Setting[0].Value()
+		return opList[0].Setting[0].Value() != newOpList[0].Setting[0].Value()
 
 	def Serialize(self):
 		settingList = []
@@ -354,7 +354,8 @@ class Modifier(Operation):
 		newOpList = []
 		for op in opList:
 			if op != self:
-				newOp = OpDeserialization(op.Serialize())
+				opData = op.Serialize()
+				newOp = OpDeserialization(opData)
 				newOp.ModifySettings(self.Setting[0].Value())
 				newOpList += [newOp]
 

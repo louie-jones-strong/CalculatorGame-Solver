@@ -238,7 +238,8 @@ class UnitTests:
 		loop = 0
 		for opData in operationsData:
 			op = Operations.OpDeserialization(opData)
-			self.Assert(op.IsValid(), True, "op[" + str(loop) + "] isVaild")
+			if type(op) != Operations.Operation:
+				self.Assert(op.IsValid(), True, "op[" + str(loop) + "] isVaild")
 			operationsList += [op]
 			loop += 1
 
