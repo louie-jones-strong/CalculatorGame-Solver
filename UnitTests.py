@@ -7,7 +7,7 @@ import traceback
 class UnitTests:
 
 	def __init__(self):
-		self.AllPassed = True
+		self.NumFailed = 0
 		self.TestNumber = 1
 		self.GroupText = ""
 		self.GroupStart = 1
@@ -25,14 +25,14 @@ class UnitTests:
 			strTrace = traceback.format_exc()
 
 			print(strTrace)
-			self.AllPassed = False
+			self.NumFailed += 1
 			
 
 		self.SetGroup("Done")
 
 		print("")
-		print("All tests Passed: "+str(self.AllPassed))
-		if not self.AllPassed:
+		print("Number Of Tests Failed: "+str(self.NumFailed))
+		if self.NumFailed > 0:
 			exit(code=1)
 		return
 
@@ -63,7 +63,7 @@ class UnitTests:
 			self.GroupText += "Passed " + str(testName) + "\n"
 		else:
 			self.GroupPassed = False
-			self.AllPassed = False
+			self.NumFailed += 1
 			self.GroupText += "Failed " + str(testName) + "\n"
 			self.GroupText += "\t\texpected: " + str(expectedValue) + " but got " + str(value) + "\n"
 
@@ -74,89 +74,85 @@ class UnitTests:
 		
 		self.SetGroup("Add")
 		add = Operations.Add()
-		add.Setup(1)
-		self.Assert(add.DoAction(1), 2, "+1 DoAction()")
+		add.SetSetting(0, 1)
+		self.Assert(add.DoActionOnValue(1), 2, "+1 DoActionOnValue()")
 		self.Assert(add.ToString(), "+1", "+1 ToString()")
 
 		add = Operations.Add()
-		add.Setup(-1)
-		self.Assert(add.DoAction(1), 0, "-1 DoAction()")
+		add.SetSetting(0, -1)
+		self.Assert(add.DoActionOnValue(1), 0, "-1 DoActionOnValue()")
 		self.Assert(add.ToString(), "-1", "-1 ToString()")
 
 		self.SetGroup("Multiply")
 		multiply = Operations.Multiply()
-		multiply.Setup(3)
-		self.Assert(multiply.DoAction(1), 3, "3 DoAction()")
+		multiply.SetSetting(0, 3)
+		self.Assert(multiply.DoActionOnValue(1), 3, "3 DoActionOnValue()")
 		self.Assert(multiply.ToString(), "X3", "3 ToString()")
 
 		self.SetGroup("Divide")
 		divide = Operations.Divide()
-		divide.Setup(3)
-		self.Assert(divide.DoAction(9), 3, "3 DoAction()")
+		divide.SetSetting(0, 3)
+		self.Assert(divide.DoActionOnValue(9), 3, "3 DoActionOnValue()")
 		self.Assert(divide.ToString(), "/3", "3 ToString()")
 
 		self.SetGroup("Shift")
 		shift = Operations.BitShiftRight()
-		shift.Setup()
-		self.Assert(shift.DoAction(10), 1, "right DoAction()")
+		self.Assert(shift.DoActionOnValue(10), 1, "right DoActionOnValue()")
 		self.Assert(shift.ToString(), "<<", "right ToString()")
 
 		self.SetGroup("Insert")
 		insert = Operations.Insert()
-		insert.Setup(12)
-		self.Assert(insert.DoAction(1), 112, "DoAction()")
+		insert.SetSetting(0, 12)
+		self.Assert(insert.DoActionOnValue(1), 112, "DoActionOnValue()")
 		self.Assert(insert.ToString(), "12", "ToString()")
 
 		self.SetGroup("Translate")
 		translate = Operations.Translate()
-		translate.Setup(1,2)
-		self.Assert(translate.DoAction(121), 222, "DoAction()")
+		translate.SetSetting(0, 1)
+		translate.SetSetting(1, 2)
+		self.Assert(translate.DoActionOnValue(121), 222, "DoActionOnValue()")
 		self.Assert(translate.ToString(), "1=>2", "ToString()")
 
 		self.SetGroup("Pow")
 		powOp = Operations.Pow()
-		powOp.Setup(2)
-		self.Assert(powOp.DoAction(4), 16, "DoAction()")
+		powOp.SetSetting(0, 2)
+		self.Assert(powOp.DoActionOnValue(4), 16, "DoActionOnValue()")
 		self.Assert(powOp.ToString(), "Pow 2", "ToString()")
 
 		powOp = Operations.Pow()
-		powOp.Setup(3)
-		self.Assert(powOp.DoAction(4), 64, "DoAction()")
+		powOp.SetSetting(0, 3)
+		self.Assert(powOp.DoActionOnValue(4), 64, "DoActionOnValue()")
 		self.Assert(powOp.ToString(), "Pow 3", "ToString()")
 
 		self.SetGroup("Flip")
 		flip = Operations.Flip()
-		flip.Setup()
-		self.Assert(flip.DoAction(1), -1, "DoAction()")
+		self.Assert(flip.DoActionOnValue(1), -1, "DoActionOnValue()")
 		self.Assert(flip.ToString(), "+/- ", "ToString()")
 
 		self.SetGroup("Reverse")
 		reverse = Operations.Reverse()
-		reverse.Setup()
-		self.Assert(reverse.DoAction(1234), 4321, "DoAction()")
+		self.Assert(reverse.DoActionOnValue(1234), 4321, "DoActionOnValue()")
 		self.Assert(reverse.ToString(), "Reverse", "ToString()")
 
 		self.SetGroup("Sum")
 		sumOp = Operations.Sum()
-		sumOp.Setup()
-		self.Assert(sumOp.DoAction(1234), 10, "DoAction()")
+		self.Assert(sumOp.DoActionOnValue(1234), 10, "DoActionOnValue()")
 		self.Assert(sumOp.ToString(), "Sum", "ToString()")
 
 		self.SetGroup("SwapOrder")
 		swap = Operations.SwapOrder()
-		swap.Setup(True)
-		self.Assert(swap.DoAction(122), 221, "DoAction()")
+		swap.SetSetting(0, True)
+		self.Assert(swap.DoActionOnValue(122), 221, "DoActionOnValue()")
 		self.Assert(swap.ToString(), "Shift <", "ToString()")
 
 		swap = Operations.SwapOrder()
-		swap.Setup(False)
-		self.Assert(swap.DoAction(122), 212, "DoAction()")
+		swap.SetSetting(0, False)
+		self.Assert(swap.DoActionOnValue(122), 212, "DoActionOnValue()")
 		self.Assert(swap.ToString(), "Shift >", "ToString()")
 
 		self.SetGroup("Mirror")
 		mirror = Operations.Mirror()
-		mirror.Setup()
-		self.Assert(mirror.DoAction(12), 1221, "DoAction()")
+		self.Assert(mirror.DoActionOnValue(12), 1221, "DoActionOnValue()")
 		self.Assert(mirror.ToString(), "Mirror", "ToString()")
 
 

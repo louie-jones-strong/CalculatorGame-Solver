@@ -15,13 +15,13 @@ class Operation:
 				self.Setting += [False]
 		return
 
-	def Setup(self):
-
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 
 		return inputValue
+
+	def DoActionOnOpList(self, opList):
+
+		return opList
 
 	def ToString(self):
 
@@ -40,7 +40,7 @@ class Operation:
 
 	def IsValid(self):
 		number = 1234
-		newNumber = self.DoAction(number)
+		newNumber = self.DoActionOnValue(number)
 		return number != newNumber
 
 	def Serialize(self):
@@ -90,14 +90,7 @@ class Add(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
-	def Setup(self, addAmount=None):
-		if addAmount == None:
-			addAmount = int(input("Add Value: "))
-
-		self.Setting[0] = addAmount
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 
 		return inputValue + self.Setting[0]
 
@@ -111,15 +104,7 @@ class Multiply(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
-	def Setup(self, multiplyAmount=None):
-
-		if multiplyAmount == None:
-			multiplyAmount = int(input("multiply Value: "))
-
-		self.Setting[0] = multiplyAmount
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 
 		return inputValue * self.Setting[0]
 
@@ -134,14 +119,7 @@ class Divide(Operation):
 	BaseImage = "Button_Black"
 	NumberOfSetting = 1
 
-	def Setup(self, divideAmount=None):
-		if divideAmount == None:
-			divideAmount = int(input("Divide Value: "))
-
-		self.Setting[0] = divideAmount
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		output = inputValue / self.Setting[0]
 		if int(output) == output:
 			return int(output)
@@ -157,10 +135,7 @@ class Divide(Operation):
 class BitShiftRight(Operation):
 	BaseImage = "Button_Orange"
 
-	def Setup(self):
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		return int(inputValue / 10)
 
 	def ToString(self):
@@ -170,13 +145,7 @@ class Insert(Operation):
 	BaseImage = "Button_Purple"
 	NumberOfSetting = 1
 
-	def Setup(self, insertNumber=None):
-		if insertNumber == None:
-			insertNumber = int(input("Insert Number: "))
-		self.Setting[0] = insertNumber
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		return int(str(inputValue) + str(self.Setting[0]))
 
 	def ToString(self):
@@ -186,19 +155,7 @@ class Translate(Operation):
 	BaseImage = "Button_Orange"
 	NumberOfSetting = 2
 
-	def Setup(self, fromNum=None, toNum=None):
-
-		if fromNum == None:
-			fromNum = int(input("From: "))
-
-		if toNum == None:
-			toNum = int(input("To: "))
-
-		self.Setting[0] = fromNum
-		self.Setting[1] = toNum
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 
 		return int(str(inputValue).replace(str(self.Setting[0]), str(self.Setting[1])))
 	
@@ -213,15 +170,7 @@ class Pow(Operation):
 	BaseImage = "Button_Orange"
 	NumberOfSetting = 1
 
-	def Setup(self, powNumber=None):
-
-		if powNumber == None:
-			powNumber = int(input("pow number: "))
-
-		self.Setting[0] = powNumber
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		return inputValue ** self.Setting[0]
 
 	def ToString(self):
@@ -233,7 +182,7 @@ class Pow(Operation):
 class Flip(Operation):
 	BaseImage = "Button_Orange"
 
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		return inputValue * -1
 
 	def ToString(self):
@@ -242,7 +191,7 @@ class Flip(Operation):
 class Reverse(Operation):
 	BaseImage = "Button_Orange"
 
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		if inputValue > 0:
 			return int(str(inputValue)[::-1])
 		else:
@@ -254,7 +203,7 @@ class Reverse(Operation):
 class Sum(Operation):
 	BaseImage = "Button_Orange"
 
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		isNegtive = inputValue < 0
 		if isNegtive:
 			inputValue *= -1
@@ -274,15 +223,7 @@ class SwapOrder(Operation):
 	NumberOfSetting = 1
 	SettingType = bool
 
-	def Setup(self, isLeftShift=None):
-
-		if isLeftShift == None:
-			isLeftShift = bool(input("is Left Shift: "))
-
-		self.Setting[0] = isLeftShift
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		isNegtive = inputValue < 0
 		if isNegtive:
 			inputValue *= -1
@@ -312,10 +253,7 @@ class SwapOrder(Operation):
 class Mirror(Operation):
 	BaseImage = "Button_Orange"
 
-	def Setup(self):
-		return
-
-	def DoAction(self, inputValue):
+	def DoActionOnValue(self, inputValue):
 		isNegtive = inputValue < 0
 		if isNegtive:
 			inputValue *= -1
