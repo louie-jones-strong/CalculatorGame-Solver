@@ -6,6 +6,9 @@ def Solve(movesLeft, operations, currentNumber, targetNumber):
 		if targetNumber == newCurrentNumber:
 			return True, [operation]
 
+		elif len(str(newCurrentNumber)) > 6:
+			continue
+
 		elif newCurrentNumber == currentNumber:
 			continue
 		
