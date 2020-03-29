@@ -1,18 +1,37 @@
+class OperationSettings:
+
+	def __init__(self, value=None, canModify=True, settingType=int):
+		if value == None:
+			if settingType == int:
+				settingType = 0
+			elif settingType == bool:
+				settingType = False
+		else:
+			self.SettingValue = value
+
+		self.CanModify = canModify
+		self.SettingType = settingType
+		return
+
+	def Value(self):
+
+		return self.SettingValue
+
+	def SetValue(self, value):
+		self.SettingValue = value
+		return
+
+	def Serialize(self):
+		return self.SettingValue
+
 class Operation:
 	BaseImage = ""
-	NumberOfSetting = 0
 	Setting = []
 	OperationId = 0
-	SettingType = int
 
-	def __init__(self, Id=0):
-		self.OperationId = Id
+	def __init__(self, id):
+		self.OperationId = id
 		self.Setting = []
-		for loop in range(self.NumberOfSetting):
-			if self.SettingType == int:
-				self.Setting += [0]
-			elif self.SettingType == bool:
-				self.Setting += [False]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -29,12 +48,12 @@ class Operation:
 
 	def GetSetting(self, index):
 		if len(self.Setting) > index and index >= 0:
-			return self.Setting[index]
+			return self.Setting[index].Value()
 		return 0
 
 	def SetSetting(self, index, value):
 		if len(self.Setting) > index and index >= 0:
-			self.Setting[index] = value
+			self.Setting[index].SetValue(value)
 			
 		return
 
@@ -44,9 +63,13 @@ class Operation:
 		return number != newNumber
 
 	def Serialize(self):
-		return {"OpType":self.OperationId, "Settings": self.Setting}
+		settingList = []
+		for item in self.Setting:
+			settingList += [item.Serialize()]
 
-def MakeOperation(opType=None):
+		return {"OpType":self.OperationId, "Settings": settingList}
+
+def MakeOperation(opType):
 	#do not change the order of this list
 	opList = [
 		Operation, 
@@ -62,15 +85,6 @@ def MakeOperation(opType=None):
 		Sum,
 		SwapOrder,
 		Mirror]
-
-	if opType == None:
-		text = "Type none [0]"
-
-		for loop in range(1, len(opList)):
-			op = opList[loop](loop)
-			text += " " + str(type(op).__name__) + "["+str(loop)+"]"
-		text += ": "
-		opType = int(input(text))
 
 	if opType >= 0 and opType < len(opList):
 		return opList[opType](opType)
@@ -88,49 +102,61 @@ def OpDeserialization(opData):
 
 class Add(Operation):
 	BaseImage = "Button_Black"
-	NumberOfSetting = 1
+
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
 
-		return inputValue + self.Setting[0]
+		return inputValue + self.Setting[0].Value()
 
 	def ToString(self):
-		if self.Setting[0] >= 0:
-			return "+"+str(self.Setting[0])
+		if self.Setting[0].Value() >= 0:
+			return "+"+str(self.Setting[0].Value())
 		else:
-			return str(self.Setting[0])
+			return str(self.Setting[0].Value())
 
 class Multiply(Operation):
 	BaseImage = "Button_Black"
-	NumberOfSetting = 1
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
 
-		return inputValue * self.Setting[0]
+		return inputValue * self.Setting[0].Value()
 
 	def ToString(self):
 
-		return "X"+str(self.Setting[0])
+		return "X"+str(self.Setting[0].Value())
 
 	def IsValid(self):
-		return self.Setting[0] != 0 and super().IsValid()
+		return self.Setting[0].Value() != 0 and super().IsValid()
 
 class Divide(Operation):
 	BaseImage = "Button_Black"
-	NumberOfSetting = 1
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
-		output = inputValue / self.Setting[0]
+		output = inputValue / self.Setting[0].Value()
 		if int(output) == output:
 			return int(output)
 		return output
 
 	def ToString(self):
 
-		return "/"+str(self.Setting[0])
+		return "/"+str(self.Setting[0].Value())
 
 	def IsValid(self):
-		return self.Setting[0] != 0 and super().IsValid()
+		return self.Setting[0].Value() != 0 and super().IsValid()
 
 class BitShiftRight(Operation):
 	BaseImage = "Button_Orange"
@@ -143,41 +169,54 @@ class BitShiftRight(Operation):
 
 class Insert(Operation):
 	BaseImage = "Button_Purple"
-	NumberOfSetting = 1
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
-		return int(str(inputValue) + str(self.Setting[0]))
+		return int(str(inputValue) + str(self.Setting[0].Value()))
 
 	def ToString(self):
-		return ""+str(self.Setting[0])
+		return ""+str(self.Setting[0].Value())
 
 class Translate(Operation):
 	BaseImage = "Button_Orange"
-	NumberOfSetting = 2
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
 
-		return int(str(inputValue).replace(str(self.Setting[0]), str(self.Setting[1])))
+		return int(str(inputValue).replace(str(self.Setting[0].Value()), str(self.Setting[1].Value())))
 	
 	def ToString(self):
 
-		return str(self.Setting[0]) + "=>" + str(self.Setting[1])
+		return str(self.Setting[0].Value()) + "=>" + str(self.Setting[1].Value())
 	
 	def IsValid(self):
-		return self.Setting[0] != self.Setting[1]
+		return self.Setting[0].Value() != self.Setting[1].Value()
 
 class Pow(Operation):
 	BaseImage = "Button_Orange"
-	NumberOfSetting = 1
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
 
 	def DoActionOnValue(self, inputValue):
-		return inputValue ** self.Setting[0]
+		return inputValue ** self.Setting[0].Value()
 
 	def ToString(self):
-		return "Pow "+str(self.Setting[0])
+		return "Pow "+str(self.Setting[0].Value())
 
 	def IsValid(self):
-		return self.Setting[0] > 1 and super().IsValid()
+		return self.Setting[0].Value() > 1 and super().IsValid()
 
 class Flip(Operation):
 	BaseImage = "Button_Orange"
@@ -220,8 +259,11 @@ class Sum(Operation):
 
 class SwapOrder(Operation):
 	BaseImage = "Button_Orange"
-	NumberOfSetting = 1
-	SettingType = bool
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings(settingType=bool)]
+		return
 
 	def DoActionOnValue(self, inputValue):
 		isNegtive = inputValue < 0
@@ -230,7 +272,7 @@ class SwapOrder(Operation):
 		
 		valueStr = str(inputValue)
 
-		if self.Setting[0]:
+		if self.Setting[0].Value():
 			valueStr = valueStr[1:] + valueStr[0]
 		else:
 			valueStr = valueStr[-1] + valueStr[:-1]
@@ -244,7 +286,7 @@ class SwapOrder(Operation):
 
 	def ToString(self):
 		text = "Shift "
-		if self.Setting[0]:
+		if self.Setting[0].Value():
 			text += "<"
 		else:
 			text += ">"
