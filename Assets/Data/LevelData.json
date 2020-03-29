@@ -1234,6 +1234,38 @@
         ],
         "StartingNumber": 125
     },
+    "132": {
+        "Goal": 15,
+        "Level": 132,
+        "Moves": 3,
+        "Operations": [
+            {
+                "OpType": 1,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 10
+    },
     "14": {
         "Goal": 21,
         "Level": 14,

@@ -24,6 +24,11 @@ class OperationSettings:
 	def Serialize(self):
 		return self.SettingValue
 
+	def ChangeModifyValue(self, value):
+		if self.CanModify:
+			self.SettingValue += value
+		return
+
 class Operation:
 	BaseImage = ""
 	Setting = []
@@ -56,11 +61,18 @@ class Operation:
 			self.Setting[index].SetValue(value)
 			
 		return
-
+	
 	def IsValid(self):
 		number = 1234
 		newNumber = self.DoActionOnValue(number)
-		return number != newNumber
+		if number != newNumber:
+			return True
+
+		opList = []
+		opList += [Add(0)]
+		
+		newOpList = self.DoActionOnOpList(opList)
+		return opList[0].Setting[0].Value() == newOpList[0].Setting[0].Value()
 
 	def Serialize(self):
 		settingList = []
@@ -68,6 +80,11 @@ class Operation:
 			settingList += [item.Serialize()]
 
 		return {"OpType":self.OperationId, "Settings": settingList}
+
+	def ModifySettings(self, delta):
+		for setting in self.Setting:
+			setting.ChangeModifyValue(delta)
+		return
 
 def MakeOperation(opType):
 	#do not change the order of this list
@@ -84,12 +101,14 @@ def MakeOperation(opType):
 		Reverse,
 		Sum,
 		SwapOrder,
-		Mirror]
+		Mirror,
+		Modifier]
 
 	if opType >= 0 and opType < len(opList):
 		return opList[opType](opType)
 
 	return None
+
 
 def OpDeserialization(opData):
 	op = MakeOperation(opData["OpType"])
@@ -323,4 +342,24 @@ class Mirror(Operation):
 	def ToString(self):
 		return "Mirror"
 
+class Modifier(Operation):
+	BaseImage = "Button_Orange"
+	
+	def __init__(self, id):
+		super().__init__(id)
+		self.Setting += [OperationSettings()]
+		return
+
+	def DoActionOnOpList(self, opList):
+		newOpList = []
+		for op in opList:
+			if op != self:
+				newOp = OpDeserialization(op.Serialize())
+				newOp.ModifySettings(self.Setting[0].Value())
+				newOpList += [newOp]
+
+		return newOpList
 		
+	def ToString(self):
+		return "[+] " + str(self.Setting[0].Value())
+
