@@ -153,6 +153,12 @@ class UnitTests:
 		self.Assert(swap.DoAction(122), 212, "DoAction()")
 		self.Assert(swap.ToString(), "Shift >", "ToString()")
 
+		self.SetGroup("Mirror")
+		mirror = Operations.Mirror()
+		mirror.Setup()
+		self.Assert(mirror.DoAction(12), 1221, "DoAction()")
+		self.Assert(mirror.ToString(), "Mirror", "ToString()")
+
 
 		return
 
