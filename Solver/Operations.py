@@ -60,7 +60,8 @@ def MakeOperation(opType=None):
 		Flip,
 		Reverse,
 		Sum,
-		SwapOrder]
+		SwapOrder,
+		Mirror]
 
 	if opType == None:
 		text = "Type none [0]"
@@ -307,3 +308,39 @@ class SwapOrder(Operation):
 		else:
 			text += ">"
 		return text
+
+class Mirror(Operation):
+	BaseImage = "Button_Orange"
+
+	def Setup(self):
+		return
+
+	def DoAction(self, inputValue):
+		isNegtive = inputValue < 0
+		if isNegtive:
+			inputValue *= -1
+		
+		valueStr = str(inputValue)
+
+		valueList = list(valueStr)
+		
+		newValueList = []
+		for item in valueList:
+			newValueList += [item]
+
+		valueList.reverse()
+		for item in valueList:
+			newValueList += [item]
+
+		valueStr = "".join(newValueList)
+		newValue = int(valueStr)
+
+		if isNegtive:
+			newValue *= -1
+
+		return newValue
+
+	def ToString(self):
+		return "Mirror"
+
+		
