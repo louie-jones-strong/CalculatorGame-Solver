@@ -29,6 +29,9 @@ class UnitTests:
 			
 
 		self.SetGroup("Done")
+
+		print("")
+		print("All tests Passed: "+str(self.AllPassed))
 		if not self.AllPassed:
 			exit(code=1)
 		return
@@ -102,7 +105,7 @@ class UnitTests:
 		insert = Operations.Insert()
 		insert.Setup(12)
 		self.Assert(insert.DoAction(1), 112, "DoAction()")
-		self.Assert(insert.ToString(), "Insert 12", "ToString()")
+		self.Assert(insert.ToString(), "12", "ToString()")
 
 		self.SetGroup("Translate")
 		translate = Operations.Translate()
