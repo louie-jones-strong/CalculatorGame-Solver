@@ -34,21 +34,11 @@ class OperationSettings:
 
 class Operation:
 	BaseImage = ""
-	Setting = []
-	OperationId = 0
 
 	def __init__(self, id):
 		self.OperationId = id
 		self.Setting = []
 		return
-
-	def DoActionOnValue(self, inputValue):
-
-		return inputValue
-
-	def DoActionOnOpList(self, opList):
-
-		return opList
 
 	def ToString(self):
 
@@ -66,16 +56,7 @@ class Operation:
 		return
 	
 	def IsValid(self):
-		number = 1234
-		newNumber = self.DoActionOnValue(number)
-		if number != newNumber:
-			return True
-
-		opList = []
-		opList += [MakeOperation(1)]
-		
-		newOpList = self.DoActionOnOpList(opList)
-		return opList[0].Setting[0].Value() != newOpList[0].Setting[0].Value()
+		return False
 
 	def Serialize(self):
 		settingList = []
@@ -88,6 +69,30 @@ class Operation:
 		for setting in self.Setting:
 			setting.ChangeModifyValue(delta)
 		return
+
+class ValueChangeOp(Operation):
+
+	def DoActionOnValue(self, inputValue):
+
+		return inputValue
+
+	def IsValid(self):
+		number = 1234
+		newNumber = self.DoActionOnValue(number)
+		return number != newNumber
+
+class OpListChangeOp(Operation):
+
+	def DoActionOnOpList(self, opList):
+
+		return opList
+
+	def IsValid(self):
+		opList = []
+		opList += [MakeOperation(1)]
+		
+		newOpList = self.DoActionOnOpList(opList)
+		return opList[0].Setting[0].Value() != newOpList[0].Setting[0].Value()
 
 def MakeOperation(opType):
 	#do not change the order of this list
@@ -112,7 +117,6 @@ def MakeOperation(opType):
 
 	return None
 
-
 def OpDeserialization(opData):
 	op = MakeOperation(opData["OpType"])
 	
@@ -122,7 +126,7 @@ def OpDeserialization(opData):
 		
 	return op
 
-class Add(Operation):
+class Add(ValueChangeOp):
 	BaseImage = "Button_Black"
 
 	def __init__(self, id):
@@ -140,7 +144,7 @@ class Add(Operation):
 		else:
 			return str(self.Setting[0].Value())
 
-class Multiply(Operation):
+class Multiply(ValueChangeOp):
 	BaseImage = "Button_Black"
 	
 	def __init__(self, id):
@@ -159,7 +163,7 @@ class Multiply(Operation):
 	def IsValid(self):
 		return self.Setting[0].Value() != 0 and super().IsValid()
 
-class Divide(Operation):
+class Divide(ValueChangeOp):
 	BaseImage = "Button_Black"
 	
 	def __init__(self, id):
@@ -180,7 +184,7 @@ class Divide(Operation):
 	def IsValid(self):
 		return self.Setting[0].Value() != 0 and super().IsValid()
 
-class BitShiftRight(Operation):
+class BitShiftRight(ValueChangeOp):
 	BaseImage = "Button_Orange"
 
 	def DoActionOnValue(self, inputValue):
@@ -189,7 +193,7 @@ class BitShiftRight(Operation):
 	def ToString(self):
 		return "<<"
 
-class Insert(Operation):
+class Insert(ValueChangeOp):
 	BaseImage = "Button_Purple"
 	
 	def __init__(self, id):
@@ -203,7 +207,7 @@ class Insert(Operation):
 	def ToString(self):
 		return ""+str(self.Setting[0].Value())
 
-class Translate(Operation):
+class Translate(ValueChangeOp):
 	BaseImage = "Button_Orange"
 	
 	def __init__(self, id):
@@ -223,7 +227,7 @@ class Translate(Operation):
 	def IsValid(self):
 		return self.Setting[0].Value() != self.Setting[1].Value()
 
-class Pow(Operation):
+class Pow(ValueChangeOp):
 	BaseImage = "Button_Orange"
 	
 	def __init__(self, id):
@@ -240,7 +244,7 @@ class Pow(Operation):
 	def IsValid(self):
 		return self.Setting[0].Value() > 1 and super().IsValid()
 
-class Flip(Operation):
+class Flip(ValueChangeOp):
 	BaseImage = "Button_Orange"
 
 	def DoActionOnValue(self, inputValue):
@@ -249,7 +253,7 @@ class Flip(Operation):
 	def ToString(self):
 		return "+/- "
 
-class Reverse(Operation):
+class Reverse(ValueChangeOp):
 	BaseImage = "Button_Orange"
 
 	def DoActionOnValue(self, inputValue):
@@ -261,7 +265,7 @@ class Reverse(Operation):
 	def ToString(self):
 		return "Reverse"
 
-class Sum(Operation):
+class Sum(ValueChangeOp):
 	BaseImage = "Button_Orange"
 
 	def DoActionOnValue(self, inputValue):
@@ -279,7 +283,7 @@ class Sum(Operation):
 	def ToString(self):
 		return "Sum"
 
-class SwapOrder(Operation):
+class SwapOrder(ValueChangeOp):
 	BaseImage = "Button_Orange"
 	
 	def __init__(self, id):
@@ -314,7 +318,7 @@ class SwapOrder(Operation):
 			text += ">"
 		return text
 
-class Mirror(Operation):
+class Mirror(ValueChangeOp):
 	BaseImage = "Button_Orange"
 
 	def DoActionOnValue(self, inputValue):
@@ -345,7 +349,7 @@ class Mirror(Operation):
 	def ToString(self):
 		return "Mirror"
 
-class Modifier(Operation):
+class Modifier(OpListChangeOp):
 	BaseImage = "Button_Orange"
 	
 	def __init__(self, id):
