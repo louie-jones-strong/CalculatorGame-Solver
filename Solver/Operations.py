@@ -70,6 +70,10 @@ class Operation:
 			setting.ChangeModifyValue(delta)
 		return
 
+	def __eq__(self, other):
+		return self.Serialize() == other.Serialize()
+
+
 class ValueChangeOp(Operation):
 
 	def DoActionOnValue(self, inputValue):
@@ -83,16 +87,17 @@ class ValueChangeOp(Operation):
 
 class OpListChangeOp(Operation):
 
-	def DoActionOnOpList(self, opList):
+	def DoActionOnOpList(self, opList, value):
 
 		return opList
 
 	def IsValid(self):
 		opList = []
 		opList += [MakeOperation(1)]
-		
-		newOpList = self.DoActionOnOpList(opList)
-		return opList[0].Setting[0].Value() != newOpList[0].Setting[0].Value()
+		number = 1234
+
+		newOpList = self.DoActionOnOpList(opList, number)
+		return opList[0] != newOpList[0]
 
 def MakeOperation(opType):
 	#do not change the order of this list
@@ -357,7 +362,7 @@ class Modifier(OpListChangeOp):
 		self.Setting += [OperationSettings()]
 		return
 
-	def DoActionOnOpList(self, opList):
+	def DoActionOnOpList(self, opList, value):
 		newOpList = []
 		for op in opList:
 			opData = op.Serialize()
