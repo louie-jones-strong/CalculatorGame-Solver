@@ -12,9 +12,6 @@ class Main:
 	Version = "1.1"
 
 	def __init__(self):
-		self.DebugMode = False
-
-
 		path = "Assets"
 		dataPath = os.path.join(path, "Data")
 		if not os.path.exists(dataPath):
@@ -22,6 +19,8 @@ class Main:
 
 		self.LevelDataPath = os.path.join(dataPath, "LevelData.json")
 		self.PlayerPrefsPath = os.path.join(dataPath, "PlayerPrefs.json")
+		self.DebugMode = False
+		self.IsDev = False
 
 		self.AudioPlayer = AudioPlayer.AudioPlayer(os.path.join(path, "Audio"), self.DebugMode)
 		self.AudioPlayer.SetupMultiEvent("ButtonDown", ["ButtonDown1", "ButtonDown2"])
@@ -60,6 +59,9 @@ class Main:
 					self.LoadLevelFromData(self.LevelsData[str(playerData["Level"])])
 				else:
 					self.Level = playerData["Level"]
+
+				if "IsDev" in playerData:
+					self.IsDev = playerData["IsDev"]
 
 		self.AudioPlayer.PlayEvent("Intro")
 		self.OperationSetUpIndex = None
@@ -376,26 +378,27 @@ class Main:
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
-		debugButton = "Button_"
-		if self.DebugMode:
-			debugButton += "Green"
-		else:
-			debugButton += "Red"
+		if self.IsDev:
+			debugButton = "Button_"
+			if self.DebugMode:
+				debugButton += "Green"
+			else:
+				debugButton += "Red"
 
-		piece = self.MakeGridPiece(1, 2, image=debugButton)
-		piece.SetUpButton(False,
-					onClick=self.DebugModeToggle)
-		piece.SetUpLabel("Debug", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
-		piece.SetupAudio("ButtonDown", "ButtonUp")
-		self.Manger.AddPiece(piece, False)
+			piece = self.MakeGridPiece(1, 2, image=debugButton)
+			piece.SetUpButton(False,
+						onClick=self.DebugModeToggle)
+			piece.SetUpLabel("Debug", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
+			piece.SetupAudio("ButtonDown", "ButtonUp")
+			self.Manger.AddPiece(piece, False)
 
-		piece = self.MakeGridPiece(2, 2, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.SaveLevelData)
-		piece.SetUpLabel("Save Level", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
-		piece.SetupAudio("ButtonDown", "ButtonUp")
-		self.Manger.AddPiece(piece, False)
+			piece = self.MakeGridPiece(2, 2, image="Button")
+			piece.SetUpButton(False, "Button_Hover",
+						"Button_Pressed",
+						onClick=self.SaveLevelData)
+			piece.SetUpLabel("Save Level", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
+			piece.SetupAudio("ButtonDown", "ButtonUp")
+			self.Manger.AddPiece(piece, False)
 		return
 
 	def SetUpShared(self, selectable=True, clearSelected=True):
@@ -468,7 +471,7 @@ class Main:
 
 		#row 2
 
-		if self.DebugMode:
+		if self.IsDev:
 			toggleButton = "Button_"
 			if self.OpDoesAction:
 				toggleButton += "Green"
