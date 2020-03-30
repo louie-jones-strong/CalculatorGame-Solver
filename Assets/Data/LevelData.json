@@ -1266,6 +1266,250 @@
         ],
         "StartingNumber": 10
     },
+    "133": {
+        "Goal": 14,
+        "Level": 133,
+        "Moves": 4,
+        "Operations": [
+            {
+                "OpType": 5,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "134": {
+        "Goal": 34,
+        "Level": 134,
+        "Moves": 3,
+        "Operations": [
+            {
+                "OpType": 5,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 5,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "135": {
+        "Goal": 101,
+        "Level": 135,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 5,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    5
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "136": {
+        "Goal": 28,
+        "Level": 136,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 5,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "137": {
+        "Goal": 42,
+        "Level": 137,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 1,
+                "Settings": [
+                    -2
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    5
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 2,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "138": {
+        "Goal": 25,
+        "Level": 138,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 1,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 2,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    -3
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 0
+    },
+    "139": {
+        "Goal": 41,
+        "Level": 139,
+        "Moves": 4,
+        "Operations": [
+            {
+                "OpType": 1,
+                "Settings": [
+                    4
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    8
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 2,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 5
+    },
     "14": {
         "Goal": 21,
         "Level": 14,
@@ -1299,6 +1543,78 @@
             }
         ],
         "StartingNumber": 0
+    },
+    "140": {
+        "Goal": 31,
+        "Level": 140,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 2,
+                "Settings": [
+                    4
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 10,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 33
+    },
+    "141": {
+        "Goal": 268,
+        "Level": 141,
+        "Moves": 5,
+        "Operations": [
+            {
+                "OpType": 1,
+                "Settings": [
+                    8
+                ]
+            },
+            {
+                "OpType": 2,
+                "Settings": [
+                    2
+                ]
+            },
+            {
+                "OpType": 13,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 2,
+                "Settings": [
+                    5
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "StartingNumber": 25
     },
     "15": {
         "Goal": 50,
