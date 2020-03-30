@@ -64,6 +64,7 @@ class Main:
 		self.AudioPlayer.PlayEvent("Intro")
 		self.OperationSetUpIndex = None
 		self.SolarCovered = False
+		self.OpDoesAction = False
 		self.SetUpMainScreen()
 		return
 
@@ -110,20 +111,19 @@ class Main:
 		for loop in range(5):
 			self.SolveOrder += [""]
 
-		opIndex = 0
-		for solveLoop in range(len(solveOperationList)):
+		solveLoop = 0
+		for opIndex in solveOperationList:
 			solveOp = solveOperationList[solveLoop]
-			if self.DebugMode:
-				print(str(solveLoop) +") "+ solveOp.ToString())
 
-			for loop in range(len(self.OperationsList)):
-				if self.OperationsList[loop] is solveOp:
-					opIndex = loop
-					break
+			if self.DebugMode:
+				solveOp = self.OperationsList[opIndex]
+				print(str(solveLoop) +") "+ solveOp.ToString())
 
 			if len(self.SolveOrder[opIndex]) > 0:
 				self.SolveOrder[opIndex] += "," 
 			self.SolveOrder[opIndex] += str(solveLoop+1)
+
+			solveLoop += 1
 
 			
 		self.SetUpMainScreen()
@@ -220,7 +220,25 @@ class Main:
 		json.dump(self.LevelsData, file, indent=4, sort_keys=True)
 		file.close()
 		return
+	def ToggleOpClickAction(self):
+		if self.DebugMode:
+			print("Toggle Op Click Action")
+		self.OpDoesAction = not self.OpDoesAction
+		self.SetUpMainScreen()
+		return
+	def OperationClicked(self, opIndex):
+		if self.OpDoesAction:
+			op = self.OperationsList[opIndex]
+			if type(op) != Operations.Operation and self.Moves > 0:
+				self.Moves = self.Moves-1
 
+				self.StartingNum = op.DoActionOnValue(self.StartingNum)
+				self.OperationsList = op.DoActionOnOpList(self.OperationsList)
+
+				self.SetUpMainScreen()
+		else:
+			self.SetUpOperationSelectScreen(opIndex)
+		return
 #Functions used by a few
 
 	def GetlevelDictData(self):
@@ -431,7 +449,7 @@ class Main:
 
 		op = self.OperationsList[0]
 		piece = self.MakeGridPiece(1, 0, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=0)
+		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=0)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -450,9 +468,22 @@ class Main:
 
 		#row 2
 
+		if self.DebugMode:
+			toggleButton = "Button_"
+			if self.OpDoesAction:
+				toggleButton += "Green"
+			else:
+				toggleButton += "Red"
+			piece = self.MakeGridPiece(0, 1, image=toggleButton)
+			piece.SetUpButton(False,
+						onClick=self.ToggleOpClickAction)
+			piece.SetupAudio("ButtonDown", "ButtonUp")
+			piece.SetUpLabel("Setup", "", yLabelAnchor=0.5)
+			self.Manger.AddPiece(piece, True)
+
 		op = self.OperationsList[1]
 		piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=1)
+		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=1)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -464,7 +495,7 @@ class Main:
 
 		op = self.OperationsList[2]
 		piece = self.MakeGridPiece(2, 1, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=2)
+		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=2)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -483,7 +514,7 @@ class Main:
 
 		op = self.OperationsList[3]
 		piece = self.MakeGridPiece(1, 2, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=3)
+		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=3)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -494,7 +525,7 @@ class Main:
 
 		op = self.OperationsList[4]
 		piece = self.MakeGridPiece(2, 2, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.SetUpOperationSelectScreen, onClickData=4)
+		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=4)
 		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -505,10 +536,10 @@ class Main:
 
 		return
 	
-	def SetUpOperationSelectScreen(self, gridIndex):
+	def SetUpOperationSelectScreen(self, opIndex):
 		if self.DebugMode:
-			print("Setup Operation Screen index: " + str(gridIndex))
-		self.OperationSetUpIndex = gridIndex
+			print("Setup Operation Screen index: " + str(opIndex))
+		self.OperationSetUpIndex = opIndex
 		
 		self.SetUpShared(False)
 
