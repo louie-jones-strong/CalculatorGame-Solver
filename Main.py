@@ -392,10 +392,8 @@ class Main:
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, False)
 
-			piece = self.MakeGridPiece(2, 2, image="Button")
-			piece.SetUpButton(False, "Button_Hover",
-						"Button_Pressed",
-						onClick=self.SaveLevelData)
+			piece = self.MakeGridPiece(2, 2, image="Button_Green")
+			piece.SetUpButton(False, onClick=self.SaveLevelData)
 			piece.SetUpLabel("Save Level", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, False)
@@ -481,7 +479,7 @@ class Main:
 			piece.SetUpButton(False,
 						onClick=self.ToggleOpClickAction)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
-			piece.SetUpLabel("Setup", "", yLabelAnchor=0.5)
+			piece.SetUpLabel("Do Action", "", yLabelAnchor=0.5)
 			self.Manger.AddPiece(piece, True)
 
 		op = self.OperationsList[1]
