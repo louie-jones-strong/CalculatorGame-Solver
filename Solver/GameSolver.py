@@ -41,7 +41,7 @@ def CheckValueChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
 	return False, []
 
 def CheckOpListChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
-	newOpList = opList[opIndex].DoActionOnOpList(opList)
+	newOpList = opList[opIndex].DoActionOnOpList(opList, currentNumber)
 
 	if opList == newOpList:
 		return False, []
