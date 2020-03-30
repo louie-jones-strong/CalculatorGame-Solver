@@ -1,11 +1,13 @@
 def Solve(movesLeft, operations, currentNumber, targetNumber):
 
-	for operation in operations:
+	for loop in range(len(operations)):
+		operation = operations[loop]
+
 		newCurrentNumber = operation.DoActionOnValue(currentNumber)
 		newoperationsList = operation.DoActionOnOpList(operations)
 		
 		if targetNumber == newCurrentNumber:
-			return True, [operation]
+			return True, [loop]
 
 		elif len(str(newCurrentNumber)) > 6:
 			continue
@@ -21,6 +23,6 @@ def Solve(movesLeft, operations, currentNumber, targetNumber):
 				movesLeft-1, newoperationsList, newCurrentNumber, targetNumber)
 
 			if found:
-				return True, [operation] + operationList
+				return True, [loop] + operationList
 
 	return False, []

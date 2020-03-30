@@ -26,7 +26,10 @@ class OperationSettings:
 
 	def ChangeModifyValue(self, value):
 		if self.CanModify:
-			self.SettingValue += value
+			if self.SettingValue < 0:
+				self.SettingValue -= value
+			else:
+				self.SettingValue += value
 		return
 
 class Operation:
@@ -353,11 +356,13 @@ class Modifier(Operation):
 	def DoActionOnOpList(self, opList):
 		newOpList = []
 		for op in opList:
+			opData = op.Serialize()
+			newOp = OpDeserialization(opData)
+
 			if op != self:
-				opData = op.Serialize()
-				newOp = OpDeserialization(opData)
 				newOp.ModifySettings(self.Setting[0].Value())
-				newOpList += [newOp]
+				
+			newOpList += [newOp]
 
 		return newOpList
 		
