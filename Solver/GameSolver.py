@@ -1,28 +1,55 @@
-def Solve(movesLeft, operations, currentNumber, targetNumber):
+import Solver.Operations as Operations
 
-	for loop in range(len(operations)):
-		operation = operations[loop]
+def Solve(movesLeft, opList, currentNumber, targetNumber):
 
-		newCurrentNumber = operation.DoActionOnValue(currentNumber)
-		newoperationsList = operation.DoActionOnOpList(operations)
-		
-		if targetNumber == newCurrentNumber:
-			return True, [loop]
+	for opIndex in range(len(opList)):
+		operation = opList[opIndex]
 
-		elif len(str(newCurrentNumber)) > 6:
-			continue
-
-		elif newCurrentNumber == currentNumber and operations == newoperationsList:
-			continue
-		
-		elif int(newCurrentNumber) != newCurrentNumber:
-			continue
-
-		elif movesLeft > 1:
-			found, operationList = Solve(
-				movesLeft-1, newoperationsList, newCurrentNumber, targetNumber)
-
+		if issubclass(type(operation), Operations.ValueChangeOp):
+			found, solveOrder = CheckValueChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber)
 			if found:
-				return True, [loop] + operationList
+				return True, solveOrder
+
+		if issubclass(type(operation), Operations.OpListChangeOp):
+			found, solveOrder = CheckOpListChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber)
+			if found:
+				return True, solveOrder
+		
+	return False, []
+
+def CheckValueChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
+	newCurrentNumber = opList[opIndex].DoActionOnValue(currentNumber)
+	
+	if targetNumber == newCurrentNumber:
+		return True, [opIndex]
+
+	elif len(str(newCurrentNumber)) > 6:
+		return False, []
+
+	elif newCurrentNumber == currentNumber:
+		return False, []
+	
+	elif int(newCurrentNumber) != newCurrentNumber:
+		return False, []
+
+	elif movesLeft > 1:
+		found, solveOrder = Solve(movesLeft-1, opList, newCurrentNumber, targetNumber)
+
+		if found:
+			return True, [opIndex] + solveOrder
+
+	return False, []
+
+def CheckOpListChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
+	newOpList = opList[opIndex].DoActionOnOpList(opList)
+
+	if opList == newOpList:
+		return False, []
+	
+	elif movesLeft > 1:
+		found, solveOrder = Solve(movesLeft-1, newOpList, currentNumber, targetNumber)
+
+		if found:
+			return True, [opIndex] + solveOrder
 
 	return False, []

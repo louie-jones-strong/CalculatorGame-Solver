@@ -202,7 +202,6 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Modifier, "op Type Check")
 		self.AssertEqual(op.OperationId, 13, "ID Check")
 		op.SetSetting(0, 1)
-		self.AssertEqual(op.DoActionOnValue(12), 12, "DoActionOnValue()")
 		self.AssertEqual(op.ToString(), "[+] 1", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 		return
