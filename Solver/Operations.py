@@ -71,7 +71,7 @@ class Operation:
 		return
 
 	def __eq__(self, other):
-		return self.Serialize() == other.Serialize()
+		return type(other) == type(self) and self.Serialize() == other.Serialize()
 
 
 class ValueChangeOp(Operation):
