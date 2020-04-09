@@ -235,7 +235,7 @@ class Main:
 				self.Moves = self.Moves-1
 
 				self.StartingNum = op.DoActionOnValue(self.StartingNum)
-				self.OperationsList = op.DoActionOnOpList(self.OperationsList)
+				self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
 
 				self.SetUpMainScreen()
 		else:

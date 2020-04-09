@@ -204,6 +204,14 @@ class UnitTests:
 		op.SetSetting(0, 1)
 		self.AssertEqual(op.ToString(), "[+] 1", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
+
+		self.SetGroup("Store")
+		op = Operations.MakeOperation(134)
+		self.AssertEqual(type(op), Operations.Store, "op Type Check")
+		self.AssertEqual(op.OperationId, 14, "ID Check")
+		op.SetSetting(0, 1)
+		self.AssertEqual(op.ToString(), "[+] 1", "ToString()")
+		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 		return
 
 	def TestSolves(self):
