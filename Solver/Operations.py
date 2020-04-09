@@ -115,7 +115,8 @@ def MakeOperation(opType):
 		Sum,
 		SwapOrder,
 		Mirror,
-		Modifier]
+		Modifier,
+		Store]
 
 	if opType >= 0 and opType < len(opList):
 		return opList[opType](opType)
@@ -377,4 +378,37 @@ class Modifier(OpListChangeOp):
 		
 	def ToString(self):
 		return "[+] " + str(self.Setting[0].Value())
+
+class Store(Insert, ValueChangeOp):
+	BaseImage = "Button_Purple"
+
+	def __init__(self, id):
+		super().__init__(id)
+		self.HasBeenSet = False
+		return
+
+	def DoActionOnOpList(self, opList, value):
+		newOpList = []
+		for op in opList:
+			opData = op.Serialize()
+			newOp = OpDeserialization(opData)
+
+			if op == self:
+				newOp.SetSetting(0, value)
+				
+			newOpList += [newOp]
+
+		return newOpList
+
+	def SetSetting(self, index, value):
+		super().SetSetting(index, value)
+		self.HasBeenSet = True
+		return
+		
+	def ToString(self):
+		if self.HasBeenSet:
+			text = str(self.Setting[0].Value())
+		else:
+			text = "Store"
+		return text
 
