@@ -205,12 +205,39 @@ class UnitTests:
 		self.AssertEqual(str(op), "[+] 1", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
+		testOpList = [op]
+		exceptedOpList = [op]
+
+		addOp = Operations.MakeOperation(1)
+		testOpList += [addOp]
+
+		addOp = Operations.MakeOperation(1)
+		addOp.SetSetting(0, 1)
+		exceptedOpList += [addOp]
+
+		newOpList = op.DoActionOnOpList(testOpList, 123)
+		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
+
 		self.SetGroup("Store")
 		op = Operations.MakeOperation(14)
 		self.AssertEqual(type(op), Operations.Store, "op Type Check")
 		self.AssertEqual(op.OperationId, 14, "ID Check")
 		self.AssertEqual(str(op), "Store", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
+		
+		testOpList = [op]
+		storeOp = Operations.MakeOperation(14)
+		storeOp.SetSetting(0, 123)
+		exceptedOpList = [storeOp]
+
+
+		addOp = Operations.MakeOperation(1)
+		testOpList += [addOp]
+		exceptedOpList += [addOp]
+
+		newOpList = op.DoActionOnOpList(testOpList, 123)
+		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
+		self.AssertEqual(str(storeOp), "123", "ToString()")
 		return
 
 	def TestSolves(self):
