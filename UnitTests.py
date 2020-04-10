@@ -81,13 +81,13 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 1, "ID Check")
 		op.SetSetting(0, 1)
 		self.AssertEqual(op.DoActionOnValue(1), 2, "+1 DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "+1", "+1 ToString()")
+		self.AssertEqual(str(op), "+1", "+1 ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		op = Operations.MakeOperation(1)
 		op.SetSetting(0, -1)
 		self.AssertEqual(op.DoActionOnValue(1), 0, "-1 DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "-1", "-1 ToString()")
+		self.AssertEqual(str(op), "-1", "-1 ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Multiply")
@@ -96,7 +96,7 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 2, "ID Check")
 		op.SetSetting(0, 3)
 		self.AssertEqual(op.DoActionOnValue(1), 3, "3 DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "X3", "3 ToString()")
+		self.AssertEqual(str(op), "X3", "3 ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Divide")
@@ -105,7 +105,7 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 3, "ID Check")
 		op.SetSetting(0, 3)
 		self.AssertEqual(op.DoActionOnValue(9), 3, "3 DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "/3", "3 ToString()")
+		self.AssertEqual(str(op), "/3", "3 ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Shift")
@@ -113,7 +113,7 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.BitShiftRight, "op Type Check")
 		self.AssertEqual(op.OperationId, 4, "ID Check")
 		self.AssertEqual(op.DoActionOnValue(10), 1, "right DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "<<", "right ToString()")
+		self.AssertEqual(str(op), "<<", "right ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Insert")
@@ -122,7 +122,7 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 5, "ID Check")
 		op.SetSetting(0, 12)
 		self.AssertEqual(op.DoActionOnValue(1), 112, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "12", "ToString()")
+		self.AssertEqual(str(op), "12", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Translate")
@@ -132,7 +132,7 @@ class UnitTests:
 		op.SetSetting(0, 1)
 		op.SetSetting(1, 2)
 		self.AssertEqual(op.DoActionOnValue(121), 222, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "1=>2", "ToString()")
+		self.AssertEqual(str(op), "1=>2", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Pow")
@@ -141,13 +141,13 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 7, "ID Check")
 		op.SetSetting(0, 2)
 		self.AssertEqual(op.DoActionOnValue(4), 16, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Pow 2", "ToString()")
+		self.AssertEqual(str(op), "Pow 2", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		op = Operations.MakeOperation(7)
 		op.SetSetting(0, 3)
 		self.AssertEqual(op.DoActionOnValue(4), 64, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Pow 3", "ToString()")
+		self.AssertEqual(str(op), "Pow 3", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Flip")
@@ -155,7 +155,7 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Flip, "op Type Check")
 		self.AssertEqual(op.OperationId, 8, "ID Check")
 		self.AssertEqual(op.DoActionOnValue(1), -1, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "+/- ", "ToString()")
+		self.AssertEqual(str(op), "+/- ", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Reverse")
@@ -163,7 +163,7 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Reverse, "op Type Check")
 		self.AssertEqual(op.OperationId, 9, "ID Check")
 		self.AssertEqual(op.DoActionOnValue(1234), 4321, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Reverse", "ToString()")
+		self.AssertEqual(str(op), "Reverse", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Sum")
@@ -171,7 +171,7 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Sum, "op Type Check")
 		self.AssertEqual(op.OperationId, 10, "ID Check")
 		self.AssertEqual(op.DoActionOnValue(1234), 10, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Sum", "ToString()")
+		self.AssertEqual(str(op), "Sum", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("SwapOrder")
@@ -180,13 +180,13 @@ class UnitTests:
 		self.AssertEqual(op.OperationId, 11, "ID Check")
 		op.SetSetting(0, True)
 		self.AssertEqual(op.DoActionOnValue(122), 221, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Shift <", "ToString()")
+		self.AssertEqual(str(op), "Shift <", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		op = Operations.MakeOperation(11)
 		op.SetSetting(0, False)
 		self.AssertEqual(op.DoActionOnValue(122), 212, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Shift >", "ToString()")
+		self.AssertEqual(str(op), "Shift >", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Mirror")
@@ -194,7 +194,7 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Mirror, "op Type Check")
 		self.AssertEqual(op.OperationId, 12, "ID Check")
 		self.AssertEqual(op.DoActionOnValue(12), 1221, "DoActionOnValue()")
-		self.AssertEqual(op.ToString(), "Mirror", "ToString()")
+		self.AssertEqual(str(op), "Mirror", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Modifier")
@@ -202,14 +202,14 @@ class UnitTests:
 		self.AssertEqual(type(op), Operations.Modifier, "op Type Check")
 		self.AssertEqual(op.OperationId, 13, "ID Check")
 		op.SetSetting(0, 1)
-		self.AssertEqual(op.ToString(), "[+] 1", "ToString()")
+		self.AssertEqual(str(op), "[+] 1", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Store")
 		op = Operations.MakeOperation(14)
 		self.AssertEqual(type(op), Operations.Store, "op Type Check")
 		self.AssertEqual(op.OperationId, 14, "ID Check")
-		self.AssertEqual(op.ToString(), "Store", "ToString()")
+		self.AssertEqual(str(op), "Store", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 		return
 

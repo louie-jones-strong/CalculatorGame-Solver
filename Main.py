@@ -119,7 +119,7 @@ class Main:
 
 			if self.DebugMode:
 				solveOp = self.OperationsList[opIndex]
-				print(str(solveLoop) +") "+ solveOp.ToString())
+				print(str(solveLoop) +") "+ str(solveOp))
 
 			if len(self.SolveOrder[opIndex]) > 0:
 				self.SolveOrder[opIndex] += "," 
@@ -453,7 +453,7 @@ class Main:
 		op = self.OperationsList[0]
 		piece = self.MakeGridPiece(1, 0, image=op.BaseImage)
 		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=0)
-		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
@@ -487,7 +487,7 @@ class Main:
 		op = self.OperationsList[1]
 		piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
 		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=1)
-		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 		
@@ -499,7 +499,7 @@ class Main:
 		op = self.OperationsList[2]
 		piece = self.MakeGridPiece(2, 1, image=op.BaseImage)
 		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=2)
-		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
@@ -518,7 +518,7 @@ class Main:
 		op = self.OperationsList[3]
 		piece = self.MakeGridPiece(1, 2, image=op.BaseImage)
 		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=3)
-		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 		
@@ -529,7 +529,7 @@ class Main:
 		op = self.OperationsList[4]
 		piece = self.MakeGridPiece(2, 2, image=op.BaseImage)
 		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=4)
-		piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
@@ -563,7 +563,7 @@ class Main:
 				if op != None:
 					piece = self.MakeGridPiece(x, y, image=op.BaseImage, yStart=yStart)
 					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
-					piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+					piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					piece.SetupAudio("ButtonDown", "ButtonUp")
 					self.Manger.AddPiece(piece, False)
 				else:
@@ -603,7 +603,7 @@ class Main:
 			self.Manger.AddPiece(piece, True)
 
 			piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
-			piece.SetUpLabel(op.ToString(), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+			piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 			self.Manger.AddPiece(piece, False)
 			
 			if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 2:
