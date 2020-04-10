@@ -7,8 +7,7 @@ class Operation:
 		self.Setting = []
 		return
 
-	def ToString(self):
-
+	def __str__(self):
 		return "?"
 
 	def GetSetting(self, index):
@@ -110,7 +109,7 @@ class Add(ValueChangeOp):
 
 		return inputValue + self.Setting[0].Value()
 
-	def ToString(self):
+	def __str__(self):
 		if self.Setting[0].Value() >= 0:
 			return "+"+str(self.Setting[0].Value())
 		else:
@@ -128,7 +127,7 @@ class Multiply(ValueChangeOp):
 
 		return inputValue * self.Setting[0].Value()
 
-	def ToString(self):
+	def __str__(self):
 
 		return "X"+str(self.Setting[0].Value())
 
@@ -149,7 +148,7 @@ class Divide(ValueChangeOp):
 			return int(output)
 		return output
 
-	def ToString(self):
+	def __str__(self):
 
 		return "/"+str(self.Setting[0].Value())
 
@@ -162,7 +161,7 @@ class BitShiftRight(ValueChangeOp):
 	def DoActionOnValue(self, inputValue):
 		return int(inputValue / 10)
 
-	def ToString(self):
+	def __str__(self):
 		return "<<"
 
 class Insert(ValueChangeOp):
@@ -176,7 +175,7 @@ class Insert(ValueChangeOp):
 	def DoActionOnValue(self, inputValue):
 		return int(str(inputValue) + str(self.Setting[0].Value()))
 
-	def ToString(self):
+	def __str__(self):
 		return ""+str(self.Setting[0].Value())
 
 class Translate(ValueChangeOp):
@@ -192,7 +191,7 @@ class Translate(ValueChangeOp):
 
 		return int(str(inputValue).replace(str(self.Setting[0].Value()), str(self.Setting[1].Value())))
 	
-	def ToString(self):
+	def __str__(self):
 
 		return str(self.Setting[0].Value()) + "=>" + str(self.Setting[1].Value())
 	
@@ -210,7 +209,7 @@ class Pow(ValueChangeOp):
 	def DoActionOnValue(self, inputValue):
 		return inputValue ** self.Setting[0].Value()
 
-	def ToString(self):
+	def __str__(self):
 		return "Pow "+str(self.Setting[0].Value())
 
 	def IsValid(self):
@@ -222,7 +221,7 @@ class Flip(ValueChangeOp):
 	def DoActionOnValue(self, inputValue):
 		return inputValue * -1
 
-	def ToString(self):
+	def __str__(self):
 		return "+/- "
 
 class Reverse(ValueChangeOp):
@@ -234,7 +233,7 @@ class Reverse(ValueChangeOp):
 		else:
 			return int(str(inputValue*-1)[::-1])*-1
 
-	def ToString(self):
+	def __str__(self):
 		return "Reverse"
 
 class Sum(ValueChangeOp):
@@ -252,7 +251,7 @@ class Sum(ValueChangeOp):
 		return newValue
 		
 
-	def ToString(self):
+	def __str__(self):
 		return "Sum"
 
 class SwapOrder(ValueChangeOp):
@@ -282,7 +281,7 @@ class SwapOrder(ValueChangeOp):
 
 		return newValue
 
-	def ToString(self):
+	def __str__(self):
 		text = "Shift "
 		if self.Setting[0].Value():
 			text += "<"
@@ -318,7 +317,7 @@ class Mirror(ValueChangeOp):
 
 		return newValue
 
-	def ToString(self):
+	def __str__(self):
 		return "Mirror"
 
 class Modifier(OpListChangeOp):
@@ -342,7 +341,7 @@ class Modifier(OpListChangeOp):
 
 		return newOpList
 		
-	def ToString(self):
+	def __str__(self):
 		return "[+] " + str(self.Setting[0].Value())
 
 class Store(Insert, ValueChangeOp):
@@ -371,7 +370,7 @@ class Store(Insert, ValueChangeOp):
 		self.HasBeenSet = True
 		return
 		
-	def ToString(self):
+	def __str__(self):
 		if self.HasBeenSet:
 			text = str(self.Setting[0].Value())
 		else:
