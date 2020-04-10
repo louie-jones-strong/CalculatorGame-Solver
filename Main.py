@@ -309,6 +309,8 @@ class Main:
 		playerData["Version"] = self.Version
 		playerData["Volume"] = self.AudioPlayer.Volume
 		playerData["Level"] = self.Level
+		if self.IsDev:
+			playerData["IsDev"] = True
 
 		file = open(self.PlayerPrefsPath, "w")
 		json.dump(playerData, file, indent=4, sort_keys=True)
