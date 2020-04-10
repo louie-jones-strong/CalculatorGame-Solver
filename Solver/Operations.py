@@ -344,7 +344,7 @@ class Modifier(OpListChangeOp):
 	def __str__(self):
 		return "[+] " + str(self.Setting[0].Value())
 
-class Store(Insert, ValueChangeOp):
+class Store(Insert, OpListChangeOp):
 	BaseImage = "Button_Purple"
 
 	def __init__(self, id):
