@@ -206,11 +206,10 @@ class UnitTests:
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 
 		self.SetGroup("Store")
-		op = Operations.MakeOperation(134)
+		op = Operations.MakeOperation(14)
 		self.AssertEqual(type(op), Operations.Store, "op Type Check")
 		self.AssertEqual(op.OperationId, 14, "ID Check")
-		op.SetSetting(0, 1)
-		self.AssertEqual(op.ToString(), "[+] 1", "ToString()")
+		self.AssertEqual(op.ToString(), "Store", "ToString()")
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 		return
 
@@ -225,35 +224,44 @@ class UnitTests:
 		levelDataDict = json.load(file)
 		file.close()
 
-		for key, value in levelDataDict.items():
-			self.CheckLevelData(value, key)
+		self.AssertEqual(0 in levelDataDict, False, "level 0 should not be in level data")
+
+		for loop in range(1, len(levelDataDict)+1):
+
+			key = str(loop)
+
+			self.SetGroup("Regression Testing Level: "+str(key))
+			if self.AssertEqual(key in levelDataDict, True, "level key in level data"):
+				value = levelDataDict[key]
+				self.CheckLevelData(key, value)
 		return
 
-	def CheckLevelData(self, levelData, key):
+	def CheckLevelData(self, key, levelData):
 		level = levelData["Level"]
-
-		self.SetGroup("Regression Testing Level: "+str(level))
-
-		level = levelData["Level"] 
 		startingNum = levelData["StartingNumber"] 
 		goal = levelData["Goal"] 
 		moves = levelData["Moves"]
 
 		operationsData = levelData["Operations"]
 
+		self.AssertEqual(key == str(levelData["Level"]), True, "key == level")
+
 		operationsList = []
 		loop = 0
 		for opData in operationsData:
 			op = Operations.OpDeserialization(opData)
+
 			if type(op) != Operations.Operation:
 				self.AssertEqual(op.IsValid(), True, "op[" + str(loop) + "] isVaild")
+
 			operationsList += [op]
 			loop += 1
+
+		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
 		found, solveOrder = GameSolver.Solve(moves, operationsList, startingNum, goal)
 		self.AssertEqual(found, True, "Found Solve")
 		self.AssertEqual(len(solveOrder) <= moves, True, "number of moves are valid")
-		self.AssertEqual(key == str(levelData["Level"]), True, "key == level")
 		return
 
 if __name__ == "__main__":

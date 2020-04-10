@@ -1,37 +1,4 @@
-class OperationSettings:
-
-	def __init__(self, value=None, canModify=True, settingType=int):
-		if value == None:
-			if settingType == int:
-				self.SettingValue = 0
-			elif settingType == bool:
-				self.SettingValue = False
-		else:
-			self.SettingValue = value
-
-		self.CanModify = canModify
-		self.SettingType = settingType
-		return
-
-	def Value(self):
-
-		return self.SettingValue
-
-	def SetValue(self, value):
-		self.SettingValue = value
-		return
-
-	def Serialize(self):
-		return self.SettingValue
-
-	def ChangeModifyValue(self, value):
-		if self.CanModify:
-			if self.SettingValue < 0:
-				self.SettingValue -= value
-			else:
-				self.SettingValue += value
-		return
-
+import Solver.OperationSetting as OpSetting
 class Operation:
 	BaseImage = ""
 
@@ -72,7 +39,6 @@ class Operation:
 
 	def __eq__(self, other):
 		return type(other) == type(self) and self.Serialize() == other.Serialize()
-
 
 class ValueChangeOp(Operation):
 
@@ -137,7 +103,7 @@ class Add(ValueChangeOp):
 
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -155,7 +121,7 @@ class Multiply(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -174,7 +140,7 @@ class Divide(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -204,7 +170,7 @@ class Insert(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -218,8 +184,8 @@ class Translate(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -238,7 +204,7 @@ class Pow(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -294,7 +260,7 @@ class SwapOrder(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings(settingType=bool)]
+		self.Setting += [OpSetting.OperationSetting(settingType=bool)]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -360,7 +326,7 @@ class Modifier(OpListChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OperationSettings()]
+		self.Setting += [OpSetting.OperationSetting()]
 		return
 
 	def DoActionOnOpList(self, opList, value):
@@ -411,4 +377,3 @@ class Store(Insert, ValueChangeOp):
 		else:
 			text = "Store"
 		return text
-
