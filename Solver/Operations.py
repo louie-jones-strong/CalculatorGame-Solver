@@ -173,7 +173,12 @@ class Insert(ValueChangeOp):
 		return
 
 	def DoActionOnValue(self, inputValue):
-		return int(str(inputValue) + str(self.Setting[0].Value()))
+		value = self.Setting[0].Value()
+
+		if value < 0:
+			value *= -1
+
+		return int(str(inputValue) + str(value))
 
 	def __str__(self):
 		return ""+str(self.Setting[0].Value())
