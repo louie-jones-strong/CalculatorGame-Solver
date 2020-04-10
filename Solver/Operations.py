@@ -227,7 +227,7 @@ class Flip(ValueChangeOp):
 		return inputValue * -1
 
 	def __str__(self):
-		return "+/- "
+		return "+/-"
 
 class Reverse(ValueChangeOp):
 	BaseImage = "Button_Orange"
