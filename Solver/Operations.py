@@ -191,8 +191,8 @@ class Translate(ValueChangeOp):
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OpSetting.OperationSetting()]
-		self.Setting += [OpSetting.OperationSetting()]
+		self.Setting += [OpSetting.OperationSetting(settingType=str)]
+		self.Setting += [OpSetting.OperationSetting(settingType=str)]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -204,7 +204,8 @@ class Translate(ValueChangeOp):
 		return str(self.Setting[0].Value()) + "=>" + str(self.Setting[1].Value())
 	
 	def IsValid(self):
-		return self.Setting[0].Value() != self.Setting[1].Value()
+		return (self.Setting[0].Value() != self.Setting[1].Value() and 
+			len(self.Setting[0].Value()) > 0 and len(self.Setting[1].Value()) > 0)
 
 class Pow(ValueChangeOp):
 	BaseImage = "Button_Orange"
