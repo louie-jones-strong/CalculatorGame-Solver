@@ -22,7 +22,14 @@ class Operation:
 		return
 	
 	def IsValid(self):
-		return False
+		isVaild = True
+		for item in self.Setting:
+			valueType = type(item.Value())
+
+			if valueType != item.SettingType:
+				isVaild = False
+
+		return isVaild
 
 	def Serialize(self):
 		settingList = []
@@ -45,10 +52,13 @@ class ValueChangeOp(Operation):
 
 		return inputValue
 
-	def IsValid(self):
-		number = 1234
-		newNumber = self.DoActionOnValue(number)
-		return number != newNumber
+	def IsValid(self, checkValueChange=True):
+		if checkValueChange:
+			number = 1234
+			newNumber = self.DoActionOnValue(number)
+			return number != newNumber and super().IsValid()
+		else:
+			return super().IsValid()
 
 class OpListChangeOp(Operation):
 
@@ -62,7 +72,7 @@ class OpListChangeOp(Operation):
 		number = 1234
 
 		newOpList = self.DoActionOnOpList(opList, number)
-		return opList[0] != newOpList[0]
+		return opList[0] != newOpList[0] and super().IsValid()
 
 def MakeOperation(opType):
 	#do not change the order of this list
@@ -204,7 +214,7 @@ class Translate(ValueChangeOp):
 		return str(self.Setting[0].Value()) + "=>" + str(self.Setting[1].Value())
 	
 	def IsValid(self):
-		return (self.Setting[0].Value() != self.Setting[1].Value() and 
+		return (super().IsValid(False) and self.Setting[0].Value() != self.Setting[1].Value() and 
 			len(self.Setting[0].Value()) > 0 and len(self.Setting[1].Value()) > 0)
 
 class Pow(ValueChangeOp):
