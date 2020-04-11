@@ -10,6 +10,13 @@ import json
 
 class Main:
 	Version = "1.1"
+	ScreenState = Main.eScreen.Main
+
+	class eScreen(Enum):
+		Main = 0
+		PickOp = 1
+		EditOp = 2
+		Setting = 3
 
 	def __init__(self):
 		path = "Assets"
@@ -144,8 +151,9 @@ class Main:
 
 		self.AudioPlayer.Volume = volume
 		self.SavePlayerPrefs()
-		self.SetupSettingsScreen()
 		return
+	def GetVolume(self):
+		return self.AudioPlayer.Volume
 	def ChangeLevelSelect(self, delta):
 		level = self.Level + delta
 		if level < 0:
@@ -159,8 +167,9 @@ class Main:
 			self.LoadLevelFromData(self.LevelsData[key])
 
 		self.SavePlayerPrefs()
-		self.SetupSettingsScreen()
 		return
+	def GetLevel(self):
+		return self.Level
 	def DebugModeToggle(self):
 		self.DebugMode = not self.DebugMode
 		self.Manger.DebugMode = self.DebugMode
@@ -322,12 +331,17 @@ class Main:
 
 #screens 
 	def SetupSettingsScreen(self):
+		self.ScreenState = Main.eScreen.Setting
+
 		self.SetUpShared(False)
+		minHoldTime = 0.5
+		timeBetweenHold = 0.15
 
 		#volume control row 1
 		piece = self.MakeGridPiece(0, 0, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=-1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, onHoldData=-1, minHoldTime=0.5)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, 
+			onHoldData=-1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -337,12 +351,13 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([133, 395], [113, 80])
-		piece.SetUpLabel(str(self.AudioPlayer.Volume), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(str(self.AudioPlayer.Volume), "", xLabelAnchor=0.5, yLabelAnchor=0.5, getMessage=self.GetVolume)
 		self.Manger.AddPiece(piece, False)
 
 		piece = self.MakeGridPiece(2, 0, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, onHoldData=1, minHoldTime=0.5)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, 
+			onHoldData=1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -350,7 +365,8 @@ class Main:
 		#level select row 2
 		piece = self.MakeGridPiece(0, 1, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=-1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, onHoldData=-1, minHoldTime=0.5)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, 
+			onHoldData=-1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -360,12 +376,13 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([133, 510], [113, 80])
-		piece.SetUpLabel(self.Level, "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+		piece.SetUpLabel(self.Level, "", xLabelAnchor=0.5, yLabelAnchor=0.5, getMessage=self.GetLevel)
 		self.Manger.AddPiece(piece, False)
 
 		piece = self.MakeGridPiece(2, 1, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, onHoldData=1, minHoldTime=0.5)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, 
+			onHoldData=1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -432,6 +449,8 @@ class Main:
 		return
 
 	def SetUpMainScreen(self):
+		self.ScreenState = Main.eScreen.Main
+
 		if self.DebugMode:
 			print("Setup Main Screen")
 		self.SetUpShared()
@@ -528,6 +547,8 @@ class Main:
 		return
 	
 	def SetUpOperationSelectScreen(self, opIndex):
+		self.ScreenState = Main.eScreen.PickOp
+
 		if self.DebugMode:
 			print("Setup Operation Screen index: " + str(opIndex))
 		self.OperationSetUpIndex = opIndex
@@ -567,6 +588,8 @@ class Main:
 		return
 
 	def SetUpOperationInfoScreen(self, clearSelected=True):
+		self.ScreenState = Main.eScreen.EditOp
+
 		if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 0:
 			self.SetUpMainScreen()
 

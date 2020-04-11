@@ -64,7 +64,8 @@ class UiPiece:
 	LabelColour = (255,255,255)
 	Message = None
 	EditableMessage = None
-	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
+	GetMessageText = None
+	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None, getMessage=None):
 		self.Message = str(message)
 		self.EditableMessage = editableMessage
 		self.EditableIsNegtive = False
@@ -72,6 +73,7 @@ class UiPiece:
 		self.XLabelAnchor = xLabelAnchor
 		self.YLabelAnchor = yLabelAnchor
 		self.TextUpdatedFunc = textUpdatedFunc
+		self.GetMessageText = getMessage
 		return
 	
 	FadedImage = None
@@ -160,6 +162,9 @@ class UiPiece:
 
 					if self.TextUpdatedFunc != None:
 						self.TextUpdatedFunc(number)
+
+		if self.GetMessageText != None:
+			self.Message = str(self.GetMessageText())
 		return
 
 	def Draw(self, screen, debugMode):
