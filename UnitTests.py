@@ -177,7 +177,17 @@ class UnitTests:
 		self.AssertEqual(op.IsValid(), True, "IsVaild()")
 		self.AssertEqual(str(op), exceptedString, "str()")
 
+		self.TestOpSetting(op)
+
 		return op
+
+	def TestOpSetting(self, op):
+		for loop in range(len(op.Setting)):
+			item = op.Setting[loop]
+			
+			valueType = type(item.Value())
+			self.AssertEqual(valueType, item.SettingType, "Setting["+str(loop)+"] value type Check")
+		return
 
 	def TestSolves(self):
 		
@@ -217,8 +227,11 @@ class UnitTests:
 		for opData in operationsData:
 			op = Operations.OpDeserialization(opData)
 
-			if type(op) != Operations.Operation:
-				self.AssertEqual(op.IsValid(), True, "op[" + str(loop) + "] isVaild")
+			opType = type(op)
+			if opType != Operations.Operation:
+				self.TestOpSetting(op)
+				self.AssertEqual(op.IsValid(), True, "op[" + str(loop) + "] ("+str(opType.__name__)+") isVaild")
+					
 
 			operationsList += [op]
 			loop += 1

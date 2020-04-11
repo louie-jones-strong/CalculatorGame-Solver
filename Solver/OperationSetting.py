@@ -1,23 +1,26 @@
 class OperationSetting:
 
 	def __init__(self, value=None, canModify=True, settingType=int):
+		self.SettingType = settingType
 
 		if value == None:
 			self.SettingValue = 0
-			if settingType == int:
+
+			if self.SettingType == int:
 				self.SettingValue = 0
-			elif settingType == bool:
+
+			elif self.SettingType == bool:
 				self.SettingValue = False
-			elif settingType == str:
+
+			elif self.SettingType == str:
 				self.SettingValue = ""
 		else:
 			self.SettingValue = value
 
-			if settingType == str:
+			if self.SettingType == str:
 				self.SettingValue = str(self.SettingValue)
 
 		self.CanModify = canModify
-		self.SettingType = settingType
 		return
 
 	def Value(self):
