@@ -85,8 +85,8 @@ class Main:
 	def SetSolarCovered(self):
 		self.SolarCovered = True
 		return
-	def GetSolarCovered(self):
-		return self.SolarCovered
+	def GetIsFaded(self):
+		return self.SolarCovered or self.ScreenState == Main.eScreen.Setting
 	def UpdateMovesNum(self, moves):
 		self.Moves = int(moves)
 		return
@@ -333,7 +333,7 @@ class Main:
 	def SetupSettingsScreen(self):
 		self.ScreenState = Main.eScreen.Setting
 
-		self.SetUpShared(False)
+		self.SetUpShared(False, showPaused=True)
 		minHoldTime = 0.5
 		timeBetweenHold = 0.15
 
@@ -414,7 +414,7 @@ class Main:
 			self.Manger.AddPiece(piece, False)
 		return
 
-	def SetUpShared(self, selectable=True, clearSelected=True):
+	def SetUpShared(self, selectable=True, clearSelected=True, showPaused=False):
 		self.Manger.ClearPieceList(clearSelected)
 
 		piece = Piece.UiPiece([0, 0], [378, 704], "BackGround")
@@ -429,22 +429,29 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([40, 90], [90, 50], "FunGuy_Normal")
-		piece.SetUpFade(self.GetSolarCovered, "FunGuy_Faded")
+		piece.SetUpFade(self.GetIsFaded, "FunGuy_Faded")
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([140, 90], [90, 50], "TopStats_Normal")
-		piece.SetUpFade(self.GetSolarCovered, "TopStats_Faded")
+		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
 		piece.SetUpLabel("Moves:", self.Moves, textUpdatedFunc=self.UpdateMovesNum)
 		self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([245, 90], [90, 50], "TopStats_Normal")
-		piece.SetUpFade(self.GetSolarCovered, "TopStats_Faded")
+		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
 		piece.SetUpLabel("Goal:", self.Goal, textUpdatedFunc=self.UpdateGoalNum)
 		self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([38 , 180], [302, 75])
-		piece.SetUpFade(self.GetSolarCovered)
 		piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
+		self.Manger.AddPiece(piece, selectable)
+
+		if showPaused:
+				piece.SetUpLabel("PAUSED", "", (0, 0, 0), 1, 0.5)
+		else:
+			piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
+			piece.SetUpFade(self.GetIsFaded)
+			
 		self.Manger.AddPiece(piece, selectable)
 		return
 
