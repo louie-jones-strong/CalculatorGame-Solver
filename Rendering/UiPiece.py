@@ -150,8 +150,14 @@ class UiPiece:
 
 					else:
 						try:
-							self.EditableMessage *= 10
-							self.EditableMessage += int(event.unicode)
+							temp = int(event.unicode)
+							if type(self.EditableMessage) is str:
+								self.EditableMessage += str(temp)
+
+							else:
+								self.EditableMessage *= 10
+								self.EditableMessage += int(temp)
+								
 						except Exception as e:
 							pass
 					

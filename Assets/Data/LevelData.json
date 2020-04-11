@@ -2087,6 +2087,44 @@
         ],
         "StartingNumber": 12
     },
+    "155": {
+        "Goal": 3001,
+        "Level": 155,
+        "Moves": 9,
+        "Operations": [
+            {
+                "OpType": 6,
+                "Settings": [
+                    39,
+                    93
+                ]
+            },
+            {
+                "OpType": 3,
+                "Settings": [
+                    3
+                ]
+            },
+            {
+                "OpType": 14,
+                "Settings": [
+                    0
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 6,
+                "Settings": [
+                    "31",
+                    "00"
+                ]
+            }
+        ],
+        "StartingNumber": 9
+    },
     "16": {
         "Goal": 2,
         "Level": 16,
