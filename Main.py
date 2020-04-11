@@ -241,8 +241,8 @@ class Main:
 		else:
 			self.SetUpOperationSelectScreen(opIndex)
 		return
-#Functions used by a few
 
+#Functions used by a few
 	def GetlevelDictData(self):
 		levelDataDict = {}
 		levelDataDict["Level"] = self.Level

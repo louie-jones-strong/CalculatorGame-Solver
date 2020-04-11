@@ -123,12 +123,8 @@ class UiPiece:
 
 	def UpdateLabel(self, events, debugMode):
 		if self.Selected and self.EditableMessage != None:
-			
-			text = "keys Pressed: "
 			for event in events:
 				if event.type == pygame.KEYDOWN:
-					text += str(event.unicode)
-					text += ", "
 
 					if event.key == pygame.K_BACKSPACE:
 						self.EditableMessage = int(self.EditableMessage/10)
@@ -150,9 +146,6 @@ class UiPiece:
 
 					if self.TextUpdatedFunc != None:
 						self.TextUpdatedFunc(number)
-
-			if len(text) > len("keys Pressed: ") and debugMode:
-				print(text)
 		return
 
 	def Draw(self, screen, debugMode):

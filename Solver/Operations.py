@@ -173,6 +173,9 @@ class Insert(ValueChangeOp):
 		return
 
 	def DoActionOnValue(self, inputValue):
+		if int(inputValue) != inputValue:
+			return inputValue
+
 		value = self.Setting[0].Value()
 
 		if value < 0:
@@ -350,7 +353,7 @@ class Modifier(OpListChangeOp):
 		return "[+] " + str(self.Setting[0].Value())
 
 class Store(Insert, OpListChangeOp):
-	BaseImage = "Button_Purple"
+	BaseImage = "Button_Store"
 
 	def __init__(self, id):
 		super().__init__(id)
