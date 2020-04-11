@@ -234,8 +234,11 @@ class Main:
 			if type(op) != Operations.Operation and self.Moves > 0:
 				self.Moves = self.Moves-1
 
-				self.StartingNum = op.DoActionOnValue(self.StartingNum)
-				self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
+				if issubclass(type(op), Operations.ValueChangeOp):
+					self.StartingNum = op.DoActionOnValue(self.StartingNum)
+
+				if issubclass(type(op), Operations.OpListChangeOp):
+					self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
 
 				self.SetUpMainScreen()
 		else:
