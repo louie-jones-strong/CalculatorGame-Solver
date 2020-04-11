@@ -199,12 +199,10 @@ class Main:
 	def UpdateSetting1(self, value):
 		op = self.OperationsList[self.OperationSetUpIndex]
 		op.SetSetting(0, value)
-		self.SetUpOperationInfoScreen(clearSelected=False)
 		return
 	def UpdateSetting2(self, value):
 		op = self.OperationsList[self.OperationSetUpIndex]
 		op.SetSetting(1, value)
-		self.SetUpOperationInfoScreen(clearSelected=False)
 		return
 	def ClickDoneOpSetup(self):
 		op = self.OperationsList[self.OperationSetUpIndex]
@@ -618,7 +616,7 @@ class Main:
 			self.Manger.AddPiece(piece, True)
 
 			piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
-			piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
+			piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5, getMessage=op.__str__)
 			self.Manger.AddPiece(piece, False)
 			
 			if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 2:
