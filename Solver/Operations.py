@@ -360,6 +360,12 @@ class Store(Insert, OpListChangeOp):
 		self.HasBeenSet = False
 		return
 
+	def DoActionOnValue(self, inputValue):
+		if not self.HasBeenSet:
+			return inputValue
+
+		return super().DoActionOnValue(inputValue)
+
 	def DoActionOnOpList(self, opList, value):
 		newOpList = []
 		for op in opList:
@@ -377,7 +383,10 @@ class Store(Insert, OpListChangeOp):
 		super().SetSetting(index, value)
 		self.HasBeenSet = True
 		return
-		
+	
+	def IsValid(self):
+		return True
+
 	def __str__(self):
 		if self.HasBeenSet:
 			text = str(self.Setting[0].Value())
