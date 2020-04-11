@@ -7,10 +7,10 @@ import Rendering.ImageDrawer as ImageDrawer
 import Rendering.UiManger as UiManger
 import Rendering.UiPiece as Piece
 import json
+from enum import Enum
 
 class Main:
 	Version = "1.1"
-	ScreenState = Main.eScreen.Main
 
 	class eScreen(Enum):
 		Main = 0
