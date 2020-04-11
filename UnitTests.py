@@ -99,7 +99,7 @@ class UnitTests:
 		self.AssertEqual(op.DoActionOnValue(1), 112, "DoActionOnValue()")
 
 		self.SetGroup("Translate")
-		op = self.SharedOpTests(6, Operations.Translate, "1=>2", [1, 2])
+		op = self.SharedOpTests(6, Operations.Translate, "1=>2", ["1", "2"])
 		self.AssertEqual(op.DoActionOnValue(121), 222, "DoActionOnValue()")
 
 		self.SetGroup("Pow")
