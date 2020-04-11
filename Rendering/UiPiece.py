@@ -3,70 +3,79 @@ import pygame
 from enum import Enum
 
 class UiPiece:
-
 	class eState(Enum):
 		Normal = 0
 		Hover = 1
 		press = 2
 		Fade = 3
 
-
-	def __init__(self, pos, size, normalImage=None):
+	def __init__(self, pos, size, normalImage=None, hoverImage=None):
 		self.State = UiPiece.eState.Normal
 		self.LastState = self.State
 		self.BasePos = pos
 		self.BaseSize = size
 		self.NormalImage = normalImage
-		self.HoverImage = None
+		self.HoverImage = hoverImage
+
+
 		self.PressImage = None
-		self.OnClick = None
-		self.OnClickData = None
-		self.FadedImage = None
-		self.GetIsFade = None
 		self.LastFrameMouseDown = False
-		self.ButtonHoldAllowed = False
-		self.Label = None
 		self.TimeInState = 0
 		self.Selected = False
 		self.Selectable = False
-		self.Colour = (255,255,255)
-		self.Message = None
-		self.EditableMessage = None
 		self.EnterCanClick = False
-		self.AudioPlayer = None
-		self.ButtonDownAudioEvent = None
-		self.ButtonUpAudioEvent = None
 		return
 	
 	def UiMangerSetup(self, audioPlayer, imageDrawer):
 		self.AudioPlayer = audioPlayer
 		self.Drawer = imageDrawer
 		return
-
-	def SetUpButton(self, buttonHoldAllowed, hoverImage=None, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
-		self.ButtonHoldAllowed = buttonHoldAllowed
-		self.HoverImage = hoverImage
+	
+	OnClick = None
+	OnClickData = None
+	def SetUpButtonClick(self, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
 		self.PressImage = pressImage
+
 		self.OnClick = onClick
 		self.OnClickData = onClickData
 		self.EnterCanClick = enterCanClick
 		return
 
+	OnHold = None
+	OnHoldData = None
+	MinHoldTime = 0
+	def SetUpButtonHold(self, pressImage=None, onHold=None, 
+			onHoldData=None, minHoldTime=1, maxTimeBetweenHold=0.25):
+		self.PressImage = pressImage
+
+		self.OnHold = onHold
+		self.OnHoldData = onHoldData
+		self.MinHoldTime = minHoldTime
+		self.MaxTimeBetweenHold = maxTimeBetweenHold
+		return
+
+	ButtonDownAudioEvent = None
+	ButtonUpAudioEvent = None
 	def SetupAudio(self, buttonDownEvent, buttonUpEvent):
 		self.ButtonDownAudioEvent = buttonDownEvent
 		self.ButtonUpAudioEvent = buttonUpEvent
 		return
 
-	def SetUpLabel(self, message, editableMessage, colour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
+	LabelColour = (255,255,255)
+	Message = None
+	EditableMessage = None
+	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None):
 		self.Message = str(message)
 		self.EditableMessage = editableMessage
 		self.EditableIsNegtive = False
-		self.Colour = colour
+		self.LabelColour = labelColour
 		self.XLabelAnchor = xLabelAnchor
 		self.YLabelAnchor = yLabelAnchor
 		self.TextUpdatedFunc = textUpdatedFunc
 		return
-
+	
+	FadedImage = None
+	GetIsFade = None
 	def SetUpFade(self, getIsFade, fadedImage=None):
 		self.FadedImage = fadedImage
 		self.GetIsFade = getIsFade
@@ -75,6 +84,7 @@ class UiPiece:
 		
 	def Update(self, screen, debugMode, deltaTime, scaleFactor):
 		self.TimeInState += deltaTime
+		self.TimeSinceLastHold += deltaTime
 
 		self.Pos = [int(self.BasePos[0]*scaleFactor),
 				int(self.BasePos[1]*scaleFactor)]
@@ -86,10 +96,11 @@ class UiPiece:
 		mouseOverButton = (pos[0] > self.Pos[0] and pos[0] < self.Pos[0] + self.Size[0] and
 							pos[1] > self.Pos[1] and pos[1] < self.Pos[1] + self.Size[1])
 
-		if (mouseOverButton and 
-			((self.LastFrameMouseDown and not mouseDown) or
-			(mouseDown and self.ButtonHoldAllowed))):
-			self.TriggerOnClick(True)
+		if mouseOverButton:
+			if self.LastFrameMouseDown and not mouseDown:
+				self.TriggerOnClick(True)
+			if self.State == UiPiece.eState.press and self.TimeInState >= self.MinHoldTime:
+				self.TriggerOnHold()
 
 		if mouseOverButton and mouseDown:
 			self.State = UiPiece.eState.press
@@ -175,7 +186,7 @@ class UiPiece:
 			
 			text += str(self.EditableMessage)
 
-			label = font.render(text, 1, self.Colour)
+			label = font.render(text, 1, self.LabelColour)
 			
 			xRatio = self.Size[0] / label.get_width()
 			yRatio = self.Size[1] / label.get_height()
@@ -218,9 +229,22 @@ class UiPiece:
 
 	def TriggerOnClick(self, fromMouse):
 		if self.EnterCanClick or fromMouse:
-			if self.OnClick != None:
-				if self.OnClickData == None:
-					self.OnClick()
+			if self.TimeInState < self.MinHoldTime or self.OnHold == None:
+				if self.OnClick != None:
+					if self.OnClickData == None:
+						self.OnClick()
+					else:
+						self.OnClick(self.OnClickData)
+		return
+
+	TimeSinceLastHold = 0
+	def TriggerOnHold(self):
+		if self.OnHold != None:
+			if self.TimeSinceLastHold > self.MaxTimeBetweenHold:
+
+				self.TimeSinceLastHold = 0
+				if self.OnHoldData == None:
+					self.OnHold()
 				else:
-					self.OnClick(self.OnClickData)
+					self.OnHold(self.OnHoldData)
 		return
