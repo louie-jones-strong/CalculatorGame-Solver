@@ -286,7 +286,7 @@ class Main:
 			self.SolveOrder += [""]
 		return
 
-	def MakeGridPiece(self, xIndex, yIndex, image=None, yStart=375):
+	def MakeGridPiece(self, xIndex, yIndex, image=None, hoverImage=None, yStart=375):
 		xStart = 20
 		
 		boxWidth = 110
@@ -297,7 +297,7 @@ class Main:
 		x = (boxWidth+xSpacing) * xIndex + xStart
 		y = (boxHight+ySpacing) * yIndex + yStart
 
-		return Piece.UiPiece([x, y], [boxWidth, boxHight], image)
+		return Piece.UiPiece([x, y], [boxWidth, boxHight], normalImage=image, hoverImage=hoverImage)
 	
 	def CheckIsLevelValid(self):
 		numValidOps = 0
@@ -325,10 +325,9 @@ class Main:
 		self.SetUpShared(False)
 
 		#volume control row 1
-		piece = self.MakeGridPiece(0, 0, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ChangeVolume, onClickData=-1)
+		piece = self.MakeGridPiece(0, 0, image="Button", hoverImage="Button_Hover")
+		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=-1)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, onHoldData=-1, minHoldTime=0.5)
 		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -341,19 +340,17 @@ class Main:
 		piece.SetUpLabel(str(self.AudioPlayer.Volume), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, False)
 
-		piece = self.MakeGridPiece(2, 0, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ChangeVolume, onClickData=1)
+		piece = self.MakeGridPiece(2, 0, image="Button", hoverImage="Button_Hover")
+		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=1)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, onHoldData=1, minHoldTime=0.5)
 		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
 		#level select row 2
-		piece = self.MakeGridPiece(0, 1, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ChangeLevelSelect, onClickData=-1)
+		piece = self.MakeGridPiece(0, 1, image="Button", hoverImage="Button_Hover")
+		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=-1)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, onHoldData=-1, minHoldTime=0.5)
 		piece.SetUpLabel("-", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -366,20 +363,17 @@ class Main:
 		piece.SetUpLabel(self.Level, "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, False)
 
-		piece = self.MakeGridPiece(2, 1, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ChangeLevelSelect, onClickData=1)
+		piece = self.MakeGridPiece(2, 1, image="Button", hoverImage="Button_Hover")
+		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=1)
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, onHoldData=1, minHoldTime=0.5)
 		piece.SetUpLabel("+", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
 
 		#row 3
-		piece = self.MakeGridPiece(0, 2, image="Settings_Button")
-		piece.SetUpButton(False, "Settings_Hover",
-                    "Settings_Pressed",
-					onClick=self.SetUpMainScreen)
+		piece = self.MakeGridPiece(0, 2, image="Settings_Button", hoverImage="Settings_Hover")
+		piece.SetUpButtonClick("Settings_Pressed", onClick=self.SetUpMainScreen)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
@@ -391,14 +385,13 @@ class Main:
 				debugButton += "Red"
 
 			piece = self.MakeGridPiece(1, 2, image=debugButton)
-			piece.SetUpButton(False,
-						onClick=self.DebugModeToggle)
+			piece.SetUpButtonClick(onClick=self.DebugModeToggle)
 			piece.SetUpLabel("Debug", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, False)
 
 			piece = self.MakeGridPiece(2, 2, image="Button_Green")
-			piece.SetUpButton(False, onClick=self.SaveLevelData)
+			piece.SetUpButtonClick(onClick=self.SaveLevelData)
 			piece.SetUpLabel("Save Level", "", yLabelAnchor=0.5, xLabelAnchor=0.5)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, False)
@@ -415,7 +408,7 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([220, 30], [105, 35])
-		piece.SetUpButton(True, onClick=self.SetSolarCovered)
+		piece.SetUpButtonHold(onHold=self.SetSolarCovered, minHoldTime=0, maxTimeBetweenHold=0)
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([40, 90], [90, 50], "FunGuy_Normal")
@@ -444,18 +437,15 @@ class Main:
 		self.SetUpShared()
 		#button Grid
 		#row 1
-		piece = self.MakeGridPiece(0, 0, image="Button")
-		piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
-					onClick=self.ClickedSolve,
-					enterCanClick=True)
+		piece = self.MakeGridPiece(0, 0, image="Button", hoverImage="Button_Hover")
+		piece.SetUpButtonClick("Button_Pressed", onClick=self.ClickedSolve, enterCanClick=True)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, True)
 
 		op = self.OperationsList[0]
 		piece = self.MakeGridPiece(1, 0, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=0)
+		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=0)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -464,10 +454,8 @@ class Main:
 		piece.SetUpLabel(self.SolveOrder[0], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, False)
 
-		piece = self.MakeGridPiece(2, 0, image="Button_Red")
-		piece.SetUpButton(False, "Button_Red_Hover",
-                    "Button_Red_Pressed",
-					onClick=self.ClearClicked)
+		piece = self.MakeGridPiece(2, 0, image="Button_Red", hoverImage="Button_Red_Hover")
+		piece.SetUpButtonClick("Button_Red_Pressed", onClick=self.ClearClicked)
 		piece.SetUpLabel("Clear", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -481,15 +469,14 @@ class Main:
 			else:
 				toggleButton += "Red"
 			piece = self.MakeGridPiece(0, 1, image=toggleButton)
-			piece.SetUpButton(False,
-						onClick=self.ToggleOpClickAction)
+			piece.SetUpButtonClick(onClick=self.ToggleOpClickAction)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			piece.SetUpLabel("Do Action", "", yLabelAnchor=0.5)
-			self.Manger.AddPiece(piece, True)
+			self.Manger.AddPiece(piece, False)
 
 		op = self.OperationsList[1]
 		piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=1)
+		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=1)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -501,7 +488,7 @@ class Main:
 
 		op = self.OperationsList[2]
 		piece = self.MakeGridPiece(2, 1, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=2)
+		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=2)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -511,16 +498,14 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		#row 3
-		piece = self.MakeGridPiece(0, 2, image="Settings_Button")
-		piece.SetUpButton(False, "Settings_Hover",
-                    "Settings_Pressed",
-					onClick=self.SetupSettingsScreen)
+		piece = self.MakeGridPiece(0, 2, image="Settings_Button", hoverImage="Settings_Hover")
+		piece.SetUpButtonClick("Settings_Pressed", onClick=self.SetupSettingsScreen)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
 		op = self.OperationsList[3]
 		piece = self.MakeGridPiece(1, 2, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=3)
+		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=3)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -531,7 +516,7 @@ class Main:
 
 		op = self.OperationsList[4]
 		piece = self.MakeGridPiece(2, 2, image=op.BaseImage)
-		piece.SetUpButton(False, onClick=self.OperationClicked, onClickData=4)
+		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=4)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -565,16 +550,13 @@ class Main:
 				
 				if op != None:
 					piece = self.MakeGridPiece(x, y, image=op.BaseImage, yStart=yStart)
-					piece.SetUpButton(False, onClick=self.SetOperation, onClickData=loop)
+					piece.SetUpButtonClick(onClick=self.SetOperation, onClickData=loop)
 					piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					piece.SetupAudio("ButtonDown", "ButtonUp")
 					self.Manger.AddPiece(piece, False)
 				else:
-					piece = self.MakeGridPiece(x, y, image="Button_Red", yStart=yStart)
-					piece.SetUpButton(False, "Button_Red_Hover",
-						"Button_Red_Pressed",
-						onClick=self.SetOperation, 
-						onClickData=loop)
+					piece = self.MakeGridPiece(x, y, image="Button_Red", hoverImage="Button_Red_Hover", yStart=yStart)
+					piece.SetUpButtonClick("Button_Red_Pressed", onClick=self.SetOperation, onClickData=loop)
 					piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 					piece.SetupAudio("ButtonDown", "ButtonUp")
 					self.Manger.AddPiece(piece, False)
@@ -617,9 +599,8 @@ class Main:
 
 
 			#finsh button
-			piece = self.MakeGridPiece(2, 0, image="Button")
-			piece.SetUpButton(False, "Button_Hover",
-                    "Button_Pressed",
+			piece = self.MakeGridPiece(2, 0, image="Button", hoverImage="Button_Hover")
+			piece.SetUpButtonClick("Button_Pressed",
 					onClick=self.ClickDoneOpSetup,
 					enterCanClick=True)
 			piece.SetUpLabel("Done", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
@@ -627,9 +608,8 @@ class Main:
 			self.Manger.AddPiece(piece, True)
 
 			#Back Button
-			piece = self.MakeGridPiece(0, 0, image="Button_Red")
-			piece.SetUpButton(False, "Button_Red_Hover",
-				"Button_Red_Pressed",
+			piece = self.MakeGridPiece(0, 0, image="Button_Red", hoverImage="Button_Red_Hover")
+			piece.SetUpButtonClick("Button_Red_Pressed",
 				onClick=self.SetUpOperationSelectScreen,
 				onClickData=self.OperationSetUpIndex)
 			piece.SetUpLabel("Back", "", xLabelAnchor=0.5, yLabelAnchor=0.5)
