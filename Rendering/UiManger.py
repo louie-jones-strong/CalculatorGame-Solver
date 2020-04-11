@@ -29,7 +29,6 @@ class UiManger:
 		self.MouseStartPos = None
 		self.SelectIndex = 0
 		self.OperationSetUpIndex = None
-		self.LastUpdateTime = time.time()
 		self.Clock = pygame.time.Clock()
 		return
 
@@ -79,7 +78,8 @@ class UiManger:
 			else:
 				eventList += [event]
 
-		deltaTime = self.LastUpdateTime - time.time()
+		deltaTime = self.Clock.get_rawtime()
+		deltaTime /= 1000 # to make it seconds
 
 		loop = 0
 		for piece in self.PieceList:
@@ -104,7 +104,7 @@ class UiManger:
 			text = "FPS: "
 			text += str(round(self.Clock.get_fps()))
 			text += " LastFrame: "
-			text += str(round(self.Clock.get_rawtime()/1000,3))
+			text += str(round(deltaTime/1000,3))
 			label = font.render(text, 1, (255, 0, 0))
 			self.Window.blit(label, [8, 8])
 
@@ -126,7 +126,6 @@ class UiManger:
 		self.Clock.tick()
 
 		self.SolarCovered = False
-		self.LastUpdateTime = time.time()
 		return True
 
 	def Quit(self):
