@@ -441,11 +441,10 @@ class Main:
 		self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([38 , 180], [302, 75])
-		piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
-		self.Manger.AddPiece(piece, selectable)
 
 		if showPaused:
-				piece.SetUpLabel("PAUSED", "", (0, 0, 0), 1, 0.5)
+			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 1, 0.5)
+
 		else:
 			piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
 			piece.SetUpFade(self.GetIsFaded)
