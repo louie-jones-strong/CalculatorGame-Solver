@@ -122,7 +122,10 @@ class UiPiece:
 		return self.Selectable and self.State == UiPiece.eState.press
 
 	def UpdateLabel(self, events, debugMode):
-		if self.Selected and self.EditableMessage != None:
+		if (self.Selected and 
+			self.EditableMessage != None and 
+			self.State != UiPiece.eState.Fade):
+
 			for event in events:
 				if event.type == pygame.KEYDOWN:
 
@@ -194,7 +197,7 @@ class UiPiece:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
 			draw.rect(screen, [255, 0, 0], rect, 2)
 
-		if self.Selectable and self.Selected:
+		if self.Selectable and self.Selected and self.State != UiPiece.eState.Fade:
 			rect = [self.Pos[0], self.Pos[1], self.Size[0], self.Size[1]]
 			draw.rect(screen, [255, 255, 255], rect, 2)
 
