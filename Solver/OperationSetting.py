@@ -1,6 +1,6 @@
 class OperationSetting:
 
-	def __init__(self, value=None, canModify=True, settingType=int):
+	def __init__(self, value=None, canModify=True, settingType=int, isTempValue=False):
 		self.SettingType = settingType
 
 		if value == None:
@@ -21,6 +21,7 @@ class OperationSetting:
 				self.SettingValue = str(self.SettingValue)
 
 		self.CanModify = canModify
+		self.IsTempValue = isTempValue
 		return
 
 	def Value(self):

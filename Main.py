@@ -593,14 +593,20 @@ class Main:
 
 	def SetUpOperationInfoScreen(self, clearSelected=True):
 		self.ScreenState = Main.eScreen.EditOp
+		op = self.OperationsList[self.OperationSetUpIndex]
 
-		if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 0:
+		settingToEdit = []
+		for index in range(len(op.Setting)):
+			setting = op.Setting[index]
+
+			if not setting.IsTempValue:
+				settingToEdit += [index]
+
+		if len(settingToEdit) == 0:
 			self.SetUpMainScreen()
 
 		else:
 			self.SetUpShared(False, clearSelected)
-
-			op = self.OperationsList[self.OperationSetUpIndex]
 
 			#backGround
 			piece = Piece.UiPiece([10, 370], [360, 220],
@@ -610,7 +616,7 @@ class Main:
 
 			#row two
 			piece = self.MakeGridPiece(0, 1, image="Button")
-			piece.SetUpLabel("", op.GetSetting(0), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting1)
+			piece.SetUpLabel("", op.GetSetting(settingToEdit[0]), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting1)
 			piece.SetupAudio("ButtonDown", "ButtonUp")
 			self.Manger.AddPiece(piece, True)
 
@@ -618,9 +624,9 @@ class Main:
 			piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5, getMessage=op.__str__)
 			self.Manger.AddPiece(piece, False)
 			
-			if len(self.OperationsList[self.OperationSetUpIndex].Setting) == 2:
+			if len(settingToEdit) == 2:
 				piece = self.MakeGridPiece(2, 1, image="Button")
-				piece.SetUpLabel("", op.GetSetting(1), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
+				piece.SetUpLabel("", op.GetSetting(settingToEdit[1]), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
 				piece.SetupAudio("ButtonDown", "ButtonUp")
 				self.Manger.AddPiece(piece, True)
 

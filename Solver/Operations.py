@@ -17,7 +17,8 @@ class Operation:
 
 	def SetSetting(self, index, value):
 		if len(self.Setting) > index and index >= 0:
-			self.Setting[index].SetValue(value)
+			if not self.Setting[index].IsTempValue:
+				self.Setting[index].SetValue(value)
 			
 		return
 	
@@ -363,11 +364,12 @@ class Modifier(OpListChangeOp):
 	def __str__(self):
 		return "[+] " + str(self.Setting[0].Value())
 
-class Store(Insert, OpListChangeOp):
+class Store(ValueChangeOp, OpListChangeOp):
 	BaseImage = "Button_Store"
 
 	def __init__(self, id):
 		super().__init__(id)
+		self.Setting += [OpSetting.OperationSetting(isTempValue=True)]
 		self.HasBeenSet = False
 		return
 
@@ -377,6 +379,17 @@ class Store(Insert, OpListChangeOp):
 
 		return super().DoActionOnValue(inputValue)
 
+	def DoActionOnValue(self, inputValue):
+		if int(inputValue) != inputValue:
+			return inputValue
+
+		value = self.Setting[0].Value()
+
+		if value < 0:
+			value *= -1
+
+		return int(str(inputValue) + str(value))
+
 	def DoActionOnOpList(self, opList, value):
 		newOpList = []
 		for op in opList:
@@ -385,15 +398,11 @@ class Store(Insert, OpListChangeOp):
 
 			if op == self:
 				newOp.SetSetting(0, value)
+				self.HasBeenSet = True
 				
 			newOpList += [newOp]
 
 		return newOpList
-
-	def SetSetting(self, index, value):
-		super().SetSetting(index, value)
-		self.HasBeenSet = True
-		return
 	
 	def IsValid(self):
 		return True
