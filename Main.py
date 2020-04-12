@@ -237,13 +237,32 @@ class Main:
 		self.SetUpMainScreen()
 		return
 	def OperationClicked(self, opIndex):
+
 		if self.OpDoesAction:
+			if self.DebugMode:
+				print("OperationClicked")
 			op = self.OperationsList[opIndex]
 			if type(op) != Operations.Operation and self.Moves > 0:
 				self.Moves = self.Moves-1
 
 				if issubclass(type(op), Operations.ValueChangeOp):
 					self.StartingNum = op.DoActionOnValue(self.StartingNum)
+
+				elif issubclass(type(op), Operations.OpListChangeOp):
+					self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
+
+				self.SetUpMainScreen()
+		else:
+			self.SetUpOperationSelectScreen(opIndex)
+		return
+	def OperationHold(self, opIndex):
+		if self.OpDoesAction:
+			if self.DebugMode:
+				print("OperationHold")
+
+			op = self.OperationsList[opIndex]
+			if type(op) == Operations.Store and self.Moves > 0:
+				self.Moves = self.Moves-1
 
 				if issubclass(type(op), Operations.OpListChangeOp):
 					self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
@@ -470,6 +489,7 @@ class Main:
 		op = self.OperationsList[0]
 		piece = self.MakeGridPiece(1, 0, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=0)
+		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=0)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -501,6 +521,7 @@ class Main:
 		op = self.OperationsList[1]
 		piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=1)
+		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=1)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -513,6 +534,7 @@ class Main:
 		op = self.OperationsList[2]
 		piece = self.MakeGridPiece(2, 1, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=2)
+		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=2)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -530,6 +552,7 @@ class Main:
 		op = self.OperationsList[3]
 		piece = self.MakeGridPiece(1, 2, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=3)
+		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=3)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
@@ -541,6 +564,7 @@ class Main:
 		op = self.OperationsList[4]
 		piece = self.MakeGridPiece(2, 2, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=4)
+		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=4)
 		piece.SetUpLabel(str(op), "", xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
