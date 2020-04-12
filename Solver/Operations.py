@@ -15,9 +15,9 @@ class Operation:
 			return self.Setting[index].Value()
 		return 0
 
-	def SetSetting(self, index, value):
+	def SetSetting(self, index, value, overrideTemp=False):
 		if len(self.Setting) > index and index >= 0:
-			if not self.Setting[index].IsTempValue:
+			if not self.Setting[index].IsTempValue or overrideTemp:
 				self.Setting[index].SetValue(value)
 			
 		return
@@ -46,6 +46,14 @@ class Operation:
 
 	def __eq__(self, other):
 		return type(other) == type(self) and self.Serialize() == other.Serialize()
+
+	def MakeCopy(self):
+		newOp = MakeOperation(self.OperationId)
+
+		for loop in range(len(self.Setting)):
+			newOp.SetSetting(loop, self.Setting[loop].Value(), True)
+
+		return newOp
 
 class ValueChangeOp(Operation):
 
@@ -351,8 +359,7 @@ class Modifier(OpListChangeOp):
 	def DoActionOnOpList(self, opList, value):
 		newOpList = []
 		for op in opList:
-			opData = op.Serialize()
-			newOp = OpDeserialization(opData)
+			newOp = op.MakeCopy()
 
 			if op != self:
 				newOp.ModifySettings(self.Setting[0].Value())
@@ -393,11 +400,10 @@ class Store(ValueChangeOp, OpListChangeOp):
 	def DoActionOnOpList(self, opList, value):
 		newOpList = []
 		for op in opList:
-			opData = op.Serialize()
-			newOp = OpDeserialization(opData)
+			newOp = op.MakeCopy()
 
 			if op == self:
-				newOp.SetSetting(0, value)
+				newOp.SetSetting(0, value, overrideTemp=True)
 				newOp.HasBeenSet = True
 				
 			newOpList += [newOp]
