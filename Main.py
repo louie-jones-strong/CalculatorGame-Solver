@@ -443,7 +443,7 @@ class Main:
 		piece = Piece.UiPiece([38 , 180], [302, 75])
 
 		if showPaused:
-			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 1, 0.5)
+			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 0.5, 0.5)
 
 		else:
 			piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
