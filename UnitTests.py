@@ -64,7 +64,17 @@ class UnitTests:
 			self.GroupPassed = False
 			self.NumFailed += 1
 			self.GroupText += "Failed " + str(testName) + "\n"
-			self.GroupText += "\t\texpected: " + str(expectedValue) + " but got " + str(value) + "\n"
+
+			expectedString = str(expectedValue)
+			gotString = str(value)
+
+			if type(expectedValue) == list:
+				expectedString = self.OpListToText(expectedValue)
+
+			if type(value) == list:
+				gotString = self.OpListToText(value)
+
+			self.GroupText += "\t\texpected: " + expectedString + " but got " + gotString + "\n"
 
 		self.TestNumber += 1
 		return value == expectedValue
@@ -152,7 +162,7 @@ class UnitTests:
 
 		testOpList = [op]
 		storeOp = Operations.MakeOperation(14)
-		storeOp.SetSetting(0, 123)
+		storeOp.SetSetting(0, 123, overrideTemp=True)
 		exceptedOpList = [storeOp]
 
 
@@ -162,7 +172,6 @@ class UnitTests:
 
 		newOpList = op.DoActionOnOpList(testOpList, 123)
 		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
-		self.AssertEqual(str(storeOp), "123", "ToString()")
 		return
 
 	def SharedOpTests(self, opId, exceptedType, exceptedString, settingList=None):
