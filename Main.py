@@ -1,6 +1,7 @@
 import traceback
 import Solver.GameSolver as GameSolver
 import Solver.Operations as Operations
+import Solver.LevelData as LevelData
 import os
 import Rendering.AudioPlayer as AudioPlayer
 import Rendering.ImageDrawer as ImageDrawer
@@ -39,19 +40,28 @@ class Main:
 		self.Manger = UiManger.UiManger(self.AudioPlayer, drawer, "Calculator: The Game", "Icon")
 		self.Manger.DebugMode = self.DebugMode
 
+		self.Level = 0
+		self.ClearLevel()
+
 		self.LevelsData  = {}
 		if os.path.isfile(self.LevelDataPath):
 			file = open(self.LevelDataPath, "r")
-			self.LevelsData = json.load(file)
+			dataDict = json.load(file)
 			file.close()
 
-			if self.DebugMode:
-				for levelData in self.LevelsData.items():
-					print(levelData)
+			anyNeededMigration = False
+			for key, value in dataDict.items():
 
+				levelData = LevelData.LevelData()
 
-		self.Level = 0
-		self.ClearLevel()
+				if levelData.Deserialize(value):
+					anyNeededMigration = True
+
+				self.LevelsData[key] = levelData
+
+			if anyNeededMigration:
+				self.SaveAllLevelData()
+
 		if os.path.isfile(self.PlayerPrefsPath):
 			file = open(self.PlayerPrefsPath, "r")
 			playerData = json.load(file)
@@ -62,10 +72,10 @@ class Main:
 			
 			if "Version" in playerData and playerData["Version"] == self.Version:
 				self.AudioPlayer.Volume = playerData["Volume"]
-				if str(playerData["Level"]) in self.LevelsData:
-					self.LoadLevelFromData(self.LevelsData[str(playerData["Level"])])
-				else:
-					self.Level = playerData["Level"]
+				self.Level = playerData["Level"]
+
+				if str(self.Level) in self.LevelsData:
+					self.CurretLevelData = self.LevelsData[str(self.Level)]
 
 				if "IsDev" in playerData:
 					self.IsDev = playerData["IsDev"]
@@ -88,33 +98,26 @@ class Main:
 	def GetIsFaded(self):
 		return self.SolarCovered or self.ScreenState == Main.eScreen.Setting
 	def UpdateMovesNum(self, moves):
-		self.Moves = int(moves)
+		self.CurretLevelData.Moves = int(moves)
 		return
 	def UpdateGoalNum(self, goal):
-		self.Goal = int(goal)
+		self.CurretLevelData.Goal = int(goal)
 		return
 	def UpdateStartingNum(self, startingNum):
-		self.StartingNum = int(startingNum)
+		self.CurretLevelData.StartingNum = int(startingNum)
 		return
 	def ClickedSolve(self):
 		if self.DebugMode:
 			print("Sovle Clicked")
 
-		if not self.CheckIsLevelValid():
+		if not self.CurretLevelData.IsValid():
 			if self.DebugMode:
 				print("not vaild To Sovle Atm")
 
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
-		found, solveOperationList = GameSolver.Solve(self.Moves, self.OperationsList, self.StartingNum, self.Goal)
-
-		if self.DebugMode:
-			print("===================")
-			print("")
-			print("Found: "+str(found))
-			print("")
-			print("")
+		found, solveOperationList = GameSolver.Solve(self.CurretLevelData.Moves, self.CurretLevelData.OpList, self.CurretLevelData.StartingNum, self.CurretLevelData.Goal)
 
 		self.SolveOrder = []
 		for loop in range(5):
@@ -125,7 +128,7 @@ class Main:
 			solveOp = solveOperationList[solveLoop]
 
 			if self.DebugMode:
-				solveOp = self.OperationsList[opIndex]
+				solveOp = self.CurretLevelData.OpList[opIndex]
 				print(str(solveLoop) +") "+ str(solveOp))
 
 			if len(self.SolveOrder[opIndex]) > 0:
@@ -165,7 +168,7 @@ class Main:
 		self.ClearLevel()
 		key = str(self.Level)
 		if key in self.LevelsData:
-			self.LoadLevelFromData(self.LevelsData[key])
+			self.CurretLevelData = self.LevelsData[key]
 
 		self.SavePlayerPrefs()
 		return
@@ -185,8 +188,8 @@ class Main:
 			if self.OpDoesAction:
 				key = str(self.Level)
 				if key in self.LevelsData:
-					self.LoadLevelFromData(self.LevelsData[key])
-					
+					self.CurretLevelData = self.LevelsData[key]
+
 			else:
 				self.Level = 0
 				self.ClearLevel()
@@ -200,46 +203,43 @@ class Main:
 
 		op = Operations.MakeOperation(gridIndex)
 		if op == None:
-			self.OperationsList[self.OperationSetUpIndex] = Operations.MakeOperation(0)
+			self.CurretLevelData.OpList[self.OperationSetUpIndex] = Operations.MakeOperation(0)
 			self.SetUpMainScreen()
 
 		else:
-			self.OperationsList[self.OperationSetUpIndex] = op
+			self.CurretLevelData.OpList[self.OperationSetUpIndex] = op
 			self.SetUpOperationInfoScreen()
 
 		return
 	def UpdateSetting1(self, value):
-		op = self.OperationsList[self.OperationSetUpIndex]
+		op = self.CurretLevelData.OpList[self.OperationSetUpIndex]
 		op.SetSetting(0, value)
 		return
 	def UpdateSetting2(self, value):
-		op = self.OperationsList[self.OperationSetUpIndex]
+		op = self.CurretLevelData.OpList[self.OperationSetUpIndex]
 		op.SetSetting(1, value)
 		return
 	def ClickDoneOpSetup(self):
-		op = self.OperationsList[self.OperationSetUpIndex]
+		op = self.CurretLevelData.OpList[self.OperationSetUpIndex]
 		if op.IsValid():
 			self.SetUpMainScreen()
 		else:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 		return
 	def SaveLevelData(self):
-		if not self.CheckIsLevelValid() or self.Level in self.LevelsData or self.Level == 0:
+		if not self.CurretLevelData.IsValid() or self.Level in self.LevelsData or self.Level == 0:
 			if self.DebugMode:
 				print("not vaild To Level Data")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
-		self.LevelsData[str(self.Level)] = self.GetlevelDictData()
+		self.LevelsData[str(self.Level)] = self.CurretLevelData
 
 		if self.DebugMode:
 			for levelData in self.LevelsData.items():
 				print(levelData)
 
-		
-		file = open(self.LevelDataPath, "w")
-		json.dump(self.LevelsData, file, indent=4, sort_keys=True)
-		file.close()
+		self.SaveAllLevelData()
 		return
 	def ToggleOpClickAction(self):
 		if self.DebugMode:
@@ -252,15 +252,15 @@ class Main:
 		if self.OpDoesAction:
 			if self.DebugMode:
 				print("OperationClicked")
-			op = self.OperationsList[opIndex]
-			if type(op) != Operations.Operation and self.Moves > 0:
-				self.Moves = self.Moves-1
+			op = self.CurretLevelData.OpList[opIndex]
+			if type(op) != Operations.Operation and self.CurretLevelData.Moves > 0:
+				self.CurretLevelData.Moves = self.CurretLevelData.Moves-1
 
 				if issubclass(type(op), Operations.ValueChangeOp):
-					self.StartingNum = op.DoActionOnValue(self.StartingNum)
+					self.CurretLevelData.StartingNum = op.DoActionOnValue(self.CurretLevelData.StartingNum)
 
 				elif issubclass(type(op), Operations.OpListChangeOp):
-					self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
+					self.CurretLevelData.OpList = op.DoActionOnOpList(self.CurretLevelData.OpList, self.CurretLevelData.StartingNum)
 
 				self.SetUpMainScreen()
 		else:
@@ -271,12 +271,12 @@ class Main:
 			if self.DebugMode:
 				print("OperationHold")
 
-			op = self.OperationsList[opIndex]
-			if type(op) == Operations.Store and self.Moves > 0:
-				self.Moves = self.Moves-1
+			op = self.CurretLevelData.OpList[opIndex]
+			if type(op) == Operations.Store and self.CurretLevelData.Moves > 0:
+				self.CurretLevelData.Moves = self.CurretLevelData.Moves-1
 
 				if issubclass(type(op), Operations.OpListChangeOp):
-					self.OperationsList = op.DoActionOnOpList(self.OperationsList, self.StartingNum)
+					self.CurretLevelData.OpList = op.DoActionOnOpList(self.CurretLevelData.OpList, self.CurretLevelData.StartingNum)
 
 				self.SetUpMainScreen()
 		else:
@@ -284,43 +284,10 @@ class Main:
 		return
 
 #Functions used by a few
-	def GetlevelDictData(self):
-		levelDataDict = {}
-		levelDataDict["Level"] = self.Level
-		levelDataDict["Moves"] = self.Moves
-		levelDataDict["Goal"] = self.Goal
-		levelDataDict["StartingNumber"] = self.StartingNum
-
-		operationsData = []
-		for op in self.OperationsList:
-			operationsData += [op.Serialize()]
-
-		levelDataDict["Operations"] = operationsData
-		return levelDataDict
-
-	def LoadLevelFromData(self, data):
-
-		self.Level = data["Level"] 
-		self.StartingNum = data["StartingNumber"] 
-		self.Goal = data["Goal"] 
-		self.Moves = data["Moves"] 
-
-		operationsData = data["Operations"]
-
-		self.OperationsList = []
-		for opData in operationsData:
-			self.OperationsList += [Operations.OpDeserialization(opData)]
-
-		return
-
 	def ClearLevel(self):
-		self.StartingNum = 0
-		self.Goal = 0
-		self.Moves = 0
-		self.OperationsList = []
+		self.CurretLevelData = LevelData.LevelData()
 		self.SolveOrder = []
 		for loop in range(5):
-			self.OperationsList += [Operations.MakeOperation(0)]
 			self.SolveOrder += [""]
 		return
 
@@ -336,14 +303,6 @@ class Main:
 		y = (boxHight+ySpacing) * yIndex + yStart
 
 		return Piece.UiPiece([x, y], [boxWidth, boxHight], normalImage=image, hoverImage=hoverImage)
-	
-	def CheckIsLevelValid(self):
-		numValidOps = 0
-		for op in self.OperationsList:
-			if op.IsValid():
-				numValidOps += 1
-				
-		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
 
 	def SavePlayerPrefs(self):
 		playerData = {}
@@ -358,7 +317,16 @@ class Main:
 		file.close()
 		return
 
-#screens 
+	def SaveAllLevelData(self):
+		dataDict = {}
+		for key, value in self.LevelsData.items():
+			dataDict[key] = value.Serialize()
+
+		file = open(self.LevelDataPath, "w")
+		json.dump(dataDict, file, indent=4, sort_keys=True)
+		file.close()
+		return
+#screens
 	def SetupSettingsScreen(self):
 		self.ScreenState = Main.eScreen.Setting
 
@@ -463,12 +431,12 @@ class Main:
 
 		piece = Piece.UiPiece([140, 90], [90, 50], "TopStats_Normal")
 		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
-		piece.SetUpLabel("Moves:", self.Moves, textUpdatedFunc=self.UpdateMovesNum)
+		piece.SetUpLabel("Moves:", self.CurretLevelData.Moves, textUpdatedFunc=self.UpdateMovesNum)
 		self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([245, 90], [90, 50], "TopStats_Normal")
 		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
-		piece.SetUpLabel("Goal:", self.Goal, textUpdatedFunc=self.UpdateGoalNum)
+		piece.SetUpLabel("Goal:", self.CurretLevelData.Goal, textUpdatedFunc=self.UpdateGoalNum)
 		self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([38 , 180], [302, 75])
@@ -477,7 +445,7 @@ class Main:
 			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 0.5, 0.5)
 
 		else:
-			piece.SetUpLabel("", self.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
+			piece.SetUpLabel("", self.CurretLevelData.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
 			piece.SetUpFade(self.GetIsFaded)
 			
 		self.Manger.AddPiece(piece, selectable)
@@ -497,7 +465,7 @@ class Main:
 		piece.SetUpLabel("Solve", "", yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, True)
 
-		op = self.OperationsList[0]
+		op = self.CurretLevelData.OpList[0]
 		piece = self.MakeGridPiece(1, 0, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=0)
 		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=0)
@@ -529,7 +497,7 @@ class Main:
 			piece.SetUpLabel("Do Action", "", yLabelAnchor=0.5)
 			self.Manger.AddPiece(piece, False)
 
-		op = self.OperationsList[1]
+		op = self.CurretLevelData.OpList[1]
 		piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=1)
 		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=1)
@@ -542,7 +510,7 @@ class Main:
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
-		op = self.OperationsList[2]
+		op = self.CurretLevelData.OpList[2]
 		piece = self.MakeGridPiece(2, 1, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=2)
 		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=2)
@@ -560,7 +528,7 @@ class Main:
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
 
-		op = self.OperationsList[3]
+		op = self.CurretLevelData.OpList[3]
 		piece = self.MakeGridPiece(1, 2, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=3)
 		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=3)
@@ -572,7 +540,7 @@ class Main:
 		piece.SetUpLabel(self.SolveOrder[3], "", xLabelAnchor=1, yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, False)
 
-		op = self.OperationsList[4]
+		op = self.CurretLevelData.OpList[4]
 		piece = self.MakeGridPiece(2, 2, image=op.BaseImage)
 		piece.SetUpButtonClick(onClick=self.OperationClicked, onClickData=4)
 		piece.SetUpButtonHold(onHold=self.OperationHold, onHoldData=4)
@@ -629,7 +597,7 @@ class Main:
 
 	def SetUpOperationInfoScreen(self, clearSelected=True):
 		self.ScreenState = Main.eScreen.EditOp
-		op = self.OperationsList[self.OperationSetUpIndex]
+		op = self.CurretLevelData.OpList[self.OperationSetUpIndex]
 
 		settingToEdit = []
 		for index in range(len(op.Setting)):

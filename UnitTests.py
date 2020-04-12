@@ -1,5 +1,6 @@
 import Solver.GameSolver as GameSolver
 import Solver.Operations as Operations
+import Solver.LevelData as LevelData
 import json
 import os
 import traceback
@@ -222,35 +223,34 @@ class UnitTests:
 		path = os.path.join(path, "Assets", "Data")
 		levelDataPath = os.path.join(path, "LevelData.json")
 		file = open(levelDataPath, "r")
-		levelDataDict = json.load(file)
+		levelsDataDict = json.load(file)
 		file.close()
 
-		self.AssertEqual(0 in levelDataDict, False, "level 0 should not be in level data")
+		self.AssertEqual(0 in levelsDataDict, False, "level 0 should not be in level data")
 
-		for loop in range(1, len(levelDataDict)+1):
+		for loop in range(1, len(levelsDataDict)+1):
 
 			key = str(loop)
 
 			self.SetGroup("Regression Testing Level: "+str(key))
-			if self.AssertEqual(key in levelDataDict, True, "level key in level data"):
-				value = levelDataDict[key]
-				self.CheckLevelData(key, value)
+
+			if self.AssertEqual(key in levelsDataDict, True, "level key in level data"):
+
+				levelDataDict = levelsDataDict[key]
+				self.CheckLevelData(key, levelDataDict)
 		return
 	
-	def CheckLevelData(self, key, levelData):
-		level = levelData["Level"]
-		startingNum = levelData["StartingNumber"] 
-		goal = levelData["Goal"] 
-		moves = levelData["Moves"]
+	def CheckLevelData(self, key, levelDataDict):
+		levelData = LevelData.LevelData()
+		neededMigration = levelData.Deserialize(levelDataDict)
 
-		operationsData = levelData["Operations"]
+		self.AssertEqual(neededMigration, False, "LevelData Version Check")
 
-		self.AssertEqual(key == str(levelData["Level"]), True, "key == level")
+		self.AssertEqual(key == str(levelData.Level), True, "key == level")
 
 		operationsList = []
 		loop = 0
-		for opData in operationsData:
-			op = Operations.OpDeserialization(opData)
+		for op in levelData.OpList:
 
 			opType = type(op)
 			if opType != Operations.Operation:
@@ -263,9 +263,9 @@ class UnitTests:
 
 		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
-		found, solveOrder = GameSolver.Solve(moves, operationsList, startingNum, goal)
+		found, solveOrder = GameSolver.Solve(levelData.Moves, levelData.OpList, levelData.StartingNum, levelData.Goal)
 		self.AssertEqual(found, True, "Found Solve "+ self.OpListToText(operationsList))
-		self.AssertEqual(len(solveOrder) <= moves, True, "number of moves are valid")
+		self.AssertEqual(len(solveOrder) <= levelData.Moves, True, "number of moves are valid")
 		return
 
 if __name__ == "__main__":
