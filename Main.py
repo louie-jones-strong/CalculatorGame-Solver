@@ -178,9 +178,13 @@ class Main:
 		self.SetupSettingsScreen()
 		return
 	def ClearClicked(self):
-		self.Level = 0
 		self.ClearLevel()
-		self.SavePlayerPrefs()
+
+		if self.Level < len(self.LevelsData)+1:
+			self.Level = 0
+			self.ClearLevel()
+			self.SavePlayerPrefs()
+
 		self.SetUpMainScreen()
 		return
 	def SetOperation(self, gridIndex):
