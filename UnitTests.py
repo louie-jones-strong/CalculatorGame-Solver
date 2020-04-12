@@ -189,6 +189,18 @@ class UnitTests:
 			self.AssertEqual(valueType, item.SettingType, "Setting["+str(loop)+"] value type Check")
 		return
 
+	def OpListToText(self, opList):
+		text = "[ "
+
+		text += str(opList[0])
+
+		for index in range(1, len(opList)):
+			
+			text += ", " + str(opList[index])
+
+		text += " ]"
+		return text
+
 	def TestSolves(self):
 		
 		self.SetGroup("Loading Level Data")
@@ -211,7 +223,7 @@ class UnitTests:
 				value = levelDataDict[key]
 				self.CheckLevelData(key, value)
 		return
-
+	
 	def CheckLevelData(self, key, levelData):
 		level = levelData["Level"]
 		startingNum = levelData["StartingNumber"] 
@@ -239,7 +251,7 @@ class UnitTests:
 		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
 		found, solveOrder = GameSolver.Solve(moves, operationsList, startingNum, goal)
-		self.AssertEqual(found, True, "Found Solve")
+		self.AssertEqual(found, True, "Found Solve "+ self.OpListToText(operationsList))
 		self.AssertEqual(len(solveOrder) <= moves, True, "number of moves are valid")
 		return
 

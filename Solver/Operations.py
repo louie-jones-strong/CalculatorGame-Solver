@@ -398,7 +398,7 @@ class Store(ValueChangeOp, OpListChangeOp):
 
 			if op == self:
 				newOp.SetSetting(0, value)
-				self.HasBeenSet = True
+				newOp.HasBeenSet = True
 				
 			newOpList += [newOp]
 
