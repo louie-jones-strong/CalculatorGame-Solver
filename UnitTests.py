@@ -172,6 +172,10 @@ class UnitTests:
 
 		newOpList = op.DoActionOnOpList(testOpList, 123)
 		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
+
+		self.SetGroup("Inv10")
+		op = self.SharedOpTests(15, Operations.Inv10, "Inv10")
+		self.AssertEqual(op.DoActionOnValue(1234567890), 9876543210, "DoActionOnValue()")
 		return
 
 	def SharedOpTests(self, opId, exceptedType, exceptedString, settingList=None):

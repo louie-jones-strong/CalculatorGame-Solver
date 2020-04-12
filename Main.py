@@ -560,8 +560,8 @@ class Main:
 		self.SetUpShared(False)
 
 		#button Grid
-		yStart = 155
-		yNumber = 5
+		yStart = 45
+		yNumber = 6
 
 		piece = Piece.UiPiece([10, yStart-10], [360, yNumber*110+10],
 			"Popup_BackGround")
