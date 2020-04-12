@@ -100,7 +100,8 @@ def MakeOperation(opType):
 		SwapOrder,
 		Mirror,
 		Modifier,
-		Store]
+		Store,
+		Inv10]
 
 	if opType >= 0 and opType < len(opList):
 		return opList[opType](opType)
@@ -419,3 +420,30 @@ class Store(ValueChangeOp, OpListChangeOp):
 		else:
 			text = "Store"
 		return text
+
+class Inv10(ValueChangeOp):
+	BaseImage = "Button_Orange"
+
+	def DoActionOnValue(self, inputValue):
+		isNegtive = inputValue < 0
+		if isNegtive:
+			inputValue *= -1
+
+		valueList = map(lambda x: int(x), str(inputValue))
+
+		newString = ""
+		for item in valueList:
+			if item == 0:
+				newString += "0"
+			else:
+				newString += str(10-item)
+
+		newValue = int(newString)
+
+		if isNegtive:
+			newValue *= -1
+		return newValue
+		
+
+	def __str__(self):
+		return "Inv10"
