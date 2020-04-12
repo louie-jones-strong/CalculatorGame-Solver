@@ -1,53 +1,61 @@
 import Solver.Operations as Operations
 
-def Solve(movesLeft, opList, currentNumber, targetNumber):
+def Solve(levelData):
 
-	for opIndex in range(len(opList)):
-		operation = opList[opIndex]
+	for opIndex in range(len(levelData.OpList)):
+		operation = levelData.OpList[opIndex]
 
 		if issubclass(type(operation), Operations.ValueChangeOp):
-			found, solveOrder = CheckValueChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber)
+			found, solveOrder = CheckValueChangeOp(opIndex, levelData)
 			if found:
 				return True, solveOrder
 
 		if issubclass(type(operation), Operations.OpListChangeOp):
-			found, solveOrder = CheckOpListChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber)
+			found, solveOrder = CheckOpListChangeOp(opIndex, levelData)
 			if found:
 				return True, solveOrder
 		
 	return False, []
 
-def CheckValueChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
-	newCurrentNumber = opList[opIndex].DoActionOnValue(currentNumber)
+def CheckValueChangeOp(opIndex, levelData):
+	newCurrentNumber = levelData.OpList[opIndex].DoActionOnValue(levelData.StartingNum)
 	
-	if targetNumber == newCurrentNumber:
+	if levelData.Goal == newCurrentNumber:
 		return True, [opIndex]
 
 	elif len(str(newCurrentNumber)) > 6:
 		return False, []
 
-	elif newCurrentNumber == currentNumber:
+	elif newCurrentNumber == levelData.StartingNum:
 		return False, []
 	
 	elif int(newCurrentNumber) != newCurrentNumber:
 		return False, []
 
-	elif movesLeft > 1:
-		found, solveOrder = Solve(movesLeft-1, opList, newCurrentNumber, targetNumber)
+	elif levelData.Moves > 1:
+		levelData = levelData.Copy()
+		levelData.Moves -= 1
+		levelData.StartingNum = newCurrentNumber
+
+		found, solveOrder = Solve(levelData)
 
 		if found:
 			return True, [opIndex] + solveOrder
 
 	return False, []
 
-def CheckOpListChangeOp(opIndex, movesLeft, opList, currentNumber, targetNumber):
-	newOpList = opList[opIndex].DoActionOnOpList(opList, currentNumber)
+def CheckOpListChangeOp(opIndex, levelData):
+	newOpList = levelData.OpList[opIndex].DoActionOnOpList(levelData.OpList, levelData.StartingNum)
 
-	if opList == newOpList:
+	if levelData.OpList == newOpList:
 		return False, []
 	
-	elif movesLeft > 1:
-		found, solveOrder = Solve(movesLeft-1, newOpList, currentNumber, targetNumber)
+	elif levelData.Moves > 1:
+		levelData = levelData.Copy()
+		levelData.Moves -= 1
+		levelData.OpList = newOpList
+
+		found, solveOrder = Solve(levelData)
 
 		if found:
 			return True, [opIndex] + solveOrder
