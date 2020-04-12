@@ -263,7 +263,7 @@ class UnitTests:
 
 		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
-		found, solveOrder = GameSolver.Solve(levelData.Moves, levelData.OpList, levelData.StartingNum, levelData.Goal)
+		found, solveOrder = GameSolver.Solve(levelData)
 		self.AssertEqual(found, True, "Found Solve "+ self.OpListToText(operationsList))
 		self.AssertEqual(len(solveOrder) <= levelData.Moves, True, "number of moves are valid")
 		return

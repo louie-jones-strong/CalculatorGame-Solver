@@ -117,7 +117,7 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
-		found, solveOperationList = GameSolver.Solve(self.CurretLevelData.Moves, self.CurretLevelData.OpList, self.CurretLevelData.StartingNum, self.CurretLevelData.Goal)
+		found, solveOperationList = GameSolver.Solve(self.CurretLevelData)
 
 		self.SolveOrder = []
 		for loop in range(5):

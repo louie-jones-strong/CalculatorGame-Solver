@@ -63,3 +63,10 @@ class LevelData:
 				numValidOps += 1
 		
 		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
+
+	def Copy(self):
+		newLevelData = LevelData()
+		
+		dataDict = self.Serialize()
+		newLevelData.Deserialize(dataDict)
+		return newLevelData
