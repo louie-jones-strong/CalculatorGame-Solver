@@ -156,8 +156,9 @@ class Main:
 		return self.AudioPlayer.Volume
 	def ChangeLevelSelect(self, delta):
 		level = self.Level + delta
-		if level < 0:
-			level = 0
+
+		if level < 0 or level > len(self.LevelsData)+1:
+			return
 
 		self.Level = level
 
