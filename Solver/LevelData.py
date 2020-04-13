@@ -67,6 +67,13 @@ class LevelData:
 	def Copy(self):
 		newLevelData = LevelData()
 		
-		dataDict = self.Serialize()
-		newLevelData.Deserialize(dataDict)
+		newLevelData.Level = self.Level
+		newLevelData.Moves = self.Moves 
+		newLevelData.Goal = self.Goal
+		newLevelData.StartingNum = self.StartingNum
+
+		newLevelData.OpList = []
+		for op in self.OpList:
+			newLevelData.OpList += [op.MakeCopy()]
+
 		return newLevelData

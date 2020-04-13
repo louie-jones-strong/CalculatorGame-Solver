@@ -33,11 +33,11 @@ def CheckValueChangeOp(opIndex, levelData):
 		return False, []
 
 	elif levelData.Moves > 1:
-		levelData = levelData.Copy()
-		levelData.Moves -= 1
-		levelData.StartingNum = newCurrentNumber
+		newLevelData = levelData.Copy()
+		newLevelData.Moves -= 1
+		newLevelData.StartingNum = newCurrentNumber
 
-		found, solveOrder = Solve(levelData)
+		found, solveOrder = Solve(newLevelData)
 
 		if found:
 			return True, [opIndex] + solveOrder
@@ -51,11 +51,11 @@ def CheckOpListChangeOp(opIndex, levelData):
 		return False, []
 	
 	elif levelData.Moves > 1:
-		levelData = levelData.Copy()
-		levelData.Moves -= 1
-		levelData.OpList = newOpList
+		newLevelData = levelData.Copy()
+		newLevelData.Moves -= 1
+		newLevelData.OpList = newOpList
 
-		found, solveOrder = Solve(levelData)
+		found, solveOrder = Solve(newLevelData)
 
 		if found:
 			return True, [opIndex] + solveOrder
