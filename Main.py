@@ -3,10 +3,10 @@ import Solver.GameSolver as GameSolver
 import Solver.Operations as Operations
 import Solver.LevelData as LevelData
 import os
-import Rendering.AudioPlayer as AudioPlayer
-import Rendering.ImageDrawer as ImageDrawer
-import Rendering.UiManger as UiManger
-import Rendering.UiPiece as Piece
+import Rendering.SharedRendering.AudioPlayer as AudioPlayer
+import Rendering.SharedRendering.ImageDrawer as ImageDrawer
+import Rendering.SharedRendering.UiManger as UiManger
+import Rendering.SharedRendering.UiPiece as Piece
 import json
 from enum import Enum
 
