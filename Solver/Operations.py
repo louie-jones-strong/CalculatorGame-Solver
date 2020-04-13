@@ -378,17 +378,11 @@ class Store(ValueChangeOp, OpListChangeOp):
 	def __init__(self, id):
 		super().__init__(id)
 		self.Setting += [OpSetting.OperationSetting(isTempValue=True)]
-		self.HasBeenSet = False
+		self.Setting += [OpSetting.OperationSetting(value=False, settingType=bool, isTempValue=True)]
 		return
 
 	def DoActionOnValue(self, inputValue):
-		if not self.HasBeenSet:
-			return inputValue
-
-		return super().DoActionOnValue(inputValue)
-
-	def DoActionOnValue(self, inputValue):
-		if int(inputValue) != inputValue:
+		if int(inputValue) != inputValue or not self.Setting[1].Value():
 			return inputValue
 
 		value = self.Setting[0].Value()
@@ -405,7 +399,7 @@ class Store(ValueChangeOp, OpListChangeOp):
 
 			if op == self:
 				newOp.SetSetting(0, value, overrideTemp=True)
-				newOp.HasBeenSet = True
+				newOp.SetSetting(1, True, overrideTemp=True)
 				
 			newOpList += [newOp]
 
@@ -415,7 +409,7 @@ class Store(ValueChangeOp, OpListChangeOp):
 		return True
 
 	def __str__(self):
-		if self.HasBeenSet:
+		if self.Setting[1].Value():
 			text = str(self.Setting[0].Value())
 		else:
 			text = "Store"

@@ -164,6 +164,7 @@ class UnitTests:
 		testOpList = [op]
 		storeOp = Operations.MakeOperation(14)
 		storeOp.SetSetting(0, 123, overrideTemp=True)
+		storeOp.SetSetting(1, True, overrideTemp=True)
 		exceptedOpList = [storeOp]
 
 
