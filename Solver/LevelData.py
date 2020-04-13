@@ -2,13 +2,15 @@ import Solver.Operations as Operations
 
 class LevelData:
 
-	Version = "1"
+	Version = "1.1"
 
 	def __init__(self):	
 		self.Level = 0
 		self.Moves = 0
 		self.Goal = 0
 		self.StartingNum = 0
+		self.PortalFrom = None
+		self.PortalTo = None
 		self.OpList = []
 		for loop in range(5):
 			self.OpList += [Operations.MakeOperation(0)]
@@ -18,6 +20,9 @@ class LevelData:
 		if "Version" not in data:
 			data["Version"] = "1"
 
+		if data["Version"] == "1":
+			data["PortalFrom"] = None
+			data["PortalTo"] = None
 
 		return data
 
@@ -28,6 +33,8 @@ class LevelData:
 		dataDict["Moves"] = self.Moves
 		dataDict["Goal"] = self.Goal
 		dataDict["StartingNumber"] = self.StartingNum
+		dataDict["PortalFrom"] = self.PortalFrom
+		dataDict["PortalTo"] = self.PortalTo
 
 		operationsData = []
 		for op in self.OpList:
@@ -48,7 +55,9 @@ class LevelData:
 		self.Moves = dataDict["Moves"]
 		self.Goal = dataDict["Goal"]
 		self.StartingNum = dataDict["StartingNumber"]
-
+		self.PortalFrom = dataDict["PortalFrom"]
+		self.PortalTo = dataDict["PortalTo"]
+		
 		self.OpList = []
 		operationsData = dataDict["Operations"]
 		for opData in operationsData:
@@ -62,7 +71,11 @@ class LevelData:
 			if op.IsValid():
 				numValidOps += 1
 		
-		return self.Moves > 0 and self.Goal != self.StartingNum and numValidOps > 0
+		return (self.Moves > 0 and 
+			self.Goal != self.StartingNum and 
+			numValidOps > 0 and
+			((self.PortalFrom == None and self.PortalTo == None) or 
+			self.PortalFrom > self.PortalTo))
 
 	def Copy(self):
 		newLevelData = LevelData()
