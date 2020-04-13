@@ -20,6 +20,8 @@ def Solve(levelData):
 def CheckValueChangeOp(opIndex, levelData):
 	newCurrentNumber = levelData.OpList[opIndex].DoActionOnValue(levelData.StartingNum)
 	
+	newCurrentNumber = DoPortalMoves(newCurrentNumber, levelData.PortalFrom, levelData.PortalTo)
+	
 	if levelData.Goal == newCurrentNumber:
 		return True, [opIndex]
 
@@ -61,3 +63,25 @@ def CheckOpListChangeOp(opIndex, levelData):
 			return True, [opIndex] + solveOrder
 
 	return False, []
+
+def DoPortalMoves(currentNumber, portalFrom, portalTo):
+	if portalFrom != None and portalTo != None:
+
+		if currentNumber < 0:
+			currentNumber *= -1
+		
+		numberString = str(currentNumber)
+
+		if len(numberString) > portalFrom:
+			addValue = numberString[ len(numberString)-(portalFrom+1) ]
+			addValue = int(addValue)
+
+			before = numberString[ : len(numberString)-(portalFrom+1) ]
+			after = numberString[ len(numberString)-portalFrom : ]
+			joined = before + after
+
+			currentNumber = int(joined)
+			currentNumber += addValue
+			currentNumber = DoPortalMoves(currentNumber, portalFrom, portalTo)
+
+	return currentNumber

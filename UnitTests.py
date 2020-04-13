@@ -17,7 +17,9 @@ class UnitTests:
 
 		try:
 			self.TestOperations()
-			self.TestSolves()
+
+			if self.NumFailed == 0:
+				self.TestSolves()
 
 		except Exception as e:
 			self.AssertEqual(False, True, "working code")
@@ -178,6 +180,19 @@ class UnitTests:
 		self.SetGroup("Inv10")
 		op = self.SharedOpTests(15, Operations.Inv10, "Inv10")
 		self.AssertEqual(op.DoActionOnValue(1234567890), 9876543210, "DoActionOnValue()")
+
+
+		self.SetGroup("Portals")
+		newNum = GameSolver.DoPortalMoves(100, None, None)
+		self.AssertEqual(newNum, 100, "DoPortalMoves(100, None, None)")
+
+		newNum = GameSolver.DoPortalMoves(10, 1, 0)
+		self.AssertEqual(newNum, 1, "DoPortalMoves(10, 1, 0)")
+
+		newNum = GameSolver.DoPortalMoves(199, 2, 0)
+		self.AssertEqual(newNum, 1, "DoPortalMoves(100, 2, 0)")
+
+
 		return
 
 	def SharedOpTests(self, opId, exceptedType, exceptedString, settingList=None):
