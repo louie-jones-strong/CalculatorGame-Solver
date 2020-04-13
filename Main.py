@@ -93,7 +93,7 @@ class Main:
 		self.SolarCovered = False
 		
 		if self.SegmentDisplay != None:
-			self.SegmentDisplay.Update(self.CurretLevelData.StartingNum)
+			self.SegmentDisplay.Update(self.CurretLevelData)
 
 		return self.Manger.Update()
 
@@ -289,6 +289,24 @@ class Main:
 		else:
 			self.SetUpOperationSelectScreen(opIndex)
 		return
+	def SetFromPortal(self, index):
+		
+		if index != self.CurretLevelData.PortalFrom:
+			self.CurretLevelData.PortalFrom = index
+
+		else:
+			self.CurretLevelData.PortalFrom = None
+
+		return
+	def SetToPortal(self, index):
+
+		if index != self.CurretLevelData.PortalTo:
+			self.CurretLevelData.PortalTo = index
+
+		else:
+			self.CurretLevelData.PortalTo = None
+
+		return
 
 #Functions used by a few
 	def ClearLevel(self):
@@ -333,6 +351,7 @@ class Main:
 		json.dump(dataDict, file, indent=4, sort_keys=True)
 		file.close()
 		return
+
 #screens
 	def SetupSettingsScreen(self):
 		self.ScreenState = Main.eScreen.Setting
@@ -458,7 +477,8 @@ class Main:
 		self.Manger.AddPiece(piece, selectable)
 
 		if not showPaused:
-			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger, GameSolver.MaxCharacters, [48 , 180], [292, 70])
+			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger, 
+				GameSolver.MaxCharacters, [45 , 180], [295, 75], self.SetFromPortal, self.SetToPortal)
 
 
 		return

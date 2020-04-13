@@ -3282,6 +3282,41 @@
         "StartingNumber": 0,
         "Version": "1.1"
     },
+    "180": {
+        "Goal": 10,
+        "Level": 180,
+        "Moves": 3,
+        "Operations": [
+            {
+                "OpType": 5,
+                "Settings": [
+                    1
+                ]
+            },
+            {
+                "OpType": 1,
+                "Settings": [
+                    -1
+                ]
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            },
+            {
+                "OpType": 0,
+                "Settings": []
+            }
+        ],
+        "PortalFrom": 2,
+        "PortalTo": 0,
+        "StartingNumber": 99,
+        "Version": "1.1"
+    },
     "19": {
         "Goal": 44,
         "Level": 19,
