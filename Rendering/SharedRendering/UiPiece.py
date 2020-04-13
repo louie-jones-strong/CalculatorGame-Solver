@@ -24,6 +24,7 @@ class UiPiece:
 		self.Selected = False
 		self.Selectable = False
 		self.EnterCanClick = False
+		self.HideLabel = False
 		return
 	
 	def UiMangerSetup(self, audioPlayer, imageDrawer):
@@ -65,7 +66,8 @@ class UiPiece:
 	Message = None
 	EditableMessage = None
 	GetMessageText = None
-	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None, getMessage=None):
+	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), 
+			xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None, getMessage=None, hideLabel=False):
 		self.Message = str(message)
 		self.EditableMessage = editableMessage
 		self.EditableIsNegtive = False
@@ -74,6 +76,7 @@ class UiPiece:
 		self.YLabelAnchor = yLabelAnchor
 		self.TextUpdatedFunc = textUpdatedFunc
 		self.GetMessageText = getMessage
+		self.HideLabel = hideLabel
 		return
 	
 	FadedImage = None
@@ -189,7 +192,7 @@ class UiPiece:
 			if not self.Drawer.DrawImage(screen, self.FadedImage, self.Pos, self.Size):
 				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
 
-		if self.State != UiPiece.eState.Fade and self.Message != None:
+		if self.State != UiPiece.eState.Fade and self.Message != None and not self.HideLabel:
 			font = pygame.font.SysFont("monospace", 200)
 			text = str(self.Message)
 			if self.EditableIsNegtive:
@@ -229,6 +232,17 @@ class UiPiece:
 			text = self.State.name 
 			if self.Selectable:
 				text += " " + str(self.Selected)
+
+			if self.Message != None or self.EditableMessage != None:
+				text += " \"" 
+				
+				if self.Message != None:
+					text += str(self.Message) 
+				
+				if self.EditableMessage != None:
+					text += str(self.EditableMessage) 
+
+				text += "\""
 
 			label = font.render(text, 1, (255, 0, 0))
 			screen.blit(label, [self.Pos[0]+3, self.Pos[1]])

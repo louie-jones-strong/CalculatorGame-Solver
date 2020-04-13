@@ -7,6 +7,7 @@ import Rendering.SharedRendering.AudioPlayer as AudioPlayer
 import Rendering.SharedRendering.ImageDrawer as ImageDrawer
 import Rendering.SharedRendering.UiManger as UiManger
 import Rendering.SharedRendering.UiPiece as Piece
+import Rendering.UiSegmentDisplay as UiSegmentDisplay
 import json
 from enum import Enum
 
@@ -39,6 +40,7 @@ class Main:
 
 		self.Manger = UiManger.UiManger(self.AudioPlayer, drawer, "Calculator: The Game", "Icon")
 		self.Manger.DebugMode = self.DebugMode
+		self.SegmentDisplay = None
 
 		self.Level = 0
 		self.ClearLevel()
@@ -89,6 +91,10 @@ class Main:
 
 	def Update(self):
 		self.SolarCovered = False
+		
+		if self.SegmentDisplay != None:
+			self.SegmentDisplay.Update(self.CurretLevelData.StartingNum)
+
 		return self.Manger.Update()
 
 # ui called functions
@@ -318,7 +324,6 @@ class Main:
 		json.dump(playerData, file, indent=4, sort_keys=True)
 		file.close()
 		return
-
 	def SaveAllLevelData(self):
 		dataDict = {}
 		for key, value in self.LevelsData.items():
@@ -447,10 +452,15 @@ class Main:
 			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 0.5, 0.5)
 
 		else:
-			piece.SetUpLabel("", self.CurretLevelData.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum)
+			piece.SetUpLabel("", self.CurretLevelData.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum, hideLabel=True)
 			piece.SetUpFade(self.GetIsFaded)
 			
 		self.Manger.AddPiece(piece, selectable)
+
+		if not showPaused:
+			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger, GameSolver.MaxCharacters, [48 , 180], [292, 70])
+
+
 		return
 
 	def SetUpMainScreen(self):
