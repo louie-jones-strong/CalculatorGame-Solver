@@ -1,5 +1,7 @@
 import Solver.Operations as Operations
 
+MaxCharacters = 6
+
 def Solve(levelData):
 
 	for opIndex in range(len(levelData.OpList)):
@@ -25,7 +27,7 @@ def CheckValueChangeOp(opIndex, levelData):
 	if levelData.Goal == newCurrentNumber:
 		return True, [opIndex]
 
-	elif len(str(newCurrentNumber)) > 6:
+	elif len(str(newCurrentNumber)) > MaxCharacters:
 		return False, []
 
 	elif newCurrentNumber == levelData.StartingNum:
