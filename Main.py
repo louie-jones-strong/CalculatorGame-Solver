@@ -233,6 +233,7 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
+		self.CurretLevelData.Level = self.Level
 		self.LevelsData[str(self.Level)] = self.CurretLevelData
 
 		if self.DebugMode:
@@ -286,6 +287,7 @@ class Main:
 #Functions used by a few
 	def ClearLevel(self):
 		self.CurretLevelData = LevelData.LevelData()
+		self.CurretLevelData.Level = self.Level
 		self.SolveOrder = []
 		for loop in range(5):
 			self.SolveOrder += [""]
