@@ -42,6 +42,8 @@ class Main:
 		self.Manger.DebugMode = self.DebugMode
 		self.SegmentDisplay = None
 
+		self.Solver =  GameSolver.GameSolver()
+
 		self.Level = 0
 		self.ClearLevel()
 
@@ -123,7 +125,7 @@ class Main:
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
 		
-		found, solveOperationList = GameSolver.Solve(self.CurretLevelData)
+		found, solveOperationList = self.Solver.Solve(self.CurretLevelData)
 
 		self.SolveOrder = []
 		for loop in range(5):

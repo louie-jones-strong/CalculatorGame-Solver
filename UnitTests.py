@@ -14,6 +14,7 @@ class UnitTests:
 		self.GroupStart = 1
 		self.GroupPassed = True
 		self.GroupName = ""
+		self.Sovler = GameSolver.GameSolver()
 
 		try:
 			self.TestOperations()
@@ -279,8 +280,9 @@ class UnitTests:
 
 		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
-		found, solveOrder = GameSolver.Solve(levelData)
+		found, solveOrder = self.Sovler.Solve(levelData)
 		self.AssertEqual(found, True, "Found Solve "+ self.OpListToText(operationsList))
+		self.AssertEqual(len(solveOrder) > 0, True, "number of min moves")
 		self.AssertEqual(len(solveOrder) <= levelData.Moves, True, "number of moves are valid")
 		return
 
