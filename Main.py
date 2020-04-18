@@ -359,7 +359,7 @@ class Main:
 
 		self.SetUpShared(False, showPaused=True)
 		minHoldTime = 0.5
-		timeBetweenHold = 0.15
+		timeBetweenHold = 0.075
 
 		#volume control row 1
 		piece = self.MakeGridPiece(0, 0, image="Button", hoverImage="Button_Hover")
