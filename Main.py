@@ -104,7 +104,7 @@ class Main:
 		self.SolarCovered = True
 		return
 	def GetIsFaded(self):
-		return self.SolarCovered or self.ScreenState == Main.eScreen.Setting
+		return self.SolarCovered
 	def UpdateMovesNum(self, moves):
 		self.CurretLevelData.Moves = int(moves)
 		return
@@ -452,34 +452,44 @@ class Main:
 		piece.SetUpButtonHold(onHold=self.SetSolarCovered, minHoldTime=0, maxTimeBetweenHold=0)
 		self.Manger.AddPiece(piece, False)
 
-		piece = Piece.UiPiece([40, 90], [90, 50], "FunGuy_Normal")
-		piece.SetUpFade(self.GetIsFaded, "FunGuy_Faded")
-		self.Manger.AddPiece(piece, False)
+		if showPaused:
+			piece = Piece.UiPiece([40, 90], [90, 50], "FunGuy_Faded")
+			self.Manger.AddPiece(piece, False)
 
-		piece = Piece.UiPiece([140, 90], [90, 50], "TopStats_Normal")
-		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
-		piece.SetUpLabel("Moves:", self.CurretLevelData.Moves, textUpdatedFunc=self.UpdateMovesNum)
-		self.Manger.AddPiece(piece, selectable)
+			piece = Piece.UiPiece([140, 90], [90, 50], "TopStats_Faded")
+			self.Manger.AddPiece(piece, selectable)
 
-		piece = Piece.UiPiece([245, 90], [90, 50], "TopStats_Normal")
-		piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
-		piece.SetUpLabel("Goal:", self.CurretLevelData.Goal, textUpdatedFunc=self.UpdateGoalNum)
-		self.Manger.AddPiece(piece, selectable)
+			piece = Piece.UiPiece([245, 90], [90, 50], "TopStats_Faded")
+			self.Manger.AddPiece(piece, selectable)
+		else:
+			piece = Piece.UiPiece([40, 90], [90, 50], "FunGuy_Normal")
+			piece.SetUpFade(self.GetIsFaded, "FunGuy_Faded")
+			self.Manger.AddPiece(piece, False)
+
+			piece = Piece.UiPiece([140, 90], [90, 50], "TopStats_Normal")
+			piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
+			piece.SetUpLabel("Moves:", self.CurretLevelData.Moves, textUpdatedFunc=self.UpdateMovesNum)
+			self.Manger.AddPiece(piece, selectable)
+
+			piece = Piece.UiPiece([245, 90], [90, 50], "TopStats_Normal")
+			piece.SetUpFade(self.GetIsFaded, "TopStats_Faded")
+			piece.SetUpLabel("Goal:", self.CurretLevelData.Goal, textUpdatedFunc=self.UpdateGoalNum)
+			self.Manger.AddPiece(piece, selectable)
 
 		piece = Piece.UiPiece([38 , 180], [302, 75])
+		piece.SetUpFade(self.GetIsFaded)
 
 		if showPaused:
 			piece.SetUpLabel("PAUSED", "", (0, 0, 0), 0.5, 0.5)
 
 		else:
 			piece.SetUpLabel("", self.CurretLevelData.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum, hideLabel=True)
-			piece.SetUpFade(self.GetIsFaded)
 			
 		self.Manger.AddPiece(piece, selectable)
 
 		if not showPaused:
 			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger, 
-				GameSolver.MaxCharacters, [45 , 180], [295, 75], self.SetFromPortal, self.SetToPortal)
+				GameSolver.MaxCharacters, [45 , 180], [295, 75], self.SetFromPortal, self.SetToPortal, self.GetIsFaded)
 
 
 		return
