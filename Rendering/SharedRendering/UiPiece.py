@@ -81,7 +81,7 @@ class UiPiece:
 	
 	FadedImage = None
 	GetIsFade = None
-	def SetUpFade(self, getIsFade, fadedImage=None):
+	def SetUpFade(self, getIsFade, fadedImage=""):
 		self.FadedImage = fadedImage
 		self.GetIsFade = getIsFade
 		#todo make a fade time

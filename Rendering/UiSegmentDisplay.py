@@ -8,7 +8,7 @@ class Character:
 
 class UiSegmentDisplay:
 
-	def __init__(self, uiManger, maxCharacters, pos, size, setFromPortal, setToPortal):
+	def __init__(self, uiManger, maxCharacters, pos, size, setFromPortal, setToPortal, getIsFade):
 		gap = 10
 		subNumberSize = [int((size[0]-(gap*(maxCharacters-1)))/maxCharacters), size[1]]
 		subPortalSize = [30, 15]
@@ -26,6 +26,7 @@ class UiSegmentDisplay:
 			subNumberPos = [xpos, pos[1]]
 			#number
 			piece = UiPiece.UiPiece(subNumberPos, subNumberSize, normalImage="Number_Empty")
+			piece.SetUpFade(getIsFade=getIsFade)
 			uiManger.AddPiece(piece, False)
 			character.Number = piece
 
@@ -34,6 +35,7 @@ class UiSegmentDisplay:
 				#to portal
 				piece = UiPiece.UiPiece(subPortalPos, subPortalSize, normalImage="Portal_False")
 				piece.SetUpButtonClick(onClick=setToPortal, onClickData=index)
+				piece.SetUpFade(getIsFade=getIsFade)
 				uiManger.AddPiece(piece, False)
 				character.ToPortal = piece
 
@@ -42,6 +44,7 @@ class UiSegmentDisplay:
 				#from portal
 				piece = UiPiece.UiPiece(subPortalPos, subPortalSize, normalImage="Portal_False")
 				piece.SetUpButtonClick(onClick=setFromPortal, onClickData=index)
+				piece.SetUpFade(getIsFade=getIsFade)
 				uiManger.AddPiece(piece, False)
 				character.FromPortal = piece
 
