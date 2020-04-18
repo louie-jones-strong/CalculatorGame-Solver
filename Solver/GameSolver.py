@@ -10,19 +10,19 @@ class GameSolver:
 
 	def AddSolve(self, solveOrder):
 		self.PossibleSolves += [solveOrder]
-		if len(solveOrder) < len(self.BestSolve) or len(self.BestSolve) == 0:
+		if self.BestSolve == None or len(solveOrder) < len(self.BestSolve):
 			self.BestSolve = solveOrder
 		return
 
 	def Clear(self):
 		self.PossibleSolves = []
-		self.BestSolve = []
+		self.BestSolve = None
 		return
 
 	def Solve(self, levelData):
 		self.Clear()
-		found = self.CheckOps(levelData, [])
-		return found, self.BestSolve
+		self.CheckOps(levelData, [])
+		return self.BestSolve != None, self.BestSolve
 
 	def CheckOps(self, levelData, solveOrder):
 
@@ -30,16 +30,12 @@ class GameSolver:
 			operation = levelData.OpList[opIndex]
 
 			if issubclass(type(operation), Operations.ValueChangeOp):
-				found = self.CheckValueChangeOp(opIndex, levelData, solveOrder+[opIndex])
-				if found:
-					return True
+				self.CheckValueChangeOp(opIndex, levelData, solveOrder+[opIndex])
 
 			if issubclass(type(operation), Operations.OpListChangeOp):
-				found = self.CheckOpListChangeOp(opIndex, levelData, solveOrder+[opIndex])
-				if found:
-					return True
+				self.CheckOpListChangeOp(opIndex, levelData, solveOrder+[opIndex])
 			
-		return False
+		return
 
 	def CheckValueChangeOp(self, opIndex, levelData, solveOrder):
 		newCurrentNumber = levelData.OpList[opIndex].DoActionOnValue(levelData.StartingNum)
@@ -48,46 +44,40 @@ class GameSolver:
 		
 		if levelData.Goal == newCurrentNumber:
 			self.AddSolve(solveOrder)
-			return True
+			return
 
 		elif len(str(newCurrentNumber)) > MaxCharacters:
-			return False
+			return
 
 		elif newCurrentNumber == levelData.StartingNum:
-			return False
+			return
 		
 		elif int(newCurrentNumber) != newCurrentNumber:
-			return False
+			return
 
 		elif levelData.Moves > 1:
 			newLevelData = levelData.Copy()
 			newLevelData.Moves -= 1
 			newLevelData.StartingNum = newCurrentNumber
 
-			found = self.CheckOps(newLevelData, solveOrder)
+			self.CheckOps(newLevelData, solveOrder)
 
-			if found:
-				return True
-
-		return False
+		return
 
 	def CheckOpListChangeOp(self, opIndex, levelData, solveOrder):
 		newOpList = levelData.OpList[opIndex].DoActionOnOpList(levelData.OpList, levelData.StartingNum)
 
 		if levelData.OpList == newOpList:
-			return False
+			return
 		
 		elif levelData.Moves > 1:
 			newLevelData = levelData.Copy()
 			newLevelData.Moves -= 1
 			newLevelData.OpList = newOpList
 
-			found = self.CheckOps(newLevelData, solveOrder)
+			self.CheckOps(newLevelData, solveOrder)
 
-			if found:
-				return True
-
-		return False
+		return
 
 def DoPortalMoves(currentNumber, portalFrom, portalTo):
 	if portalFrom != None and portalTo != None:
