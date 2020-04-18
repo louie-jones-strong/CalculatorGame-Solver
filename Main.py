@@ -199,7 +199,6 @@ class Main:
 					self.CurretLevelData = self.LevelsData[key]
 
 			else:
-				self.Level = 0
 				self.ClearLevel()
 				self.SavePlayerPrefs()
 
