@@ -151,8 +151,8 @@ class Main:
 	def ChangeVolume(self, delta):
 		volume = self.AudioPlayer.Volume + delta
 
-		if volume > 10:
-			volume = 10
+		if volume > self.AudioPlayer.MaxVolume:
+			volume = self.AudioPlayer.MaxVolume
 		
 		if volume < 0:
 			volume = 0

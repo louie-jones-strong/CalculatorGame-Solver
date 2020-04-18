@@ -10,6 +10,7 @@ class AudioPlayer:
 		self.AudioCache = {}
 		self.MultiEventDict = {}
 		self.Volume = 10
+		self.MaxVolume = 11
 		self.DebugMode = debugMode
 		return
 
@@ -31,7 +32,7 @@ class AudioPlayer:
 
 		if self.DebugMode:
 			print("Play audio Event: "+str(eventName))
-		audioEvent.set_volume(self.Volume/10)
+		audioEvent.set_volume(self.Volume/self.MaxVolume)
 		audioEvent.play()
 		return
 
