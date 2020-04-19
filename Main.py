@@ -448,6 +448,10 @@ class Main:
 		piece.SetUpLabel("LEVEL:", self.Level)
 		self.Manger.AddPiece(piece, False)
 
+		piece = Piece.UiPiece([0, 0], [145, 15])
+		piece.SetUpLabel("V"+str(self.Version) + ","+str(self.CurretLevelData.Version), "", labelColour=[0,0,0])
+		self.Manger.AddPiece(piece, False)
+
 		piece = Piece.UiPiece([220, 30], [105, 35])
 		piece.SetUpButtonHold(onHold=self.SetSolarCovered, minHoldTime=0, maxTimeBetweenHold=0)
 		self.Manger.AddPiece(piece, False)
