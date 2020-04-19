@@ -198,7 +198,8 @@ class UiPiece:
 			if self.EditableIsNegtive:
 				text += "-"
 			
-			text += str(self.EditableMessage)
+			if self.EditableMessage != None:
+				text += str(self.EditableMessage)
 
 			label = font.render(text, 1, self.LabelColour)
 			
