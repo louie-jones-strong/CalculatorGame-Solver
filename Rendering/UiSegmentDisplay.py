@@ -85,6 +85,7 @@ class UiSegmentDisplay:
 			
 			self.CharacterList[loop].Number.NormalImage = image
 
+			index = len(self.CharacterList)-(loop+1)
 			if self.CharacterList[loop].FromPortal != None:
 				isPortal = index == fromPortal
 				self.CharacterList[loop].FromPortal.NormalImage = "Portal_"+str(isPortal)
