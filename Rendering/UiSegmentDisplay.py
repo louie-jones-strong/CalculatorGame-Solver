@@ -72,9 +72,10 @@ class UiSegmentDisplay:
 
 		stringNum = str(number)
 
+		stringNum = (len(self.CharacterList)-len(stringNum))*" " + stringNum
 		for loop in range(len(self.CharacterList)):
 			
-			index = len(self.CharacterList)-(loop+1)
+			index = loop
 
 			image = "Number_"
 			if len(stringNum) <= index:
