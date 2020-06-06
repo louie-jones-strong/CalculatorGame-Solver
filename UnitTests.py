@@ -136,18 +136,20 @@ class UnitTests:
 		op = self.SharedOpTests(10, Operations.Sum, "Sum")
 		self.AssertEqual(op.DoActionOnValue(1234), 10, "DoActionOnValue()")
 
-		self.SetGroup("SwapOrder")
-		op = self.SharedOpTests(11, Operations.SwapOrder, "Shift <", [True])
-		self.AssertEqual(op.DoActionOnValue(122), 221, "DoActionOnValue()")
-		op = self.SharedOpTests(11, Operations.SwapOrder, "Shift >", [False])
+		self.SetGroup("SwapLeftOrder")
+		op = self.SharedOpTests(11, Operations.SwapLeftOrder, "Shift <")
+		self.AssertEqual(op.DoActionOnValue(1123), 1231, "DoActionOnValue()")
+
+		self.SetGroup("SwapRightOrder")
+		op = self.SharedOpTests(12, Operations.SwapRightOrder, "Shift >")
 		self.AssertEqual(op.DoActionOnValue(122), 212, "DoActionOnValue()")
 
 		self.SetGroup("Mirror")
-		op = self.SharedOpTests(12, Operations.Mirror, "Mirror")
+		op = self.SharedOpTests(13, Operations.Mirror, "Mirror")
 		self.AssertEqual(op.DoActionOnValue(12), 1221, "DoActionOnValue()")
 
 		self.SetGroup("Modifier")
-		op = self.SharedOpTests(13, Operations.Modifier, "[+] 1", [1])
+		op = self.SharedOpTests(14, Operations.Modifier, "[+] 1", [1])
 		testOpList = [op]
 		exceptedOpList = [op]
 
@@ -162,10 +164,10 @@ class UnitTests:
 		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
 
 		self.SetGroup("Store")
-		op = self.SharedOpTests(14, Operations.Store, "Store")
+		op = self.SharedOpTests(15, Operations.Store, "Store")
 
 		testOpList = [op]
-		storeOp = Operations.MakeOperation(14)
+		storeOp = Operations.MakeOperation(15)
 		storeOp.SetSetting(0, 123, overrideTemp=True)
 		storeOp.SetSetting(1, True, overrideTemp=True)
 		exceptedOpList = [storeOp]
@@ -179,7 +181,7 @@ class UnitTests:
 		self.AssertEqual(newOpList, exceptedOpList, "DoActionOnOpList()")
 
 		self.SetGroup("Inv10")
-		op = self.SharedOpTests(15, Operations.Inv10, "Inv10")
+		op = self.SharedOpTests(16, Operations.Inv10, "Inv10")
 		self.AssertEqual(op.DoActionOnValue(1234567890), 9876543210, "DoActionOnValue()")
 
 

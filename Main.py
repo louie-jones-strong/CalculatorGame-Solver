@@ -449,7 +449,7 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([0, 0], [145, 15])
-		piece.SetUpLabel("V"+str(self.Version) + ","+str(self.CurretLevelData.Version), None, labelColour=[0,0,0])
+		piece.SetUpLabel("V M"+str(self.Version) + ", D"+str(self.CurretLevelData.Version), None, labelColour=[0,0,0])
 		self.Manger.AddPiece(piece, False)
 
 		piece = Piece.UiPiece([220, 30], [105, 35])
