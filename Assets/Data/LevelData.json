@@ -30,7 +30,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "10": {
         "Goal": 9,
@@ -65,7 +65,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 50,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "100": {
         "Goal": 64,
@@ -103,7 +103,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 128,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "101": {
         "Goal": 121,
@@ -141,7 +141,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 59,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "102": {
         "Goal": 5,
@@ -179,7 +179,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 18,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "103": {
         "Goal": 30,
@@ -214,7 +214,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 9,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "104": {
         "Goal": -17,
@@ -251,7 +251,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 105,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "105": {
         "Goal": 11,
@@ -286,7 +286,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 36,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "106": {
         "Goal": 64,
@@ -324,7 +324,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 3,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "107": {
         "Goal": 11,
@@ -364,7 +364,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 2,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "108": {
         "Goal": 2311,
@@ -381,9 +381,7 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -396,8 +394,8 @@
         ],
         "PortalFrom": null,
         "PortalTo": null,
-        "StartingNumber": 1231,
-        "Version": "1.1"
+        "StartingNumber": 1123,
+        "Version": "1.2"
     },
     "109": {
         "Goal": 3254,
@@ -413,10 +411,8 @@
                 "Settings": []
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -430,7 +426,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 5432,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "11": {
         "Goal": 100,
@@ -465,7 +461,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 99,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "110": {
         "Goal": 121,
@@ -483,10 +479,8 @@
                 "Settings": []
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -494,15 +488,13 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 101,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "111": {
         "Goal": 1999,
@@ -533,16 +525,14 @@
                 "Settings": []
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 98,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "112": {
         "Goal": 129,
@@ -562,10 +552,8 @@
                 ]
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -579,7 +567,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 70,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "113": {
         "Goal": 210,
@@ -598,9 +586,7 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -614,7 +600,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 120,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "114": {
         "Goal": 210,
@@ -632,10 +618,8 @@
                 "Settings": []
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -652,7 +636,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1001,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "115": {
         "Goal": 501,
@@ -673,9 +657,7 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -689,7 +671,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 100,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "116": {
         "Goal": 3,
@@ -719,15 +701,13 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 212,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "117": {
         "Goal": 121,
@@ -747,10 +727,8 @@
                 ]
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 0,
@@ -764,7 +742,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 356,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "118": {
         "Goal": 13,
@@ -786,10 +764,8 @@
                 ]
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 6,
@@ -806,7 +782,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 2152,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "119": {
         "Goal": 520,
@@ -814,10 +790,8 @@
         "Moves": 5,
         "Operations": [
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 6,
@@ -848,7 +822,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1025,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "12": {
         "Goal": 404,
@@ -885,7 +859,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "120": {
         "Goal": 2332,
@@ -901,7 +875,7 @@
                 "Settings": []
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -916,7 +890,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 23,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "121": {
         "Goal": 1221,
@@ -936,7 +910,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -951,7 +925,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "122": {
         "Goal": 19,
@@ -969,7 +943,7 @@
                 "Settings": []
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -984,7 +958,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 91,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "123": {
         "Goal": 116,
@@ -1004,7 +978,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1019,7 +993,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 22,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "124": {
         "Goal": 20,
@@ -1040,7 +1014,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1055,7 +1029,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 125,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "125": {
         "Goal": 3,
@@ -1073,7 +1047,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1088,7 +1062,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 22,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "126": {
         "Goal": 1111,
@@ -1108,7 +1082,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1126,7 +1100,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "127": {
         "Goal": 2020,
@@ -1156,14 +1130,14 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": -1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "128": {
         "Goal": 112,
@@ -1184,7 +1158,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1194,16 +1168,14 @@
                 ]
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 13,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "129": {
         "Goal": 18,
@@ -1223,7 +1195,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1240,7 +1212,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 140,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "13": {
         "Goal": 23,
@@ -1275,7 +1247,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 171,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "130": {
         "Goal": 33,
@@ -1295,7 +1267,7 @@
                 ]
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1304,15 +1276,13 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 17,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "131": {
         "Goal": 20,
@@ -1328,7 +1298,7 @@
                 "Settings": []
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             },
             {
@@ -1343,7 +1313,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 125,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "132": {
         "Goal": 15,
@@ -1361,7 +1331,7 @@
                 "Settings": []
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1378,7 +1348,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 10,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "133": {
         "Goal": 14,
@@ -1398,7 +1368,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1415,7 +1385,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "134": {
         "Goal": 34,
@@ -1435,7 +1405,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1452,7 +1422,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "135": {
         "Goal": 101,
@@ -1472,7 +1442,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     2
                 ]
@@ -1489,7 +1459,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "136": {
         "Goal": 28,
@@ -1509,7 +1479,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     3
                 ]
@@ -1526,7 +1496,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "137": {
         "Goal": 42,
@@ -1546,7 +1516,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1565,7 +1535,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "138": {
         "Goal": 25,
@@ -1585,7 +1555,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     2
                 ]
@@ -1604,7 +1574,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "139": {
         "Goal": 41,
@@ -1624,7 +1594,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     2
                 ]
@@ -1643,7 +1613,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 5,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "14": {
         "Goal": 21,
@@ -1680,7 +1650,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "140": {
         "Goal": 31,
@@ -1700,7 +1670,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1719,7 +1689,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 33,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "141": {
         "Goal": 268,
@@ -1739,7 +1709,7 @@
                 ]
             },
             {
-                "OpType": 13,
+                "OpType": 14,
                 "Settings": [
                     1
                 ]
@@ -1758,7 +1728,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 25,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "142": {
         "Goal": 1111,
@@ -1774,7 +1744,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1792,7 +1762,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "143": {
         "Goal": 121,
@@ -1810,7 +1780,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1828,7 +1798,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "144": {
         "Goal": 122,
@@ -1836,7 +1806,7 @@
         "Moves": 5,
         "Operations": [
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1862,7 +1832,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "145": {
         "Goal": 17,
@@ -1890,7 +1860,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1900,7 +1870,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 10,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "146": {
         "Goal": 1234,
@@ -1920,7 +1890,7 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1932,15 +1902,13 @@
             },
             {
                 "OpType": 11,
-                "Settings": [
-                    true
-                ]
+                "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 23,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "147": {
         "Goal": 1025,
@@ -1958,7 +1926,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -1976,7 +1944,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 125,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "148": {
         "Goal": 115,
@@ -1994,7 +1962,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2012,7 +1980,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 23,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "149": {
         "Goal": 16,
@@ -2020,7 +1988,7 @@
         "Moves": 5,
         "Operations": [
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2049,7 +2017,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 15,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "15": {
         "Goal": 50,
@@ -2086,7 +2054,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 10,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "150": {
         "Goal": 61,
@@ -2112,7 +2080,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2122,7 +2090,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "151": {
         "Goal": 101,
@@ -2142,17 +2110,15 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
                 ]
             },
             {
-                "OpType": 11,
-                "Settings": [
-                    false
-                ]
+                "OpType": 12,
+                "Settings": []
             },
             {
                 "OpType": 6,
@@ -2165,7 +2131,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "152": {
         "Goal": 12525,
@@ -2193,7 +2159,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2203,7 +2169,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 125,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "153": {
         "Goal": 17,
@@ -2224,7 +2190,7 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2244,7 +2210,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 70,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "154": {
         "Goal": 101,
@@ -2266,7 +2232,7 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2277,14 +2243,14 @@
                 "Settings": []
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "155": {
         "Goal": 3001,
@@ -2305,7 +2271,7 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2326,7 +2292,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 9,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "156": {
         "Goal": 99,
@@ -2344,7 +2310,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2359,7 +2325,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "157": {
         "Goal": 2,
@@ -2377,7 +2343,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2392,7 +2358,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "158": {
         "Goal": 15,
@@ -2412,7 +2378,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2427,7 +2393,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 14,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "159": {
         "Goal": 12,
@@ -2447,7 +2413,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2462,7 +2428,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 21,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "16": {
         "Goal": 2,
@@ -2497,7 +2463,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "160": {
         "Goal": 13,
@@ -2523,14 +2489,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 67,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "161": {
         "Goal": 88,
@@ -2558,14 +2524,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 23,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "162": {
         "Goal": 105,
@@ -2585,7 +2551,7 @@
                 ]
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -2596,14 +2562,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 5,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "163": {
         "Goal": 23,
@@ -2631,14 +2597,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 24,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "164": {
         "Goal": 17,
@@ -2658,7 +2624,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2675,7 +2641,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 7,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "165": {
         "Goal": 21,
@@ -2706,14 +2672,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 35,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "166": {
         "Goal": 18,
@@ -2739,14 +2705,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 9,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "167": {
         "Goal": 101,
@@ -2764,7 +2730,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2779,7 +2745,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "168": {
         "Goal": 99,
@@ -2805,14 +2771,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 26,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "169": {
         "Goal": 13,
@@ -2828,7 +2794,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2836,14 +2802,14 @@
                 "Settings": []
             },
             {
-                "OpType": 12,
+                "OpType": 13,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 15,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "17": {
         "Goal": 11,
@@ -2876,7 +2842,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "170": {
         "Goal": 99,
@@ -2898,7 +2864,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2915,7 +2881,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 78,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "171": {
         "Goal": 9,
@@ -2933,7 +2899,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2948,7 +2914,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 34,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "172": {
         "Goal": 872,
@@ -2969,7 +2935,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -2984,7 +2950,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "173": {
         "Goal": 33,
@@ -3004,7 +2970,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -3023,7 +2989,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 5,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "174": {
         "Goal": 23,
@@ -3041,7 +3007,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -3052,14 +3018,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "175": {
         "Goal": 1991,
@@ -3075,7 +3041,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -3086,14 +3052,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "176": {
         "Goal": 26,
@@ -3109,7 +3075,7 @@
                 "Settings": []
             },
             {
-                "OpType": 14,
+                "OpType": 15,
                 "Settings": [
                     0,
                     false
@@ -3120,14 +3086,14 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             }
         ],
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "177": {
         "Goal": 48,
@@ -3151,7 +3117,7 @@
                 "Settings": []
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -3165,7 +3131,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 51,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "178": {
         "Goal": 1,
@@ -3185,7 +3151,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -3202,7 +3168,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "179": {
         "Goal": 777,
@@ -3231,7 +3197,7 @@
                 ]
             },
             {
-                "OpType": 15,
+                "OpType": 16,
                 "Settings": []
             },
             {
@@ -3245,7 +3211,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 369,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "18": {
         "Goal": 101,
@@ -3280,7 +3246,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "180": {
         "Goal": 10,
@@ -3315,7 +3281,7 @@
         "PortalFrom": 2,
         "PortalTo": 0,
         "StartingNumber": 99,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "19": {
         "Goal": 44,
@@ -3350,7 +3316,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "2": {
         "Goal": 8,
@@ -3385,7 +3351,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "20": {
         "Goal": 35,
@@ -3420,7 +3386,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "21": {
         "Goal": 56,
@@ -3455,7 +3421,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "22": {
         "Goal": 9,
@@ -3492,7 +3458,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "23": {
         "Goal": 10,
@@ -3529,7 +3495,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 15,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "24": {
         "Goal": 210,
@@ -3568,7 +3534,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "25": {
         "Goal": 2020,
@@ -3605,7 +3571,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 40,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "26": {
         "Goal": 11,
@@ -3638,7 +3604,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "27": {
         "Goal": 102,
@@ -3673,7 +3639,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "28": {
         "Goal": 222,
@@ -3709,7 +3675,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "29": {
         "Goal": 93,
@@ -3747,7 +3713,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "3": {
         "Goal": 12,
@@ -3784,7 +3750,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "30": {
         "Goal": 2321,
@@ -3825,7 +3791,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "31": {
         "Goal": 24,
@@ -3863,7 +3829,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "32": {
         "Goal": 29,
@@ -3904,7 +3870,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 11,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "33": {
         "Goal": 20,
@@ -3942,7 +3908,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 36,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "34": {
         "Goal": 15,
@@ -3982,7 +3948,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 2,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "35": {
         "Goal": 414,
@@ -4025,7 +3991,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1234,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "36": {
         "Goal": -85,
@@ -4062,7 +4028,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "37": {
         "Goal": 9,
@@ -4099,7 +4065,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "38": {
         "Goal": -120,
@@ -4136,7 +4102,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "39": {
         "Goal": 144,
@@ -4173,7 +4139,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "4": {
         "Goal": 7,
@@ -4208,7 +4174,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "40": {
         "Goal": 5,
@@ -4239,7 +4205,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": -5,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "41": {
         "Goal": -6,
@@ -4274,7 +4240,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "42": {
         "Goal": -13,
@@ -4309,7 +4275,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "43": {
         "Goal": 60,
@@ -4346,7 +4312,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "44": {
         "Goal": 52,
@@ -4383,7 +4349,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 44,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "45": {
         "Goal": 10,
@@ -4418,7 +4384,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 9,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "46": {
         "Goal": 12,
@@ -4455,7 +4421,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 14,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "47": {
         "Goal": 13,
@@ -4488,7 +4454,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 55,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "48": {
         "Goal": 245,
@@ -4525,7 +4491,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "49": {
         "Goal": 12,
@@ -4562,7 +4528,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 39,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "5": {
         "Goal": 20,
@@ -4597,7 +4563,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "50": {
         "Goal": 126,
@@ -4632,7 +4598,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 111,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "51": {
         "Goal": 3,
@@ -4669,7 +4635,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 34,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "52": {
         "Goal": 4,
@@ -4708,7 +4674,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 25,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "53": {
         "Goal": 21,
@@ -4739,7 +4705,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "54": {
         "Goal": 51,
@@ -4774,7 +4740,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "55": {
         "Goal": 101,
@@ -4809,7 +4775,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 100,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "56": {
         "Goal": 100,
@@ -4842,7 +4808,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1101,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "57": {
         "Goal": 58,
@@ -4879,7 +4845,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "58": {
         "Goal": 4,
@@ -4914,7 +4880,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 6,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "59": {
         "Goal": 21,
@@ -4949,7 +4915,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 15,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "6": {
         "Goal": 40,
@@ -4984,7 +4950,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "60": {
         "Goal": 13,
@@ -5017,7 +4983,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 100,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "61": {
         "Goal": 11011,
@@ -5050,7 +5016,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 10,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "62": {
         "Goal": 102,
@@ -5087,7 +5053,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "63": {
         "Goal": 7,
@@ -5124,7 +5090,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "64": {
         "Goal": 4,
@@ -5161,7 +5127,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "65": {
         "Goal": 212,
@@ -5196,7 +5162,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 121,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "66": {
         "Goal": 9,
@@ -5233,7 +5199,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 8,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "67": {
         "Goal": 13,
@@ -5270,7 +5236,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "68": {
         "Goal": 123,
@@ -5307,7 +5273,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "69": {
         "Goal": 424,
@@ -5342,7 +5308,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "7": {
         "Goal": 10,
@@ -5377,7 +5343,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 100,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "70": {
         "Goal": 81,
@@ -5414,7 +5380,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 7,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "71": {
         "Goal": -43,
@@ -5451,7 +5417,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "72": {
         "Goal": 28,
@@ -5486,7 +5452,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "73": {
         "Goal": 136,
@@ -5523,7 +5489,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "74": {
         "Goal": -1,
@@ -5556,7 +5522,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "75": {
         "Goal": -25,
@@ -5591,7 +5557,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "76": {
         "Goal": -5,
@@ -5626,7 +5592,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "77": {
         "Goal": 41,
@@ -5661,7 +5627,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 88,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "78": {
         "Goal": 101,
@@ -5702,7 +5668,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 100,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "79": {
         "Goal": 424,
@@ -5740,7 +5706,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "8": {
         "Goal": 4,
@@ -5771,7 +5737,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 4321,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "80": {
         "Goal": 100,
@@ -5809,7 +5775,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 99,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "81": {
         "Goal": 30,
@@ -5847,7 +5813,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 8,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "82": {
         "Goal": 222,
@@ -5883,7 +5849,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 101,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "83": {
         "Goal": 500,
@@ -5921,7 +5887,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 36,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "84": {
         "Goal": 196,
@@ -5958,7 +5924,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "85": {
         "Goal": 101,
@@ -5997,7 +5963,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 50,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "86": {
         "Goal": 2048,
@@ -6034,7 +6000,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "87": {
         "Goal": 123,
@@ -6072,7 +6038,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 12,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "88": {
         "Goal": 55,
@@ -6110,7 +6076,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 86,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "89": {
         "Goal": 3,
@@ -6143,7 +6109,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "9": {
         "Goal": 4,
@@ -6178,7 +6144,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "90": {
         "Goal": 4,
@@ -6215,7 +6181,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 1231,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "91": {
         "Goal": 45,
@@ -6255,7 +6221,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 0,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "92": {
         "Goal": 28,
@@ -6291,7 +6257,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 424,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "93": {
         "Goal": 8,
@@ -6329,7 +6295,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 3,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "94": {
         "Goal": 44,
@@ -6367,7 +6333,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 24,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "95": {
         "Goal": 143,
@@ -6405,7 +6371,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 142,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "96": {
         "Goal": 1,
@@ -6443,7 +6409,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 24,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "97": {
         "Goal": 100,
@@ -6480,7 +6446,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 4,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "98": {
         "Goal": 8,
@@ -6515,7 +6481,7 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 93,
-        "Version": "1.1"
+        "Version": "1.2"
     },
     "99": {
         "Goal": 16,
@@ -6553,6 +6519,6 @@
         "PortalFrom": null,
         "PortalTo": null,
         "StartingNumber": 5,
-        "Version": "1.1"
+        "Version": "1.2"
     }
 }

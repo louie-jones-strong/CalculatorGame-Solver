@@ -2,7 +2,7 @@ import Solver.Operations as Operations
 
 class LevelData:
 
-	Version = "1.1"
+	Version = "1.2"
 
 	def __init__(self):	
 		self.Level = 0
@@ -17,12 +17,28 @@ class LevelData:
 		return
 
 	def DataMigrator(self, data):
+
 		if "Version" not in data:
 			data["Version"] = "1"
 
 		if data["Version"] == "1":
 			data["PortalFrom"] = None
 			data["PortalTo"] = None
+			data["Version"] = "1.1"
+
+		if data["Version"] == "1.1":
+			for op in data["Operations"]:
+				if op["OpType"] == 11:
+					if op["Settings"][0] == True:
+						op["Settings"] = []
+					else:
+						op["OpType"] = 12
+						op["Settings"] = []
+
+				elif op["OpType"] > 11:
+					op["OpType"] += 1
+
+			data["Version"] = "1.2"
 
 		return data
 

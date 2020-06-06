@@ -97,7 +97,8 @@ def MakeOperation(opType):
 		Flip,
 		Reverse,
 		Sum,
-		SwapOrder,
+		SwapLeftOrder,
+		SwapRightOrder,
 		Mirror,
 		Modifier,
 		Store,
@@ -283,12 +284,11 @@ class Sum(ValueChangeOp):
 	def __str__(self):
 		return "Sum"
 
-class SwapOrder(ValueChangeOp):
+class SwapLeftOrder(ValueChangeOp):
 	BaseImage = "Button_Orange"
 	
 	def __init__(self, id):
 		super().__init__(id)
-		self.Setting += [OpSetting.OperationSetting(settingType=bool)]
 		return
 
 	def DoActionOnValue(self, inputValue):
@@ -298,10 +298,7 @@ class SwapOrder(ValueChangeOp):
 		
 		valueStr = str(inputValue)
 
-		if self.Setting[0].Value():
-			valueStr = valueStr[1:] + valueStr[0]
-		else:
-			valueStr = valueStr[-1] + valueStr[:-1]
+		valueStr = valueStr[1:] + valueStr[0]
 
 		newValue = int(valueStr)
 
@@ -311,12 +308,33 @@ class SwapOrder(ValueChangeOp):
 		return newValue
 
 	def __str__(self):
-		text = "Shift "
-		if self.Setting[0].Value():
-			text += "<"
-		else:
-			text += ">"
-		return text
+		return "Shift <"
+
+class SwapRightOrder(ValueChangeOp):
+	BaseImage = "Button_Orange"
+	
+	def __init__(self, id):
+		super().__init__(id)
+		return
+
+	def DoActionOnValue(self, inputValue):
+		isNegtive = inputValue < 0
+		if isNegtive:
+			inputValue *= -1
+		
+		valueStr = str(inputValue)
+
+		valueStr = valueStr[-1] + valueStr[:-1]
+
+		newValue = int(valueStr)
+
+		if isNegtive:
+			newValue *= -1
+
+		return newValue
+
+	def __str__(self):
+		return "Shift >"
 
 class Mirror(ValueChangeOp):
 	BaseImage = "Button_Orange"
