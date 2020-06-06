@@ -130,24 +130,27 @@ class Main:
 		self.SolveOrder = []
 		for loop in range(5):
 			self.SolveOrder += [""]
+		if found:
+			solveLoop = 0
+			for orderInfo in solveOperationList:
 
-		solveLoop = 0
-		for orderInfo in solveOperationList:
+				opIndex = orderInfo.OpIndex
 
-			opIndex = orderInfo.OpIndex
+				solveOp = solveOperationList[solveLoop]
 
-			solveOp = solveOperationList[solveLoop]
+				if self.DebugMode:
+					solveOp = self.CurretLevelData.OpList[opIndex]
+					print(str(solveLoop) +") "+ str(solveOp))
 
-			if self.DebugMode:
-				solveOp = self.CurretLevelData.OpList[opIndex]
-				print(str(solveLoop) +") "+ str(solveOp))
+				if len(self.SolveOrder[opIndex]) > 0:
+					self.SolveOrder[opIndex] += "," 
 
-			if len(self.SolveOrder[opIndex]) > 0:
-				self.SolveOrder[opIndex] += "," 
+				self.SolveOrder[opIndex] += str(orderInfo)
 
-			self.SolveOrder[opIndex] += str(orderInfo)
+				solveLoop += 1
 
-			solveLoop += 1
+		else:
+			self.AudioPlayer.PlayEvent("CannotDoAction")
 
 			
 		self.SetUpMainScreen()
@@ -273,6 +276,8 @@ class Main:
 
 				elif issubclass(type(op), Operations.OpListChangeOp):
 					self.CurretLevelData.OpList = op.DoActionOnOpList(self.CurretLevelData.OpList, self.CurretLevelData.StartingNum)
+
+				self.CurretLevelData.StartingNum = GameSolver.DoPortalMoves(self.CurretLevelData.StartingNum, self.CurretLevelData.PortalTo, self.CurretLevelData.PortalFrom)
 
 				self.SetUpMainScreen()
 		else:
