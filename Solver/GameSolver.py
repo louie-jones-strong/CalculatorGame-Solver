@@ -1,6 +1,31 @@
 import Solver.Operations as Operations
+from enum import Enum
 
 MaxCharacters = 6
+
+class SolverOrderInfo:
+
+	class eInteractType(Enum):
+		Press = 0
+		Hold = 1
+
+	def __init__(self, opIndex, interactType, order):
+		self.OpIndex = opIndex
+		self.InteractType = interactType
+		self.Order = order
+		return
+
+	def __str__(self):
+		text = ""
+		if self.InteractType == SolverOrderInfo.eInteractType.Hold:
+			text += "Hold "
+		#else:
+		#	text += "Press "
+
+		text += str(self.Order+1)
+
+		return text
+
 
 class GameSolver:
 
@@ -28,12 +53,17 @@ class GameSolver:
 
 		for opIndex in range(len(levelData.OpList)):
 			operation = levelData.OpList[opIndex]
-
+			
+			interactType = SolverOrderInfo.eInteractType.Press
 			if issubclass(type(operation), Operations.ValueChangeOp):
-				self.CheckValueChangeOp(opIndex, levelData, solveOrder+[opIndex])
+				newSolveOrder = solveOrder + [SolverOrderInfo(opIndex, interactType, len(solveOrder))]
+				self.CheckValueChangeOp(opIndex, levelData, newSolveOrder)
+
+				interactType = SolverOrderInfo.eInteractType.Hold
 
 			if issubclass(type(operation), Operations.OpListChangeOp):
-				self.CheckOpListChangeOp(opIndex, levelData, solveOrder+[opIndex])
+				newSolveOrder = solveOrder + [SolverOrderInfo(opIndex, interactType, len(solveOrder))]
+				self.CheckOpListChangeOp(opIndex, levelData, newSolveOrder)
 			
 		return
 

@@ -132,7 +132,10 @@ class Main:
 			self.SolveOrder += [""]
 
 		solveLoop = 0
-		for opIndex in solveOperationList:
+		for orderInfo in solveOperationList:
+
+			opIndex = orderInfo.OpIndex
+
 			solveOp = solveOperationList[solveLoop]
 
 			if self.DebugMode:
@@ -141,7 +144,8 @@ class Main:
 
 			if len(self.SolveOrder[opIndex]) > 0:
 				self.SolveOrder[opIndex] += "," 
-			self.SolveOrder[opIndex] += str(solveLoop+1)
+
+			self.SolveOrder[opIndex] += str(orderInfo)
 
 			solveLoop += 1
 
