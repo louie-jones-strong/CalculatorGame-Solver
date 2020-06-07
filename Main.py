@@ -150,6 +150,7 @@ class Main:
 				solveLoop += 1
 
 		else:
+			print("Can't Solve")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 
 			
@@ -277,7 +278,7 @@ class Main:
 				elif issubclass(type(op), Operations.OpListChangeOp):
 					self.CurretLevelData.OpList = op.DoActionOnOpList(self.CurretLevelData.OpList, self.CurretLevelData.StartingNum)
 
-				self.CurretLevelData.StartingNum = GameSolver.DoPortalMoves(self.CurretLevelData.StartingNum, self.CurretLevelData.PortalTo, self.CurretLevelData.PortalFrom)
+				self.CurretLevelData.StartingNum = GameSolver.DoPortalMoves(self.CurretLevelData.StartingNum, self.CurretLevelData.PortalFrom, self.CurretLevelData.PortalTo)
 
 				self.SetUpMainScreen()
 		else:

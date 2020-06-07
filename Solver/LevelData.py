@@ -100,6 +100,8 @@ class LevelData:
 		newLevelData.Moves = self.Moves 
 		newLevelData.Goal = self.Goal
 		newLevelData.StartingNum = self.StartingNum
+		newLevelData.PortalFrom = self.PortalFrom
+		newLevelData.PortalTo = self.PortalTo
 
 		newLevelData.OpList = []
 		for op in self.OpList:

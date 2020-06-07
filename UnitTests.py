@@ -193,9 +193,22 @@ class UnitTests:
 		self.AssertEqual(newNum, 1, "DoPortalMoves(10, 1, 0)")
 
 		newNum = GameSolver.DoPortalMoves(199, 2, 0)
-		self.AssertEqual(newNum, 1, "DoPortalMoves(100, 2, 0)")
+		self.AssertEqual(newNum, 1, "DoPortalMoves(199, 2, 0)")
 
+		newNum = GameSolver.DoPortalMoves(991, 2, 0)
+		self.AssertEqual(newNum, 1, "DoPortalMoves(991, 2, 0)")
 
+		newNum = GameSolver.DoPortalMoves(946, 2, 1)
+		self.AssertEqual(newNum, 46, "DoPortalMoves(946, 2, 1)")
+
+		newNum = GameSolver.DoPortalMoves(150, 2, 1)
+		self.AssertEqual(newNum, 60, "DoPortalMoves(150, 2, 1)")
+
+		newNum = GameSolver.DoPortalMoves(964, 2, 1)
+		self.AssertEqual(newNum, 64, "DoPortalMoves(964, 2, 1)")
+
+		newNum = GameSolver.DoPortalMoves(96, 2, 1)
+		self.AssertEqual(newNum, 96, "DoPortalMoves(96, 2, 1)")
 		return
 
 	def SharedOpTests(self, opId, exceptedType, exceptedString, settingList=None):
@@ -282,10 +295,20 @@ class UnitTests:
 
 		self.AssertEqual(len(operationsList) <= 5, True, "length of operationsList is smaller or equal to 5")
 
+		if levelData.PortalFrom == None or levelData.PortalTo == None:
+			self.AssertEqual(levelData.PortalFrom == levelData.PortalTo, True, "portals both none data Check")
+		else:
+			self.AssertEqual(levelData.PortalFrom > levelData.PortalTo, True, "PortalFrom > PortalTo")
+			self.AssertEqual(levelData.PortalFrom > 0, True, "PortalFrom > 0")
+			self.AssertEqual(levelData.PortalFrom <= 5, True, "PortalFrom <= 5")
+			self.AssertEqual(levelData.PortalTo >= 0, True, "PortalTo >= 0")
+			self.AssertEqual(levelData.PortalTo <= 4, True, "PortalTo <= 4")
+
 		found, solveOrder = self.Sovler.Solve(levelData)
 		self.AssertEqual(found, True, "Found Solve "+ self.OpListToText(operationsList))
-		self.AssertEqual(len(solveOrder) > 0, True, "number of min moves")
-		self.AssertEqual(len(solveOrder) <= levelData.Moves, True, "number of moves are valid")
+		if found:
+			self.AssertEqual(len(solveOrder) > 0, True, "number of min moves")
+			self.AssertEqual(len(solveOrder) <= levelData.Moves, True, "number of moves are valid")
 		return
 
 if __name__ == "__main__":
