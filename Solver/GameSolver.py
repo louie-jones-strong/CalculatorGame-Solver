@@ -70,6 +70,8 @@ class GameSolver:
 	def CheckValueChangeOp(self, opIndex, levelData, solveOrder):
 		newCurrentNumber = levelData.OpList[opIndex].DoActionOnValue(levelData.StartingNum)
 		
+		if int(newCurrentNumber) != newCurrentNumber:
+			return
 		newCurrentNumber = DoPortalMoves(newCurrentNumber, levelData.PortalFrom, levelData.PortalTo)
 		
 		if levelData.Goal == newCurrentNumber:
@@ -111,7 +113,10 @@ class GameSolver:
 
 def DoPortalMoves(currentNumber, portalFrom, portalTo):
 	if portalFrom != None and portalTo != None:
-
+		if portalFrom <= portalTo:
+			print("Error portalFrom <= portalTo")
+			return currentNumber
+			
 		if currentNumber < 0:
 			currentNumber *= -1
 		
@@ -126,6 +131,9 @@ def DoPortalMoves(currentNumber, portalFrom, portalTo):
 			joined = before + after
 
 			currentNumber = int(joined)
+			if portalTo > 0:
+				addValue = addValue * (10*portalTo)
+
 			currentNumber += addValue
 			currentNumber = DoPortalMoves(currentNumber, portalFrom, portalTo)
 
