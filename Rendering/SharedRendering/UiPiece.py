@@ -26,12 +26,12 @@ class UiPiece:
 		self.EnterCanClick = False
 		self.HideLabel = False
 		return
-	
+
 	def UiMangerSetup(self, audioPlayer, imageDrawer):
 		self.AudioPlayer = audioPlayer
 		self.Drawer = imageDrawer
 		return
-	
+
 	OnClick = None
 	OnClickData = None
 	def SetUpButtonClick(self, pressImage=None, onClick=None, onClickData=None, enterCanClick=False):
@@ -45,7 +45,7 @@ class UiPiece:
 	OnHold = None
 	OnHoldData = None
 	MinHoldTime = 0
-	def SetUpButtonHold(self, pressImage=None, onHold=None, 
+	def SetUpButtonHold(self, pressImage=None, onHold=None,
 			onHoldData=None, minHoldTime=1, maxTimeBetweenHold=0.25):
 		self.PressImage = pressImage
 
@@ -66,7 +66,7 @@ class UiPiece:
 	Message = None
 	EditableMessage = None
 	GetMessageText = None
-	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255), 
+	def SetUpLabel(self, message, editableMessage, labelColour=(255, 255, 255),
 			xLabelAnchor=0, yLabelAnchor=0, textUpdatedFunc=None, getMessage=None, hideLabel=False):
 		self.Message = str(message)
 		self.EditableMessage = editableMessage
@@ -78,7 +78,7 @@ class UiPiece:
 		self.GetMessageText = getMessage
 		self.HideLabel = hideLabel
 		return
-	
+
 	FadedImage = None
 	GetIsFade = None
 	def SetUpFade(self, getIsFade, fadedImage=""):
@@ -86,7 +86,7 @@ class UiPiece:
 		self.GetIsFade = getIsFade
 		#todo make a fade time
 		return
-		
+
 	def Update(self, screen, debugMode, deltaTime, scaleFactor):
 		self.TimeInState += deltaTime
 		self.TimeSinceLastHold += deltaTime
@@ -109,7 +109,7 @@ class UiPiece:
 
 		if mouseOverButton and mouseDown:
 			self.State = UiPiece.eState.press
-		
+
 		elif self.GetIsFade != None and self.GetIsFade():
 			self.State = UiPiece.eState.Fade
 
@@ -138,8 +138,8 @@ class UiPiece:
 		return self.Selectable and self.State == UiPiece.eState.press
 
 	def UpdateLabel(self, events, debugMode):
-		if (self.Selected and 
-			self.EditableMessage != None and 
+		if (self.Selected and
+			self.EditableMessage != None and
 			self.State != UiPiece.eState.Fade):
 
 			for event in events:
@@ -160,10 +160,10 @@ class UiPiece:
 							else:
 								self.EditableMessage *= 10
 								self.EditableMessage += int(temp)
-								
+
 						except Exception as e:
 							pass
-					
+
 
 					number = self.EditableMessage
 					if self.EditableIsNegtive:
@@ -179,7 +179,7 @@ class UiPiece:
 	def Draw(self, screen, debugMode):
 		if self.State == UiPiece.eState.Normal:
 			self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
-		
+
 		elif self.State == UiPiece.eState.Hover:
 			if not self.Drawer.DrawImage(screen, self.HoverImage, self.Pos, self.Size):
 				self.Drawer.DrawImage(screen, self.NormalImage, self.Pos, self.Size)
@@ -197,20 +197,23 @@ class UiPiece:
 			text = str(self.Message)
 			if self.EditableIsNegtive:
 				text += "-"
-			
+
 			if self.EditableMessage != None:
 				text += str(self.EditableMessage)
 
 			label = font.render(text, 1, self.LabelColour)
-			
-			xRatio = self.Size[0] / label.get_width()
+
+			xRatio = 1
+			if label.get_width() != 0:
+				xRatio = self.Size[0] / label.get_width()
+
 			yRatio = self.Size[1] / label.get_height()
 
 			if xRatio < yRatio:
 				ratio = xRatio
 			else:
 				ratio = yRatio
-				
+
 			newSize = [int(label.get_width() * ratio), int(label.get_height() * ratio)]
 			label = pygame.transform.scale(label, newSize)
 
@@ -230,18 +233,18 @@ class UiPiece:
 		if debugMode:
 			font = pygame.font.SysFont("monospace", 10)
 
-			text = self.State.name 
+			text = self.State.name
 			if self.Selectable:
 				text += " " + str(self.Selected)
 
 			if self.Message != None or self.EditableMessage != None:
-				text += " \"" 
-				
+				text += " \""
+
 				if self.Message != None:
-					text += str(self.Message) 
-				
+					text += str(self.Message)
+
 				if self.EditableMessage != None:
-					text += str(self.EditableMessage) 
+					text += str(self.EditableMessage)
 
 				text += "\""
 

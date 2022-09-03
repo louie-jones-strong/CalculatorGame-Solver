@@ -73,7 +73,7 @@ class Main:
 
 			if self.DebugMode:
 				print(playerData)
-			
+
 			if "Version" in playerData and playerData["Version"] == self.Version:
 				self.AudioPlayer.Volume = playerData["Volume"]
 				self.Level = playerData["Level"]
@@ -93,7 +93,7 @@ class Main:
 
 	def Update(self):
 		self.SolarCovered = False
-		
+
 		if self.SegmentDisplay != None:
 			self.SegmentDisplay.Update(self.CurretLevelData)
 
@@ -124,7 +124,7 @@ class Main:
 
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
-		
+
 		found, solveOperationList = self.Solver.Solve(self.CurretLevelData)
 
 		self.SolveOrder = []
@@ -143,7 +143,7 @@ class Main:
 					print(str(solveLoop) +") "+ str(solveOp))
 
 				if len(self.SolveOrder[opIndex]) > 0:
-					self.SolveOrder[opIndex] += "," 
+					self.SolveOrder[opIndex] += ","
 
 				self.SolveOrder[opIndex] += str(orderInfo)
 
@@ -153,7 +153,7 @@ class Main:
 			print("Can't Solve")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 
-			
+
 		self.SetUpMainScreen()
 		return
 	def ChangeVolume(self, delta):
@@ -161,7 +161,7 @@ class Main:
 
 		if volume > self.AudioPlayer.MaxVolume:
 			volume = self.AudioPlayer.MaxVolume
-		
+
 		if volume < 0:
 			volume = 0
 
@@ -247,7 +247,7 @@ class Main:
 				print("not vaild To Level Data")
 			self.AudioPlayer.PlayEvent("CannotDoAction")
 			return
-		
+
 		self.CurretLevelData.Level = self.Level
 		self.LevelsData[str(self.Level)] = self.CurretLevelData
 
@@ -301,7 +301,7 @@ class Main:
 			self.SetUpOperationSelectScreen(opIndex)
 		return
 	def SetFromPortal(self, index):
-		
+
 		if index != self.CurretLevelData.PortalFrom:
 			self.CurretLevelData.PortalFrom = index
 
@@ -330,7 +330,7 @@ class Main:
 
 	def MakeGridPiece(self, xIndex, yIndex, image=None, hoverImage=None, yStart=375):
 		xStart = 20
-		
+
 		boxWidth = 110
 		boxHight = 100
 		xSpacing = 5
@@ -374,7 +374,7 @@ class Main:
 		#volume control row 1
 		piece = self.MakeGridPiece(0, 0, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=-1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, 
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume,
 			onHoldData=-1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("-", None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
@@ -390,7 +390,7 @@ class Main:
 
 		piece = self.MakeGridPiece(2, 0, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeVolume, onClickData=1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume, 
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeVolume,
 			onHoldData=1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("+", None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
@@ -399,7 +399,7 @@ class Main:
 		#level select row 2
 		piece = self.MakeGridPiece(0, 1, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=-1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, 
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect,
 			onHoldData=-1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("-", None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
@@ -415,7 +415,7 @@ class Main:
 
 		piece = self.MakeGridPiece(2, 1, image="Button", hoverImage="Button_Hover")
 		piece.SetUpButtonClick("Button_Pressed", onClick=self.ChangeLevelSelect, onClickData=1)
-		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect, 
+		piece.SetUpButtonHold("Button_Pressed", onHold=self.ChangeLevelSelect,
 			onHoldData=1, minHoldTime=minHoldTime, maxTimeBetweenHold=timeBetweenHold)
 		piece.SetUpLabel("+", None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
@@ -498,11 +498,11 @@ class Main:
 
 		else:
 			piece.SetUpLabel("", self.CurretLevelData.StartingNum, (0, 0, 0), 1, 0.5, textUpdatedFunc=self.UpdateStartingNum, hideLabel=True)
-			
+
 		self.Manger.AddPiece(piece, selectable)
 
 		if not showPaused:
-			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger, 
+			self.SegmentDisplay = UiSegmentDisplay.UiSegmentDisplay(self.Manger,
 				GameSolver.MaxCharacters, [45 , 180], [295, 75], self.SetFromPortal, self.SetToPortal, self.GetIsFaded)
 
 
@@ -561,7 +561,7 @@ class Main:
 		piece.SetUpLabel(str(op), None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
-		
+
 		piece = Piece.UiPiece([166, 560], [80, 25])
 		piece.SetUpLabel(self.SolveOrder[1], None, xLabelAnchor=1, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
@@ -592,7 +592,7 @@ class Main:
 		piece.SetUpLabel(str(op), None, xLabelAnchor=0.5, yLabelAnchor=0.5)
 		piece.SetupAudio("ButtonDown", "ButtonUp")
 		self.Manger.AddPiece(piece, False)
-		
+
 		piece = Piece.UiPiece([166, 670], [80, 25])
 		piece.SetUpLabel(self.SolveOrder[3], None, xLabelAnchor=1, yLabelAnchor=0.5)
 		self.Manger.AddPiece(piece, False)
@@ -610,14 +610,14 @@ class Main:
 		self.Manger.AddPiece(piece, False)
 
 		return
-	
+
 	def SetUpOperationSelectScreen(self, opIndex):
 		self.ScreenState = Main.eScreen.PickOp
 
 		if self.DebugMode:
 			print("Setup Operation Screen index: " + str(opIndex))
 		self.OperationSetUpIndex = opIndex
-		
+
 		self.SetUpShared(False)
 
 		#button Grid
@@ -631,9 +631,9 @@ class Main:
 		loop = 1
 		for y in range(yNumber):
 			for x in range(3):
-				
+
 				op = Operations.MakeOperation(loop)
-				
+
 				if op != None:
 					piece = self.MakeGridPiece(x, y, image=op.BaseImage, yStart=yStart)
 					piece.SetUpButtonClick(onClick=self.SetOperation, onClickData=loop)
@@ -684,7 +684,7 @@ class Main:
 			piece = self.MakeGridPiece(1, 1, image=op.BaseImage)
 			piece.SetUpLabel(str(op), None, xLabelAnchor=0.5, yLabelAnchor=0.5, getMessage=op.__str__)
 			self.Manger.AddPiece(piece, False)
-			
+
 			if len(settingToEdit) == 2:
 				piece = self.MakeGridPiece(2, 1, image="Button")
 				piece.SetUpLabel("", op.GetSetting(settingToEdit[1]), xLabelAnchor=0.5, yLabelAnchor=0.5, textUpdatedFunc=self.UpdateSetting2)
